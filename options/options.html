@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>YouTooltip Options</title>
+		<link rel="stylesheet" href="options.css"/>
+		<link rel="icon" href="../icons/icon.svg" type="image/svg+xml"/>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	</head>
+	<body>
+		<div class="content">
+			<div class="sidebar">
+				<div class="sticky">
+					<div class="meta">
+						<img class="logo" src="../icons/icon.svg" alt="YouTooltip logo"/>
+						<h1 class="title">YouTooltip</h1>
+					</div>
+					<div class="saveContainer">
+						<button class="button" id="saveButton" disabled>
+							<span class="text">Save</span>
+							<div class="pulseContainer">
+								<div class="pulse"></div>
+							</div>
+						</button>
+						<p class="caption">Reload other tabs for changes to take effect.</p>
+					</div>
+					
+					<div class="tabsList">
+						<button class="tab selected" data-tab="settings">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="tabTextSettings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+							<span id="tabTextSettings">Settings</span>
+						</button>
+						<button class="tab" data-tab="statistics">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="tabTextStatistics"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+							<span id="tabTextStatistics">Statistics</span>
+						</button>
+						<button class="tab" data-tab="about">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="tabTextAbout"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+							<span id="tabTextAbout">About</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<main>
+				<div class="mainPanel show" data-panel="settings">
+					<div class="mainPanelHeader">
+						<h2>Settings</h2>
+					</div>
+					<div class="mainPanelContent">
+						<div class="mainGroup">
+							<h2>Operation</h2>
+							<div class="mainGroupContent">
+								<!-- <div class="section browser-style"> -->
+									<!-- <label for="operationMode" class="sectionHeader">Mode:</label> -->
+									<!-- <select class="browser-style setting" id="operationMode" name="operationMode"> -->
+										<!-- <option>Auto</option> -->
+										<!-- <option>Hover</option> -->
+									<!-- </select> -->
+									<!-- <span class="caption"> -->
+										<!-- Auto: Gets all info on page load and whenever more links are added. Supports Google only. -->
+										<!-- <br /> -->
+										<!-- Hover: Gets info only for links that are hovered over. Supports both Google and Invidious. -->
+									<!-- </span> -->
+								<!-- </div> -->
+								<div class="section browser-style">
+									<input type="radio" id="operationModeAuto" name="operationMode" value="auto" class="setting"/><label for="operationModeAuto" class="sectionHeader">Auto</label>
+									<span class="caption">Gets all info on page load and whenever more links are added. Supports Google only.</span>
+								</div>
+								<div class="section browser-style">
+									<input type="radio" id="operationModeHover" name="operationMode" value="hover" class="setting"/><label for="operationModeHover" class="sectionHeader">Hover</label>
+									<span class="caption">Gets info only for links that are hovered over. Supports both Google and Invidious.</span>
+								</div>
+							</div>
+						</div>
+						<div class="mainGroup apiService">
+							<h2>API service</h2>
+							<div class="mainGroupContent">
+								<div class="section browser-style">
+									<input type="radio" id="apiServiceGoogle" name="apiService" value="google" class="setting"/><label for="apiServiceGoogle" class="sectionHeader">Google</label>
+									<div class="sectionList">
+										<div class="sectionOption browser-style">
+											<label for="keyDefaultIndex">Default key:</label>
+											<select class="browser-style setting" id="keyDefaultIndex" name="keyDefaultIndex">
+												<option>Default 1</option>
+												<option>Default 2</option>
+												<option>Default 3</option>
+											</select>
+										</div>
+										<div class="sectionOption browser-style">
+											<label for="keyCustom">Custom key:</label>
+											<input type="text" id="keyCustom" name="keyCustom" class="setting"/>
+											<span class="caption">Leave blank to use default key. <a href="https://developers.google.com/youtube/registering_an_application" target="_blank">How to get your own key</a>.</span>
+										</div>
+									</div>
+								</div>
+								<div class="section invidious browser-style">
+									<input type="radio" id="apiServiceInvidious" name="apiService" value="invidious" class="setting"/><label for="apiServiceInvidious" class="sectionHeader">Invidious</label>
+									<div class="sectionList">
+										<div class="sectionOption browser-style">
+											<label for="invidiousDefaultInstance">Default instance:</label>
+											<select class="browser-style setting" id="invidiousDefaultInstance" name="invidiousDefaultInstance">
+												<option>inv.riverside.rocks</option>
+												<option>vid.puffyan.us</option>
+												<option>y.com.sb</option>
+												<option>yt.artemislena.eu</option>
+												<option>invidious.flokinet.to</option>
+												<option>invidious.sethforprivacy.com</option>
+												<option>invidious.tiekoetter.com</option>
+												<option>inv.bp.projectsegfau.lt</option>
+												<option>invidious.projectsegfau.lt</option>
+												<option>inv.vern.cc</option>
+												<option>invidious.nerdvpn.de</option>
+												<option>invidious.slipfox.xyz</option>
+											</select>
+										</div>
+										<div class="sectionOption browser-style">
+											<label for="invidiousCustomInstance">Custom instance:</label>
+											<input type="text" id="invidiousCustomInstance" name="invidiousCustomInstance" class="setting"/>
+											<span class="caption">Leave blank to use default instance. <a href="https://api.invidious.io/" target="_blank">Public instances</a>.</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mainGroup">
+							<h2>Display</h2>
+							<div class="mainGroupContent">
+								<div class="section browser-style">
+									<h3 class="sectionHeader">Display as:</h3>
+									<div class="sectionList">
+										<div class="sectionOption">
+											<input id="displayModeTooltip" class="setting" type="radio" name="displayMode" value="tooltip"/><label for="displayModeTooltip">Tooltip</label>
+										</div>
+										<div class="sectionOption">
+											<input id="displayModeNotification" class="setting" type="radio" name="displayMode" value="notification"/><label for="displayModeNotification">Notification</label>
+											<div class="formatPart">
+												<div class="permissionRequest">
+													<button class="button" id="notificationPermission">Grant permission</button>
+													<span class="grantedNotice">
+														<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+															<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+															<polyline points="22 4 12 14.01 9 11.01"></polyline>
+														</svg>
+														Granted
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="section browser-style">
+									<input type="checkbox" id="videosEnable" name="videosEnable" class="setting"/><label for="videosEnable" class="sectionHeader">Videos</label>
+									<div class="sectionList">
+										<div class="sectionOption browser-style">
+											<input type="checkbox" id="videosDurationEnable" name="videosDurationEnable" class="setting"/><label for="videosDurationEnable">Duration</label>
+											<div class="formatPart">
+												<label for="videosDurationFormat">Format:</label>
+												<select class="browser-style setting" id="videosDurationFormat" name="videosDurationFormat">
+													<option>hh:mm:ss</option>
+													<option>[##h] [##m] ##s</option>
+												</select>
+											</div>
+										</div>
+										<div class="apiSwitch google">
+											<div class="sectionOption browser-style">
+												<input type="checkbox" id="videosPublishedEnable" name="videosPublishedEnable" class="setting"/><label for="videosPublishedEnable">Published date and time</label>
+												<div class="formatPart">
+													<label for="videosPublishedFormat">Format:</label>
+													<select class="browser-style setting" id="videosPublishedFormat" name="videosPublishedFormat">
+														<option>12-hour (local)</option>
+														<option>24-hour (local)</option>
+														<option>GMT</option>
+														<option>Time ago</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="apiSwitch invidious hide">
+											<div class="sectionOption browser-style">
+												<input type="checkbox" id="videosPublishedEnableInvidious" name="videosPublishedEnableInvidious" class="setting"/><label for="videosPublishedEnableInvidious">Published date</label>
+												<div class="formatPart">
+													<label for="videosPublishedFormatInvidious">Format:</label>
+													<select class="browser-style setting" id="videosPublishedFormatInvidious" name="videosPublishedFormatInvidious">
+														<option>GMT</option>
+														<option>Time ago</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="sectionOption browser-style">
+											<input type="checkbox" id="videosViewcountEnable" name="videosViewcountEnable" class="setting"/><label for="videosViewcountEnable">Viewcount</label>
+											<div class="formatPart">
+												<label for="videosViewcountFormat">Format:</label>
+												<select class="browser-style setting" id="videosViewcountFormat" name="videosViewcountFormat">
+													<option>Short</option>
+													<option>Long</option>
+												</select>
+											</div>
+										</div>
+										<div class="sectionOption browser-style">
+											<input type="checkbox" id="videosLikesEnable" name="videosLikesEnable" class="setting"/><label for="videosLikesEnable">Likes</label>
+											<div class="formatPart">
+												<label for="videosLikesFormat">Format:</label>
+												<select class="browser-style setting" id="videosLikesFormat" name="videosLikesFormat">
+													<option>Short</option>
+													<option>Long</option>
+												</select>
+											</div>
+										</div>
+										<div class="sectionOption browser-style">
+											<input type="checkbox" id="videosChannelEnable" name="videosChannelEnable" class="setting"/><label for="videosChannelEnable">Channel name</label>
+										</div>
+									</div>
+								</div>
+								<div class="section browser-style">
+									<input type="checkbox" id="playlistsEnable" name="playlistsEnable" class="setting"/><label for="playlistsEnable" class="sectionHeader">Playlists</label>
+									<div class="sectionList">
+										<div class="apiSwitch google">
+											<div class="sectionOption browser-style">
+												<input type="checkbox" id="playlistsPublishedEnable" name="playlistsPublishedEnable" class="setting"/><label for="playlistsPublishedEnable">Published date and time</label>
+												<div class="formatPart">
+													<label for="playlistsPublishedFormat">Format:</label>
+													<select class="browser-style setting" id="playlistsPublishedFormat" name="playlistsPublishedFormat">
+														<option>12-hour (local)</option>
+														<option>24-hour (local)</option>
+														<option>GMT</option>
+														<option>Time ago</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="apiSwitch invidious hide">
+											<div class="sectionOption browser-style">
+												<input type="checkbox" id="playlistsUpdatedEnableInvidious" name="playlistsUpdatedEnableInvidious" class="setting"/><label for="playlistsUpdatedEnableInvidious">Updated date</label>
+												<div class="formatPart">
+													<label for="playlistsUpdatedFormatInvidious">Format:</label>
+													<select class="browser-style setting" id="playlistsUpdatedFormatInvidious" name="playlistsUpdatedFormatInvidious">
+														<option>GMT</option>
+														<option>Time ago</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="sectionOption browser-style">
+											<input type="checkbox" id="playlistsPrivacyEnable" name="playlistsPrivacyEnable" class="setting"/><label for="playlistsPrivacyEnable">Privacy</label>
+											<span class="caption">For Google, shows 'public', 'unlisted', and 'private'. For Invidious, shows public and unlisted as 'listed', and private as 'unlisted'.</span>
+										</div>
+										<div class="sectionOption browser-style">
+											<input type="checkbox" id="playlistsVideoCountEnable" name="playlistsVideoCountEnable" class="setting"/><label for="playlistsVideoCountEnable">Video count</label>
+											<div class="formatPart">
+												<label for="playlistsVideoCountFormat">Format:</label>
+												<select class="browser-style setting" id="playlistsVideoCountFormat" name="playlistsVideoCountFormat">
+													<option>Short</option>
+													<option>Long</option>
+												</select>
+											</div>
+										</div>
+										<div class="sectionOption browser-style">
+											<input type="checkbox" id="playlistsChannelEnable" name="playlistsChannelEnable" class="setting"/><label for="playlistsChannelEnable">Channel name</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mainGroup">
+							<h2>Import/Export</h2>
+							<div class="mainGroupContent">
+								<div class="section">
+									<div class="importExport">
+										<button class="button" id="import">Import</button>
+										<button class="button" id="export">Export</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="mainGroup">
+							<h2>Extra</h2>
+							<div class="mainGroupContent">
+								<details>
+									<summary>Reset</summary>
+									<div class="browser-style">
+										<button class="button" id="resetOptionsButton">Reset options</button>
+										<button class="button" id="resetEverythingButton">Reset everything</button>
+									</div>
+								</details>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="mainPanel" data-panel="statistics">
+					<div class="mainPanelHeader">
+						<h2>Statistics</h2>
+					</div>
+					<div class="mainPanelContent">
+						<div class="mainGroup">
+							<!-- <h2>Setting</h2> -->
+							<div class="mainGroupContent">
+								<div class="section browser-style">
+									<input type="checkbox" id="statsEnable" name="statsEnable" class="setting"/><label for="statsEnable">Enable statistics</label>
+									<span class="caption">Statistics are not sent anywhere; they stay only on your device.</span>
+								</div>
+								<div class="section browser-style">
+									<button class="button" id="resetStats">Reset statistics</button>
+								</div>
+							</div>
+						</div>
+						<div class="mainGroup">
+							<!-- <h2>Setting</h2> -->
+							<div class="mainGroupContent">
+								<div class="section browser-style">
+									<button class="button" id="refreshStats">Refresh</button>
+								</div>
+								<div class="section browser-style">
+									<div class="statContainer">
+										<div class="stat" data-stat="tooltipsSession">
+											<span>Youtube links tooltip'd this session:</span>
+											<span class="value">0</span>
+										</div>
+										<div class="stat" data-stat="tooltipsTotal">
+											<span>Youtube links tooltip'd total:</span>
+											<span class="value">0</span>
+										</div>
+										<div class="stat" data-stat="requestsSession">
+											<span>Number of requests made this session:</span>
+											<span class="value">0</span>
+										</div>
+										<div class="stat" data-stat="requestsTotal">
+											<span>Number of requests made total:</span>
+											<span class="value">0</span>
+										</div>
+										<div class="stat" data-stat="rickRollSession">
+											<span>Rickrolls seen this session:</span>
+											<span class="value">0</span>
+										</div>
+										<div class="stat" data-stat="rickRollTotal">
+											<span>Rickrolls seen total:</span>
+											<span class="value">0</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="mainPanel" data-panel="about">
+					<div class="mainPanelHeader">
+						<h2>About</h2>
+					</div>
+					<div class="mainPanelContent">
+						<div class="mainGroup">
+							<h2>YouTooltip</h2>
+							<div class="mainGroupContent">
+								<div class="section">
+									<span class="version">
+										Version <span id="versionNumber">0.0.0</span>
+										<span id="manifestV3" title="Manifest version 3">MV3</span>
+									</span>
+								</div>
+								<div class="section">
+									<h3 class="sectionHeader">Listings</h3>
+									<a href="https://addons.mozilla.org/en-US/firefox/addon/e6339faea0d34c5cb207/" target="_blank">Firefox</a>
+								</div>
+								<div class="section">
+									<h3 class="sectionHeader">Authors</h3>
+									<span>Owner/developer: <a href="https://addons.mozilla.org/en-US/firefox/user/10234791/" target="_blank">John H</a>.</span>
+								</div>
+								<div class="section">
+									<h3 class="sectionHeader">License</h3>
+									<a href="https://opensource.org/licenses/mit-license.php" target="_blank">MIT license</a>
+								</div>
+							</div>
+						</div>
+						<div class="mainGroup">
+							<h2>Credits</h2>
+							<div class="mainGroupContent">
+								<div class="section">
+									<h3 class="sectionHeader">Fork</h3>
+									<span>Forked from <a href="https://addons.mozilla.org/en-US/firefox/addon/youtube_tooltip/" target="_blank" style="text-decoration: line-through;">YoutubeTooltip</a> (since removed from AMO) written by <a href="https://addons.mozilla.org/en-US/firefox/user/14151097/" target="_blank">Firefox user 14151097</a>. Released under the <a href="https://opensource.org/licenses/mit-license.php" target="_blank">MIT license</a>.</span>
+								</div>
+								<div class="section">
+									<h3 class="sectionHeader">Icons</h3>
+									<span>All icons (including logo) from <a href="https://feathericons.com/" target="_blank">Feather</a>. Released under the <a href="https://github.com/colebemis/feather/blob/master/LICENSE" target="_blank">MIT license</a>.</span>
+								</div>
+							</div>
+						</div>
+						<div class="mainGroup">
+							<h2 id="releaseNotes">Release notes</h2>
+							<div class="mainGroupContent">
+								<div class="section">
+									<details open>
+										<summary class="sectionHeader">0.5.0</summary>
+										<div class="sectionList">
+											<span>Initial release.</span>
+										</div>
+									</details>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+		<div class="overlay">
+			<div class="permissions">
+				<span>You must grant the permission 'Access your data for all websites' for YouTooltip to work.</span>
+				<button class="button" id="mV3RequestPermissions">Request permission</button>
+			</div>
+		</div>
+		
+		<script src="options.js"></script>
+	</body>
+</html>
