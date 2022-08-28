@@ -34,11 +34,11 @@ todo
 	- For notification display mode, instead of displaying youtube info as tooltips.
 
 ## Privacy policy
-YouTooltip does __not__ send user data to me nor use any analytics.
+YouTooltip does *not* send user data to me nor use any analytics. I don't care for your browsing habits.
 
-YouTooltip __does__ store statistics on your computer; however, you may delete and/or turn them off at any time.
+YouTooltip *does* store statistics on your computer; however, you may delete and/or turn them off at any time.
 
-YouTooltip __does__ make requests to either Google's API or Invidious' API for video and playlist information; however, no identifying information is shared. All requests made always use HTTPS. The data that is sent to the API of your choice is the video and/or playlist ID's, field options, and an API key (where necessary).
+YouTooltip *does* make requests to either Google's API or Invidious' API for video and playlist information; however, no identifying information is shared. Requests always use HTTPS. The data that is sent to the API of your choice is the video and/or playlist ID's, field options, and an API key (where necessary).
 
 ## Other notes
 The default API key(s) that YouTooltip uses are my own, and I have the right to disable them at any time for any reason. In addition, Google may also disable them at any time for any reason. You may choose to provide your own API key, but you are responsible for its use.
