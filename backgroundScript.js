@@ -138,7 +138,6 @@ browser.runtime.onInstalled.addListener(async (details) => {
 		await browser.runtime.openOptionsPage();
 	} else if (details.reason === "update") {
 		let options = await checkOptions(details.previousVersion);
-		console.log("OPTIONS: ", options)
 		let stats = await checkStats(details.previousVersion);
 		await browser.storage.local.set({options});
 		await browser.storage.local.set(stats);

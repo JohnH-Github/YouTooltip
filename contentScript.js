@@ -543,8 +543,6 @@ async function getYTInfo(ids, bucket) {
 		"?fields=" + fields;
 	}
 	
-	console.log(address);
-	
 	incrementStat("requestsSession");
 	incrementStat("requestsTotal");
 	let abortController = new AbortController();
