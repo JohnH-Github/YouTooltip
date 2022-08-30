@@ -1,10 +1,13 @@
 # YouTooltip
+![Mozilla Add-on](https://img.shields.io/amo/v/e6339faea0d34c5cb207)
+
 Adds a tooltip containing information about videos and playlists when hovering over a YouTube link.
 
 Currently supports Firefox only.
 
-![YouTooltip screenshot tooltip](https://user-images.githubusercontent.com/34670767/187048059-01668031-cdc8-4d81-80e6-b8c316510ae8.jpg)
-![YouTooltip screenshot notification](https://user-images.githubusercontent.com/34670767/187048070-cab54590-d3e2-487b-b24d-9a1db1cbbb41.jpg)
+| Tooltip display | Notification display |
+| --- | --- |
+| ![YouTooltip screenshot tooltip](https://user-images.githubusercontent.com/34670767/187048059-01668031-cdc8-4d81-80e6-b8c316510ae8.jpg) | ![YouTooltip screenshot notification](https://user-images.githubusercontent.com/34670767/187048070-cab54590-d3e2-487b-b24d-9a1db1cbbb41.jpg) |
 
 
 ## Features
