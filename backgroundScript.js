@@ -156,33 +156,16 @@ browser.runtime.onStartup.addListener(async () => {
 	await browser.storage.local.set(storageStats);
 });
 
-// Small collection of common rickrolls for statistics.
-const rickRollIds = [
-	"dQw4w9WgXcQ",
-	"LLFhKaqnWwk",
-	"oHg5SJYRHA0",
-	"xvFZjo5PgG0",
-	"iik25wqIuFo",
-	"ub82Xb1C8os",
-	"eBGIQ7ZuuiU"
-]
-function checkIdStats(id) {
-	if (options.statsEnable) {
-		for (let rickRoll of rickRollIds) {
-			if (id === rickRoll) {
-				incrementStat("rickRollSession");
-				incrementStat("rickRollTotal");
-			}
-		}
-	}
-}
-var statsUpdating = false;
+/*
+ * Returns the first stat that has at least 1 to add.
+ */
 function getStatToUpdate() {
 	for (let stat in stats) {
 		if (stats[stat] > 0)
 			return stat;
 	}
 }
+var statsUpdating = false;
 async function incrementStat(stat, num = 1) {
 	stats[stat] += num;
 	if (!statsUpdating) {

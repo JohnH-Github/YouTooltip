@@ -9,38 +9,38 @@
 	</head>
 	<body>
 		<div class="content">
-			<div class="sidebar">
+			<header class="sidebar">
 				<div class="sticky">
 					<div class="meta">
 						<img class="logo" src="../icons/icon.svg" alt="YouTooltip logo"/>
 						<h1 class="title">YouTooltip</h1>
 					</div>
 					<div class="saveContainer">
-						<button class="button" id="saveButton" disabled>
+						<button class="button" id="saveButton" aria-describedby="saveButtonCaption" disabled>
 							<span class="text">Save</span>
 							<div class="pulseContainer">
 								<div class="pulse"></div>
 							</div>
 						</button>
-						<p class="caption">Reload other tabs for changes to take effect.</p>
+						<p id="saveButtonCaption" class="caption">Reload other tabs for changes to take effect.</p>
 					</div>
 					
-					<div class="tabsList">
-						<button class="tab selected" data-tab="settings">
+					<nav class="tabsList">
+						<button class="tab selected" data-tab="settings" aria-labelledby="tabTextSettings">
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="tabTextSettings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
 							<span id="tabTextSettings">Settings</span>
 						</button>
-						<button class="tab" data-tab="statistics">
+						<button class="tab" data-tab="statistics" aria-labelledby="tabTextStatistics">
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="tabTextStatistics"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
 							<span id="tabTextStatistics">Statistics</span>
 						</button>
-						<button class="tab" data-tab="about">
+						<button class="tab" data-tab="about" aria-labelledby="tabTextAbout">
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="tabTextAbout"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
 							<span id="tabTextAbout">About</span>
 						</button>
-					</div>
+					</nav>
 				</div>
-			</div>
+			</header>
 			<main>
 				<div class="mainPanel show" data-panel="settings">
 					<div class="mainPanelHeader">
@@ -48,32 +48,20 @@
 					</div>
 					<div class="mainPanelContent">
 						<div class="mainGroup">
-							<h2>Operation</h2>
+							<h3>Operation</h3>
 							<div class="mainGroupContent">
-								<!-- <div class="section browser-style"> -->
-									<!-- <label for="operationMode" class="sectionHeader">Mode:</label> -->
-									<!-- <select class="browser-style setting" id="operationMode" name="operationMode"> -->
-										<!-- <option>Auto</option> -->
-										<!-- <option>Hover</option> -->
-									<!-- </select> -->
-									<!-- <span class="caption"> -->
-										<!-- Auto: Gets all info on page load and whenever more links are added. Supports Google only. -->
-										<!-- <br /> -->
-										<!-- Hover: Gets info only for links that are hovered over. Supports both Google and Invidious. -->
-									<!-- </span> -->
-								<!-- </div> -->
 								<div class="section browser-style">
-									<input type="radio" id="operationModeAuto" name="operationMode" value="auto" class="setting"/><label for="operationModeAuto" class="sectionHeader">Auto</label>
-									<span class="caption">Gets all info on page load and whenever more links are added. Supports Google only.</span>
+									<input type="radio" id="operationModeAuto" name="operationMode" value="auto" class="setting" aria-describedby="operationModeAutoCaption"/><label for="operationModeAuto" class="sectionHeader" aria-describedby="operationModeAutoCaption">Auto</label>
+									<span id="operationModeAutoCaption" class="caption">Gets all info on page load and whenever more links are added. Supports Google only.</span>
 								</div>
 								<div class="section browser-style">
-									<input type="radio" id="operationModeHover" name="operationMode" value="hover" class="setting"/><label for="operationModeHover" class="sectionHeader">Hover</label>
-									<span class="caption">Gets info only for links that are hovered over. Supports both Google and Invidious.</span>
+									<input type="radio" id="operationModeHover" name="operationMode" value="hover" class="setting" aria-describedby="operationModeHoverCaption"/><label for="operationModeHover" class="sectionHeader" aria-describedby="operationModeHoverCaption">Hover</label>
+									<span id="operationModeHoverCaption" class="caption">Gets info only for links that are hovered over. Supports both Google and Invidious.</span>
 								</div>
 							</div>
 						</div>
 						<div class="mainGroup apiService">
-							<h2>API service</h2>
+							<h3>API service</h3>
 							<div class="mainGroupContent">
 								<div class="section browser-style">
 									<input type="radio" id="apiServiceGoogle" name="apiService" value="google" class="setting"/><label for="apiServiceGoogle" class="sectionHeader">Google</label>
@@ -87,9 +75,9 @@
 											</select>
 										</div>
 										<div class="sectionOption browser-style">
-											<label for="keyCustom">Custom key:</label>
-											<input type="text" id="keyCustom" name="keyCustom" class="setting"/>
-											<span class="caption">Leave blank to use default key. <a href="https://developers.google.com/youtube/registering_an_application" target="_blank">How to get your own key</a>.</span>
+											<label for="keyCustom" aria-describedby="keyCustomCaption">Custom key:</label>
+											<input type="text" id="keyCustom" name="keyCustom" class="setting" aria-describedby="keyCustomCaption"/>
+											<span id="keyCustomCaption" class="caption">Leave blank to use default key. <a href="https://developers.google.com/youtube/registering_an_application" target="_blank">How to get your own key</a>.</span>
 										</div>
 									</div>
 								</div>
@@ -114,19 +102,19 @@
 											</select>
 										</div>
 										<div class="sectionOption browser-style">
-											<label for="invidiousCustomInstance">Custom instance:</label>
-											<input type="text" id="invidiousCustomInstance" name="invidiousCustomInstance" class="setting"/>
-											<span class="caption">Leave blank to use default instance. <a href="https://api.invidious.io/" target="_blank">Public instances</a>.</span>
+											<label for="invidiousCustomInstance" aria-describedby="invidiousCustomInstanceCaption">Custom instance:</label>
+											<input type="text" id="invidiousCustomInstance" name="invidiousCustomInstance" class="setting" aria-describedby="invidiousCustomInstanceCaption"/>
+											<span id="invidiousCustomInstanceCaption" class="caption">Leave blank to use default instance. <a href="https://api.invidious.io/" target="_blank">Public instances</a>.</span>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="mainGroup">
-							<h2>Display</h2>
+							<h3>Display</h3>
 							<div class="mainGroupContent">
 								<div class="section browser-style">
-									<h3 class="sectionHeader">Display as:</h3>
+									<h4 class="sectionHeader">Display as:</h3>
 									<div class="sectionList">
 										<div class="sectionOption">
 											<input id="displayModeTooltip" class="setting" type="radio" name="displayMode" value="tooltip"/><label for="displayModeTooltip">Tooltip</label>
@@ -137,7 +125,7 @@
 												<div class="permissionRequest">
 													<button class="button" id="notificationPermission">Grant permission</button>
 													<span class="grantedNotice">
-														<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+														<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="checkmark">
 															<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
 															<polyline points="22 4 12 14.01 9 11.01"></polyline>
 														</svg>
@@ -242,8 +230,8 @@
 											</div>
 										</div>
 										<div class="sectionOption browser-style">
-											<input type="checkbox" id="playlistsPrivacyEnable" name="playlistsPrivacyEnable" class="setting"/><label for="playlistsPrivacyEnable">Privacy</label>
-											<span class="caption">For Google, shows 'public', 'unlisted', and 'private'. For Invidious, shows public and unlisted as 'listed', and private as 'unlisted'.</span>
+											<input type="checkbox" id="playlistsPrivacyEnable" name="playlistsPrivacyEnable" class="setting" aria-describedby="playlistsPrivacyEnableCaption"/><label for="playlistsPrivacyEnable" aria-describedby="playlistsPrivacyEnableCaption">Privacy</label>
+											<span id="playlistsPrivacyEnableCaption" class="caption">For Google, shows 'public', 'unlisted', and 'private'. For Invidious, shows public and unlisted as 'listed', and private as 'unlisted'.</span>
 										</div>
 										<div class="sectionOption browser-style">
 											<input type="checkbox" id="playlistsVideoCountEnable" name="playlistsVideoCountEnable" class="setting"/><label for="playlistsVideoCountEnable">Video count</label>
@@ -263,7 +251,7 @@
 							</div>
 						</div>
 						<div class="mainGroup">
-							<h2>Import/Export</h2>
+							<h3>Import/Export</h3>
 							<div class="mainGroupContent">
 								<div class="section">
 									<div class="importExport">
@@ -274,7 +262,7 @@
 							</div>
 						</div>
 						<div class="mainGroup">
-							<h2>Extra</h2>
+							<h3>Extra</h3>
 							<div class="mainGroupContent">
 								<details>
 									<summary>Reset</summary>
@@ -293,11 +281,10 @@
 					</div>
 					<div class="mainPanelContent">
 						<div class="mainGroup">
-							<!-- <h2>Setting</h2> -->
 							<div class="mainGroupContent">
 								<div class="section browser-style">
-									<input type="checkbox" id="statsEnable" name="statsEnable" class="setting"/><label for="statsEnable">Enable statistics</label>
-									<span class="caption">Statistics are not sent anywhere; they stay only on your device.</span>
+									<input type="checkbox" id="statsEnable" name="statsEnable" class="setting" aria-describedby="statsCaption"/><label for="statsEnable"  aria-describedby="statsCaption">Enable statistics</label>
+									<span id="statsCaption" class="caption">Statistics are not sent anywhere; they stay only on your device.</span>
 								</div>
 								<div class="section browser-style">
 									<button class="button" id="resetStats">Reset statistics</button>
@@ -305,7 +292,6 @@
 							</div>
 						</div>
 						<div class="mainGroup">
-							<!-- <h2>Setting</h2> -->
 							<div class="mainGroupContent">
 								<div class="section browser-style">
 									<button class="button" id="refreshStats">Refresh</button>
@@ -313,19 +299,19 @@
 								<div class="section browser-style">
 									<div class="statContainer">
 										<div class="stat" data-stat="tooltipsSession">
-											<span>Youtube links tooltip'd this session:</span>
+											<span>Tooltips added this session:</span>
 											<span class="value">0</span>
 										</div>
 										<div class="stat" data-stat="tooltipsTotal">
-											<span>Youtube links tooltip'd total:</span>
+											<span>Tooltips added total:</span>
 											<span class="value">0</span>
 										</div>
 										<div class="stat" data-stat="requestsSession">
-											<span>Number of requests made this session:</span>
+											<span>Requests made this session:</span>
 											<span class="value">0</span>
 										</div>
 										<div class="stat" data-stat="requestsTotal">
-											<span>Number of requests made total:</span>
+											<span>Requests made total:</span>
 											<span class="value">0</span>
 										</div>
 										<div class="stat" data-stat="rickRollSession">
@@ -348,7 +334,7 @@
 					</div>
 					<div class="mainPanelContent">
 						<div class="mainGroup">
-							<h2>YouTooltip</h2>
+							<h3>YouTooltip</h3>
 							<div class="mainGroupContent">
 								<div class="section">
 									<span class="version">
@@ -357,34 +343,38 @@
 									</span>
 								</div>
 								<div class="section">
-									<h3 class="sectionHeader">Listings</h3>
+									<h4 class="sectionHeader">Listings</h4>
 									<a href="https://addons.mozilla.org/en-US/firefox/addon/e6339faea0d34c5cb207/" target="_blank">Firefox</a>
 								</div>
 								<div class="section">
-									<h3 class="sectionHeader">Authors</h3>
+									<h4 class="sectionHeader">Authors</h4>
 									<span>Owner/developer: <a href="https://addons.mozilla.org/en-US/firefox/user/10234791/" target="_blank">John H</a>.</span>
 								</div>
 								<div class="section">
-									<h3 class="sectionHeader">License</h3>
+									<h4 class="sectionHeader">Homepage</h4>
+									<a href="https://github.com/JohnH-Github/YouTooltip" target="_blank">Github</a>
+								</div>
+								<div class="section">
+									<h4 class="sectionHeader">License</h4>
 									<a href="https://opensource.org/licenses/mit-license.php" target="_blank">MIT license</a>
 								</div>
 							</div>
 						</div>
 						<div class="mainGroup">
-							<h2>Credits</h2>
+							<h3>Credits</h3>
 							<div class="mainGroupContent">
 								<div class="section">
-									<h3 class="sectionHeader">Fork</h3>
+									<h4 class="sectionHeader">Fork</h4>
 									<span>Forked from <a href="https://addons.mozilla.org/en-US/firefox/addon/youtube_tooltip/" target="_blank" style="text-decoration: line-through;">YoutubeTooltip</a> (since removed from AMO) written by <a href="https://addons.mozilla.org/en-US/firefox/user/14151097/" target="_blank">Firefox user 14151097</a>. Released under the <a href="https://opensource.org/licenses/mit-license.php" target="_blank">MIT license</a>.</span>
 								</div>
 								<div class="section">
-									<h3 class="sectionHeader">Icons</h3>
+									<h4 class="sectionHeader">Icons</h4>
 									<span>All icons (including logo) from <a href="https://feathericons.com/" target="_blank">Feather</a>. Released under the <a href="https://github.com/colebemis/feather/blob/master/LICENSE" target="_blank">MIT license</a>.</span>
 								</div>
 							</div>
 						</div>
 						<div class="mainGroup">
-							<h2 id="releaseNotes">Release notes</h2>
+							<h3 id="releaseNotes">Release notes</h3>
 							<div class="mainGroupContent">
 								<div class="section">
 									<details open>

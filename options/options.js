@@ -359,7 +359,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 		await saveAndRestoreOptions("restore");
 		if (browser.runtime.getManifest().manifest_version === 3) {
 			// Helpful reminder while testing and can be removed when Google and Mozilla fully work out the details of Manifest V3.
-			// In the worst case, the permission notice may have to stay.
+			// The initial specs for MV3 called for treating host permissions as always optional.
+			// However, according to the latest discussions (https://bugzilla.mozilla.org/show_bug.cgi?id=1766026#c1), this may no longer be the case.
 			let manifestV3 = document.getElementById("manifestV3");
 			manifestV3.classList.add("show");
 			if (!await browser.permissions.contains({origins: ["<all_urls>"]})) {

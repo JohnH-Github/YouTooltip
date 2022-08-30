@@ -43,12 +43,10 @@ a:hover::after {
 
 .content {
 	min-height: 100vh;
-	/* display: none; */
 	visibility: hidden;
 	display: flex;
 }
 .content.show {
-	/* display: flex; */
 	visibility: visible;
 }
 .overlay {
@@ -234,10 +232,8 @@ a:hover::after {
 main {
 	max-width: 1140px;
 	width: 100%;
-	/* padding: 10px 10px 10px 20px; */
 	padding: 10px;
 	background: #fff;
-	/* margin: 0 auto; */
 }
 .mainPanel {
 	display: none;
@@ -313,12 +309,12 @@ input[type="radio"]:disabled {
 	padding-top: 1rem;
 	border-top: 1px solid var(--border-color-lightTheme);
 }
-.mainGroup h2 {
+.mainGroup h3 {
 	font-size: 1.8rem;
 	font-weight: normal;
 	margin: .3rem 0;
 }
-.mainGroup details h2 {
+.mainGroup details h3 {
 	display: inline;
 }
 
@@ -336,7 +332,6 @@ input[type="radio"]:disabled {
 }
 
 .sectionList {
-	/* margin-left: 2rem; */
 	margin-top: 0.4rem;
 	border-left: 4px solid var(--border-color-lightTheme);
 	padding-left: 2rem;

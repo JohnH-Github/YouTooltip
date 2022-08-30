@@ -1,5 +1,8 @@
 # YouTooltip
 Adds a tooltip containing information about videos and playlists when hovering over a YouTube link.
+
+Currently supports Firefox only.
+
 ![YouTooltip screenshot tooltip](https://user-images.githubusercontent.com/34670767/187048059-01668031-cdc8-4d81-80e6-b8c316510ae8.jpg)
 ![YouTooltip screenshot notification](https://user-images.githubusercontent.com/34670767/187048070-cab54590-d3e2-487b-b24d-9a1db1cbbb41.jpg)
 
@@ -21,7 +24,19 @@ Adds a tooltip containing information about videos and playlists when hovering o
 	- Change the display format for certain information.
 
 ## Installation
-todo
+### Install from Firefox AMO
+[AMO listing page](https://addons.mozilla.org/en-US/firefox/addon/e6339faea0d34c5cb207/)
+### Install manually
+1. Download an .xpi file from [releases](https://github.com/JohnH-Github/YouTooltip/releases).
+2. Go to about:addons in Firefox.
+3. Click on the gear icon near the top of the page.
+4. Click "Install Add-on From File..."
+5. Select the .xpi file and click "Open".
+### Install manually (temporary)
+1. Download the code.
+2. Go to about:debugging in Firefox, click on "This Firefox" in the sidebar.
+3. Click "Load Temporary Add-on...".
+4. Select ```manifest.json``` and click "Open".
 
 ## Permissions
 ### Required

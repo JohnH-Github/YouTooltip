@@ -28,13 +28,13 @@ let onStorageChangeCounter = 0;
  */
 async function init() {
 	try {
-		let allStorage = await browser.storage.local.get();
-		if (allStorage.options === undefined && onStorageChangeCounter < 5) {
+		let storageOptions = await browser.storage.local.get("options");
+		if (storageOptions.options === undefined && onStorageChangeCounter < 5) {
 			// If YouTooltip was just installed, options won't exist in storage immediately. We will wait until it does, then try again.
 			onStorageChangeCounter++;// And make sure we don't get into an infinite loop if things don't work as expected.
 			browser.storage.local.onChanged.addListener(onStorageChange);
-		} else if (allStorage.options !== undefined) {
-			options = allStorage.options;
+		} else if (storageOptions.options !== undefined) {
+			options = storageOptions.options;
 			if (options.operationMode === "auto" || options.apiService === "google") {
 				if (options.keyCustom === "") {
 					keyDefault = await browser.runtime.sendMessage({
