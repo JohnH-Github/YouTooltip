@@ -1,5 +1,5 @@
 # YouTooltip
-[![Mozilla Add-on](https://img.shields.io/amo/v/e6339faea0d34c5cb207)](https://addons.mozilla.org/en-US/firefox/addon/youtooltip/)
+[![Mozilla Add-on](https://img.shields.io/amo/v/youtooltip)](https://addons.mozilla.org/en-US/firefox/addon/youtooltip/)
 
 Adds a tooltip containing information about videos and playlists when hovering over a YouTube link.
 
