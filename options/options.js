@@ -119,19 +119,12 @@ document.getElementById("export").addEventListener('click', async () => {
 	});
 	if (!permissionRequest)
 		return;
-	let storageStats = await browser.storage.local.get([
-		"tooltipsSession",
-		"tooltipsTotal",
-		"requestsSession",
-		"requestsTotal",
-		"rickRollSession",
-		"rickRollTotal"
-	]);
+	let storageStats = await browser.storage.local.get("stats");
 	const exportObject = {
 		name: "YouTooltip",
 		version: browser.runtime.getManifest().version,
 		options: options,
-		stats:  storageStats
+		stats:  storageStats.stats
 	}
 	let downloadItem;
 	const blob = new Blob([JSON.stringify(exportObject)], {type: "application/json"});
@@ -240,17 +233,10 @@ allTabs.forEach(tab => {
 async function updateStats() {
 	if (window.browser === undefined)// For testing as a local html file.
 		return;
-	let storageStats = await browser.storage.local.get([
-		"tooltipsSession",
-		"tooltipsTotal",
-		"requestsSession",
-		"requestsTotal",
-		"rickRollSession",
-		"rickRollTotal"
-	]);
+	let storageStats = await browser.storage.local.get("stats");
 	let allStats = document.querySelectorAll(".statContainer .stat");
-	allStats.forEach(stat => {
-		stat.querySelector(".value").textContent = (storageStats[stat.dataset.stat]);
+	allStats.forEach(statEle => {
+		statEle.querySelector(".value").textContent = (storageStats.stats[statEle.dataset.stat]);
 	});
 }
 document.getElementById("resetStats").addEventListener('click', async () => {
@@ -343,8 +329,10 @@ async function saveAndRestoreOptions(opt, configObject) {
 	} else if (opt === "import") {
 		try {
 			options = configObject.checkedImport.checkedOptions;
-			await browser.storage.local.set({options});
-			await browser.storage.local.set(configObject.checkedImport.checkedStats);
+			await browser.storage.local.set({
+				options,
+				stats: configObject.checkedImport.checkedStats
+			});
 			await saveAndRestoreOptions("restore");
 		} catch(error) {
 			console.error(error);

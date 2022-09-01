@@ -68,7 +68,7 @@ const defaultStats = {
 	rickRollSession: 0,
 	rickRollTotal: 0
 };
-var stats = defaultStats;
+var updateStatsTracker = defaultStats;
 
 async function setDefaultOptions() {
 	let options = defaultOptions;
@@ -78,7 +78,7 @@ async function setDefaultOptions() {
 }
 
 async function setDefaultStats() {
-	return await browser.storage.local.set(defaultStats);
+	return await browser.storage.local.set({stats: defaultStats});
 }
 
 async function checkOptions(previousVersion, options) {
@@ -116,13 +116,24 @@ async function checkOptions(previousVersion, options) {
 	return options;
 }
 async function checkStats(previousVersion, stats) {
-	let storageStats = await browser.storage.local.get(Object.keys(defaultStats));
-	if (stats === undefined)
-		stats = storageStats;
+	let storageStats = await browser.storage.local.get("stats");
+	
+	if (stats === undefined) {
+		if (storageStats.stats === undefined) {
+			await setDefaultStats();
+			storageStats = await browser.storage.local.get("stats");
+		}
+		stats = storageStats.stats;
+	}
+	
+	for (let prop in stats) {
+		if (!Object.hasOwn(defaultStats, prop))
+			delete stats[prop];
+	}
 	for (let prop in defaultStats) {
 		if (!Object.hasOwn(stats, prop)) {
-			if (Object.hasOwn(storageStats, prop))
-				stats[prop] = storageStats[prop];
+			if (Object.hasOwn(storageStats.stats, prop))
+				stats[prop] = storageStats.stats[prop];
 			else
 				stats[prop] = defaultStats[prop];
 		}
@@ -139,8 +150,7 @@ browser.runtime.onInstalled.addListener(async (details) => {
 	} else if (details.reason === "update") {
 		let options = await checkOptions(details.previousVersion);
 		let stats = await checkStats(details.previousVersion);
-		await browser.storage.local.set({options});
-		await browser.storage.local.set(stats);
+		await browser.storage.local.set({options, stats});
 		// browser.tabs.create({
 			// url: "options/options.html#releaseNotes"
 		// });
@@ -148,10 +158,10 @@ browser.runtime.onInstalled.addListener(async (details) => {
 });
 
 browser.runtime.onStartup.addListener(async () => {
-	let storageStats = await browser.storage.local.get(["tooltipsSession", "requestsSession", "rickRollSession"]);
-	storageStats.tooltipsSession = 0;
-	storageStats.requestsSession = 0;
-	storageStats.rickRollSession = 0;
+	let storageStats = await browser.storage.local.get("stats");
+	storageStats.stats.tooltipsSession = 0;
+	storageStats.stats.requestsSession = 0;
+	storageStats.stats.rickRollSession = 0;
 	await browser.storage.local.set(storageStats);
 });
 
@@ -159,23 +169,23 @@ browser.runtime.onStartup.addListener(async () => {
  * Returns the first stat that has at least 1 to add.
  */
 function getStatToUpdate() {
-	for (let stat in stats) {
-		if (stats[stat] > 0)
+	for (let stat in updateStatsTracker) {
+		if (updateStatsTracker[stat] > 0)
 			return stat;
 	}
 }
 var statsUpdating = false;
 async function incrementStat(stat, num = 1) {
-	stats[stat] += num;
+	updateStatsTracker[stat] += num;
 	if (!statsUpdating) {
 		statsUpdating = true;
 		let statToUpdate = getStatToUpdate();
 		while (statToUpdate !== undefined) {
-			let statStorage = await browser.storage.local.get(statToUpdate);
-			let statToUpdateValue = stats[statToUpdate];
-			stats[statToUpdate] = 0;
-			statStorage[statToUpdate] += statToUpdateValue;
-			await browser.storage.local.set(statStorage);
+			let statsStorage = await browser.storage.local.get("stats");
+			let statToUpdateValue = updateStatsTracker[statToUpdate];
+			updateStatsTracker[statToUpdate] = 0;
+			statsStorage.stats[statToUpdate] += statToUpdateValue;
+			await browser.storage.local.set(statsStorage);
 			statToUpdate = getStatToUpdate();
 		}
 		statsUpdating = false;
@@ -186,16 +196,12 @@ browser.runtime.onMessage.addListener(async (message) => {
 	switch (message.command) {
 		case "reset":
 			if (message.reset === "everything") {
-				let removeStorage = await browser.storage.local.clear();
-				let settingDefaultOptions = await setDefaultOptions();
-				let settingDefaultStats = await setDefaultStats();
-				return removeStorage === undefined && settingDefaultOptions === undefined && settingDefaultStats === undefined;// Undefined means success, so return true.
+				await browser.storage.local.clear();
+				await setDefaultOptions();
+				await setDefaultStats();
 			} else if (message.reset === "options") {
-				let removeStorageOptions = await browser.storage.local.remove("options");
-				let settingDefaultOptions = await setDefaultOptions();
-				return removeStorageOptions === undefined && settingDefaultOptions === undefined;// Undefined means success, so return true.
-			} else {
-				return undefined;
+				await browser.storage.local.remove("options");
+				await setDefaultOptions();
 			}
 			break;
 		case "checkImport":
@@ -207,9 +213,8 @@ browser.runtime.onMessage.addListener(async (message) => {
 			}
 			break;
 		case "resetStats":
-			let removeStorageStats = await browser.storage.local.remove(Object.keys(defaultStats));
-			let setDefaultStatsResult = await setDefaultStats();
-			return removeStorageStats === undefined && setDefaultStatsResult === undefined;// Undefined means success, so return true.
+			await browser.storage.local.remove("stats");
+			await setDefaultStats();
 			break;
 		case "updateStat":
 			await incrementStat(message.stat, message.num);
