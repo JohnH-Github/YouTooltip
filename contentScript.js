@@ -12,17 +12,17 @@ const rickRollIds = [// Small collection of common rickrolls for statistics.
 	"iik25wqIuFo",
 	"ub82Xb1C8os",
 	"eBGIQ7ZuuiU"
-]
+];
 
 const elementMap = {
 	videos: new Map(),
 	playlists: new Map()
-}
+};
 
 var options;
 var keyDefault;
 var invidiousDefaultInstance;
-let onStorageChangeCounter = 0;
+var onStorageChangeCounter = 0;
 /*
  * Initializes the script by retrieving options, scanning the page, and starting the observer.
  */
