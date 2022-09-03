@@ -412,6 +412,12 @@ input[type="radio"]:disabled {
 }
 
 
+.releaseNotes ul {
+	margin: 0;
+	padding: 0;
+}
+
+
 @media (prefers-color-scheme: dark) {
 	html, body {
 		background: #1c1c1c;
