@@ -116,6 +116,18 @@ async function checkOptions(previousVersion, options) {
 	return options;
 }
 async function checkStats(previousVersion, stats) {
+	switch (previousVersion) {
+		case "1.0.2":
+			// Convert individual stats to properties in an object in storage.
+			let oldStats = ["tooltipsSession", "tooltipsTotal", "requestsSession", "requestsTotal", "rickRollSession", "rickRollTotal"];
+			let oldStorageStats = await browser.storage.local.get(oldStats);
+			if (Object.keys(oldStorageStats).length > 0) {
+				await browser.storage.local.set({stats: oldStorageStats});
+				await browser.storage.local.remove(oldStats);
+			}
+			break;
+	}
+	
 	let storageStats = await browser.storage.local.get("stats");
 	
 	if (stats === undefined) {
