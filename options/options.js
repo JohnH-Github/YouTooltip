@@ -21,7 +21,7 @@ async function updateNotificationPermission() {
 		notificationPermission.disabled = false;
 	}
 }
-document.getElementById("notificationPermission").addEventListener('click', async (e) => {
+document.getElementById("notificationPermission").addEventListener('click', async () => {
 	let permissionRequest = await browser.permissions.request({
 		permissions: ["notifications"]
 	});
@@ -29,7 +29,7 @@ document.getElementById("notificationPermission").addEventListener('click', asyn
 		updateNotificationPermission();
 });
 
-document.getElementById("saveButton").addEventListener('click', async (e) => {
+document.getElementById("saveButton").addEventListener('click', async () => {
 	let saveButton = document.getElementById("saveButton");
 	await saveAndRestoreOptions("save");
 	saveButton.querySelector(".text").textContent = "Options saved";
@@ -59,14 +59,14 @@ function changeOperationMode() {
 	if (document.querySelector("[name=operationMode]:checked").value === "auto") {
 		apiServiceGoogle.checked = true;
 		toggleChildOptions(apiServiceGoogle);
-		invidiousSection.classList.add("disabled")
+		invidiousSection.classList.add("disabled");
 	} else {
-		invidiousSection.classList.remove("disabled")
+		invidiousSection.classList.remove("disabled");
 	}
 }
 document.getElementsByName("operationMode").forEach(service => {
 	service.addEventListener('input', changeOperationMode);
-})
+});
 function changeApiService() {
 	let checkedApiService = document.querySelector("[name=apiService]:checked");
 	let allApiSwitch = document.querySelectorAll(".apiSwitch");
@@ -79,7 +79,7 @@ function changeApiService() {
 }
 document.getElementsByName("apiService").forEach(service => {
 	service.addEventListener('input', changeApiService);
-})
+});
 
 
 function toggleChildOptions(ele) {
@@ -94,7 +94,7 @@ function toggleChildOptions(ele) {
 				else
 					childOptions.classList.add("disabled");
 			}
-		})
+		});
 	} else {
 		let sectionList = ele.parentElement.querySelector(".sectionList");
 		let formatPart = ele.parentElement.querySelector(".formatPart");
@@ -125,7 +125,7 @@ document.getElementById("export").addEventListener('click', async () => {
 		version: browser.runtime.getManifest().version,
 		options: options,
 		stats:  storageStats.stats
-	}
+	};
 	let downloadItem;
 	const blob = new Blob([JSON.stringify(exportObject)], {type: "application/json"});
 	const objectURL = URL.createObjectURL(blob);
@@ -161,7 +161,7 @@ document.getElementById("import").addEventListener('click', async () => {
 			const fileReader = new FileReader();
 			fileReader.onerror = (event) => {
 				console.error(event);
-			}
+			};
 			fileReader.onloadend = async () => {
 				try {
 					let data = JSON.parse(fileReader.result);

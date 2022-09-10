@@ -77,7 +77,7 @@ init();
 const onStorageChange = () => {
 	browser.storage.local.onChanged.removeListener(onStorageChange);
 	init();
-}
+};
 
 function getTitle(ele) {
 	if (options.displayMode === "tooltip")
@@ -104,7 +104,7 @@ function checkIdStats(id) {
 }
 async function incrementStat(stat, num = 1) {
 	if (options.statsEnable) {
-		let statUpdateResult = await browser.runtime.sendMessage({
+		await browser.runtime.sendMessage({
 			command: "updateStat",
 			stat: stat,
 			num: num
@@ -119,7 +119,7 @@ var observer = new MutationObserver((changes) => {
 	let newValidLinksBucket = {videos: [], playlists: []};
 	changes.forEach(change => {
 		let nodes = change.addedNodes;
-		nodes.forEach((node, index) => {
+		nodes.forEach(node => {
 			let aElements = [];
 			
 			if (node.tagName === "A") {
@@ -195,7 +195,7 @@ function getLinkMap(linkBuckets) {
 const currentHoverNotification = {
 	bucket: "",
 	key: ""
-}
+};
 var notificationTimeout;
 function hoverLink(event) {
 	let bucket = event.target.dataset.youtooltipBucket;
@@ -238,7 +238,7 @@ async function showNotification(ele) {
 		});
 	}, 500);
 }
-async function clearNotification(e) {
+async function clearNotification() {
 	currentHoverNotification.bucket = undefined;
 	currentHoverNotification.id = undefined;
 	clearTimeout(notificationTimeout);
@@ -475,7 +475,7 @@ async function getYTInfo(ids, bucket) {
 					"snippet",
 					options.videosDurationEnable ? "contentDetails" : "",
 					options.videosViewcountEnable || options.videosLikesEnable ? "statistics" : ""
-				]
+				];
 				fields = [
 					"id",
 					"snippet/title",
@@ -484,14 +484,14 @@ async function getYTInfo(ids, bucket) {
 					options.videosViewcountEnable ? "statistics/viewCount" : "",
 					options.videosLikesEnable ? "statistics/likeCount" : "",
 					options.videosChannelEnable ? "snippet/channelTitle" : ""
-				]
+				];
 				break;
 			case "playlists":
 				part = [
 					"snippet",
 					options.playlistsPrivacyEnable ? "status" : "",
 					options.playlistsVideoCountEnable ? "contentDetails" : ""
-				]
+				];
 				fields = [
 					"id",
 					"snippet/title",
@@ -499,7 +499,7 @@ async function getYTInfo(ids, bucket) {
 					options.playlistsChannelEnable ? "snippet/channelTitle" : "",
 					options.playlistsPrivacyEnable ? "status/privacyStatus" : "",
 					options.playlistsVideoCountEnable ? "contentDetails/itemCount" : ""
-				]
+				];
 				break;
 		}
 		part = part.filter(Boolean).join(",");
@@ -522,7 +522,7 @@ async function getYTInfo(ids, bucket) {
 					options.videosViewcountEnable ? "viewCount" : "",
 					options.videosLikesEnable ? "likeCount" : "",
 					options.videosChannelEnable ? "author" : ""
-				]
+				];
 				break;
 			case "playlists":
 				fields = [
@@ -532,7 +532,7 @@ async function getYTInfo(ids, bucket) {
 					options.playlistsChannelEnable ? "author" : "",
 					options.playlistsPrivacyEnable ? "isListed" : "",
 					options.playlistsVideoCountEnable ? "videoCount" : ""
-				]
+				];
 				break;
 		}
 		fields = fields.filter(Boolean).join(",");
@@ -604,7 +604,7 @@ function formatDuration(duration, opt) {
 				matches = matches.split(":");
 				matches.forEach((match, index) => {
 					matches[index] = match === "00" ? "" : parseInt(match, 10) + ["h", "m", "s"][index];
-				})
+				});
 				return matches.filter(Boolean).join(" ");
 		}
 	}
@@ -659,7 +659,7 @@ const timeAgo = {
 			duration /= this.DIVISIONS[i].amount;
 		}
 	}
-}
+};
 /*
  * Returns a locale-aware formatted date string.
  */

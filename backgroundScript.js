@@ -222,7 +222,7 @@ browser.runtime.onMessage.addListener(async (message) => {
 			return {
 				checkedOptions,
 				checkedStats
-			}
+			};
 			break;
 		case "resetStats":
 			await browser.storage.local.remove("stats");
