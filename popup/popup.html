@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>YouTooltip popup</title>
+		<link rel="stylesheet" href="popup.css"/>
+		<link rel="icon" href="../icons/icon.svg" type="image/svg+xml"/>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	</head>
+	<body>
+		<div class="content">
+			<header>
+				<button id="openOptions" class="button" aria-labelledby="buttonTextOptions">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-labelledby="buttonTextOptions"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+					<span id="buttonTextOptions">Options</span>
+				</button>
+				<button id="refresh" class="button" aria-labelledby="buttonTextRefresh">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-labelledby="buttonTextRefresh"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+					<span id="buttonTextRefresh">Refresh</span>
+				</button>
+			</header>
+			<main>
+				<div class="statContainer">
+					<div class="stat" data-stat="tooltipsTotal">
+						<span>Tooltips added on this page:</span>
+						<span class="value">0</span>
+					</div>
+					<div class="stat" data-stat="requestsTotal">
+						<span>Requests made on this page:</span>
+						<span class="value">0</span>
+					</div>
+					<div class="stat" data-stat="rickRollTotal">
+						<span>Rickrolls seen on this page:</span>
+						<span class="value">0</span>
+					</div>
+				</div>
+				<div class="list">
+					<details class="videos">
+						<summary>Videos</summary>
+						<ul>
+							<li>Video1</li>
+							<li>Video2</li>
+							<li>Video3</li>
+						</ul>
+					</details>
+					<details class="playlists">
+						<summary>Playlists</summary>
+						<ul>
+							<li>Playlist1</li>
+							<li>Playlist2</li>
+							<li>Playlist3</li>
+						</ul>
+					</details>
+				</div>
+				<div id="error"></div>
+			</main>
+			<div class="notice">
+				<h2>Privileged page</h2>
+				<span>YouTooltip only works on web pages.</span>
+			</div>
+		</div>
+		
+		<template id="featherExternalLink">
+			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+		</template>
+		
+		<!-- <svg id="iconSymbols"> -->
+			<!-- <symbol id="featherExternalLink" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></symbol> -->
+		<!-- </svg> -->
+		
+		<script src="popup.js"></script>
+	</body>
+</html>

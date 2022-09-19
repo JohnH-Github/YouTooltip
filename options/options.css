@@ -135,15 +135,13 @@ a:hover::after {
 }
 #saveButton {
 	width: 100%;
-	display: flex;
-	align-items: center;
-	flex-direction: column;
+	justify-content: center;
 	position: relative;
 }
 #saveButton.unsaved {
 	font-weight: bold;
 }
-#saveButton > .text {
+#saveButton > svg, #saveButton > .text {
 	z-index: 1;
 }
 .pulseContainer {
@@ -209,7 +207,6 @@ a:hover::after {
 	background: transparent;
 	font: inherit;
 	display: flex;
-	align-content: center;
 	align-items: center;
 	gap: .5rem;
 	transition: all .1s;
@@ -263,6 +260,9 @@ input[type="checkbox"], input[type="radio"] {
 	margin-left: 0px;
 }
 .button {
+	display: inline-flex;
+	align-items: center;
+	gap: .25em;
 	width: fit-content;
 	padding: 5px;
 	text-align: center;
@@ -283,6 +283,10 @@ input[type="checkbox"], input[type="radio"] {
 	background: #e7e7e7 !important;
 	border-color: #bbbbbb !important;
 	color: #6d6d6d !important;
+}
+.button svg {
+	height: 1em;
+	width: 1em;
 }
 input[type="text"], select {
 	background: #fafafa;
@@ -404,10 +408,9 @@ input[type="radio"]:disabled {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	font-size: 1.2rem;
 }
 .stat .value {
-	font-size: 1.3rem;
+	font-size: 1.1rem;
 	font-weight: bold;
 }
 
@@ -415,6 +418,10 @@ input[type="radio"]:disabled {
 .releaseNotes ul {
 	margin: 0;
 	padding: 0;
+}
+
+#iconSymbols {
+	display: none !important;
 }
 
 

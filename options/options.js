@@ -32,11 +32,7 @@ document.getElementById("notificationPermission").addEventListener('click', asyn
 document.getElementById("saveButton").addEventListener('click', async () => {
 	let saveButton = document.getElementById("saveButton");
 	await saveAndRestoreOptions("save");
-	saveButton.querySelector(".text").textContent = "Options saved";
 	saveButtonHighlight(false);
-	setTimeout(() => {
-		saveButton.querySelector(".text").textContent = "Save";
-	}, 1000);
 });
 document.getElementById("resetOptionsButton").addEventListener('click', async () => {
 	if (confirm("All options will be reset, but statistics will remain.\nReset options?")) {
@@ -60,6 +56,7 @@ function changeOperationMode() {
 		apiServiceGoogle.checked = true;
 		toggleChildOptions(apiServiceGoogle);
 		invidiousSection.classList.add("disabled");
+		changeApiService();
 	} else {
 		invidiousSection.classList.remove("disabled");
 	}
