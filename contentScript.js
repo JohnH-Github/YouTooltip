@@ -79,6 +79,38 @@ const onStorageChange = () => {
 	init();
 };
 
+/*
+ * Popup stuff.
+ */
+const pageStats = {
+	tooltipsSession: 0,
+	tooltipsTotal: 0,
+	requestsSession: 0,
+	requestsTotal: 0,
+	rickRollSession: 0,
+	rickRollTotal: 0
+};
+browser.runtime.onMessage.addListener(async (message) => {
+	if (message.command === "getPageStats") {
+		return pageStats;
+	} else if (message.command === "getBucketsData") {
+		let bucketsArrays = {};
+		let bucketsData = {};
+		for (let bucket in elementMap) {
+			bucketsArrays[bucket] = [...elementMap[bucket]];
+			bucketsData[bucket] = [];
+			bucketsArrays[bucket].forEach(kvPair => {
+				bucketsData[bucket].push({
+					id: kvPair[0],
+					title: kvPair[1][0].title.substr(0, kvPair[1][0].title.indexOf("\n")),// Get just the video/playlist title, hopefully.
+					count: kvPair[1].length
+				});
+			});
+		}
+		return JSON.stringify(bucketsData);
+	}
+});
+
 function getTitle(ele) {
 	if (options.displayMode === "tooltip")
 		return ele.title;
@@ -104,7 +136,7 @@ function checkIdStats(id) {
 }
 async function incrementStat(stat, num = 1) {
 	if (options.statsEnable) {
-		pageStats[stat] += 1;
+		pageStats[stat] += num;
 		await browser.runtime.sendMessage({
 			command: "updateStat",
 			stat: stat,
@@ -112,35 +144,6 @@ async function incrementStat(stat, num = 1) {
 		});
 	}
 }
-
-const pageStats = {
-	tooltipsSession: 0,
-	tooltipsTotal: 0,
-	requestsSession: 0,
-	requestsTotal: 0,
-	rickRollSession: 0,
-	rickRollTotal: 0
-};
-browser.runtime.onMessage.addListener(async (message) => {
-	if (message.command === "getPageStats") {
-		return pageStats;
-	} else if (message.command === "getBucketsData") {
-		let bucketsArrays = {};
-		let bucketsData = {};
-		for (let bucket in elementMap) {
-			bucketsArrays[bucket] = [...elementMap[bucket]];
-			bucketsData[bucket] = [];
-			bucketsArrays[bucket].forEach(kvPair => {
-				bucketsData[bucket].push({
-					id: kvPair[0],
-					title: kvPair[1][0].title.substr(0, kvPair[1][0].title.indexOf("\n")),
-					count: kvPair[1].length
-				});
-			});
-		}
-		return JSON.stringify(bucketsData);
-	}
-});
 
 /*
  * Check for changes in the DOM structure and updates the tooltip on any added link.

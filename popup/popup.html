@@ -37,19 +37,11 @@
 				<div class="list">
 					<details class="videos">
 						<summary>Videos</summary>
-						<ul>
-							<li>Video1</li>
-							<li>Video2</li>
-							<li>Video3</li>
-						</ul>
+						<ul></ul>
 					</details>
 					<details class="playlists">
 						<summary>Playlists</summary>
-						<ul>
-							<li>Playlist1</li>
-							<li>Playlist2</li>
-							<li>Playlist3</li>
-						</ul>
+						<ul></ul>
 					</details>
 				</div>
 				<div id="error"></div>
@@ -60,13 +52,15 @@
 			</div>
 		</div>
 		
-		<template id="featherExternalLink">
-			<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+		<template id="listEle">
+			<li data-id="asdfg">
+				<span class="count"></span>
+				<span class="title"></span>
+				<a class="link" href="" title="Open link">
+					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Open link"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+				</a>
+			</li>
 		</template>
-		
-		<!-- <svg id="iconSymbols"> -->
-			<!-- <symbol id="featherExternalLink" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></symbol> -->
-		<!-- </svg> -->
 		
 		<script src="popup.js"></script>
 	</body>
