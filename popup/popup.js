@@ -23,7 +23,7 @@ function addListEle(bucket, datum, append = true) {
 	}
 	listEle.querySelector(".link").href = "https://www.youtube.com/" + (bucket === "videos" ? "watch?v=" : "playlist?list=") + datum.id;
 	if (append)
-		document.querySelector(`.list .${bucket} ul`).appendChild(listEle);
+		document.querySelector(`.youtubeLinks .${bucket} .list`).appendChild(listEle);
 	else
 		return listEle;
 }
@@ -32,7 +32,7 @@ function update(newPageStats, newBucketsData) {
 	if (bucketsData === undefined) {
 		// Just opened popup. Build lists.
 		for (let bucket in newBucketsData) {
-			document.querySelector(`.list .${bucket} ul`).replaceChildren();
+			document.querySelector(`.youtubeLinks .${bucket} .list`).replaceChildren();
 			newBucketsData[bucket].forEach(datum => {
 				addListEle(bucket, datum);
 			});
@@ -49,8 +49,8 @@ function update(newPageStats, newBucketsData) {
 				} else if (item.count !== findResult.count || item.title !== findResult.title) {
 					// Modify existing item.
 					let newListEle = addListEle(bucket, item, false);
-					let oldListEle = document.querySelector(`.list .${bucket} ul li[data-id="${findResult.id}"]`);
-					document.querySelector(`.list .${bucket} ul`).replaceChild(newListEle, oldListEle);
+					let oldListEle = document.querySelector(`.youtubeLinks .${bucket} .list .item[data-id="${findResult.id}"]`);
+					document.querySelector(`.youtubeLinks .${bucket} .list`).replaceChild(newListEle, oldListEle);
 				}
 			});
 		}

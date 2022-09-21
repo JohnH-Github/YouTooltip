@@ -9,7 +9,7 @@
 }
 
 html {
-	min-height: 100vh;
+	/* min-height: 100vh; */
 	font-family: "Segoe UI", sans-serif;
 	background: #fff;
 	max-width: 500px;
@@ -18,12 +18,13 @@ html {
 }
 body {
 	margin: 0px;
-	min-height: 100vh;
+	/* min-height: 100vh; */
 	max-width: 500px;
 	min-width: 300px;
 	width: 100%;
 	background: #fff;
 	color: #000;
+	user-select: text;
 }
 
 a {
@@ -32,7 +33,7 @@ a {
 }
 
 .content {
-	min-height: 100vh;
+	/* min-height: 100vh; */
 	visibility: hidden;
 	display: flex;
 	flex-direction: column;
@@ -64,10 +65,10 @@ body.privileged .notice {
 .notice {
 	display: none;
 	text-align: center;
+	padding: 10px;
 }
 .notice h2 {
-	padding: 10px;
-	margin: 0;
+	margin: 0 0 0.5em 0;
 	font-size: 1.1rem;
 	text-align: center;
 }
@@ -144,50 +145,47 @@ input[type="radio"]:disabled {
 }
 
 
-.list {
+.youtubeLinks {
 	margin-top: 10px;
 }
-.list details:not(:first-child) {
+.youtubeLinks details:not(:first-child) {
 	margin-top: 10px;
 }
-.list details summary {
-	font-weight: bold;
-	font-size: 1.1rem;
+.youtubeLinks details summary {
+	display: list-item;
+	padding: 3px;
+	width: auto;
+	user-select: none;
 }
-.list ul {
-	margin: 0px;
-	border-left: 4px solid var(--border-color-lightTheme);
-	padding-left: 2rem;
-	display: flex;
-	flex-direction: column;
-	gap: 3px
+.youtubeLinks svg {
+	width: 1em;
+	height: 1em;
 }
-.list li {
-	display: flex;
-	gap: 0.5em;
+.youtubeLinks table {
+	width: 100%;
+	border-collapse: collapse;
+	table-layout: fixed;
 }
-li:nth-child(2n) {
+.youtubeLinks thead {
+	border-bottom: 1px solid var(--border-color-lightTheme);
+}
+.youtubeLinks td {
+	padding: 3px 5px;
+}
+.youtubeLinks .item:nth-child(odd) {
 	background: #f0f0f0;
 }
-.list li .count {
-	align-self: start;
+.youtubeLinks .countCell, .youtubeLinks .linkCell {
+	width: max-content;
+	vertical-align: top;
+}
+.youtubeLinks .item .count {
 	padding: 1px;
 	border-radius: 4px;
 	background-color: #e0c0e0;
 }
-.list li .title.unknown {
+.youtubeLinks .item .title.unknown {
 	color: #5b5b5b;
-}
-.list li .title {
-	align-self: center;
-}
-.list li a {
-	margin-left: auto;
-	align-self: start;
-}
-.list li a svg {
-	width: 1em;
-	height: 1em;
 }
 
 
@@ -196,9 +194,9 @@ li:nth-child(2n) {
 	background: rgba(255, 0, 0, 0.1);
 	color: #a00;
 	font-size: 0.8rem;
-	padding: 2px;
-	max-width: 200px;
-	margin: 5px auto 0 auto;
+	padding: 3px;
+	width: 100%;
+	text-align: center;
 }
 #error.show {
 	display: block;
@@ -246,16 +244,16 @@ li:nth-child(2n) {
 		color: #757575 !important;
 	}
 	
-	.list ul {
-		border-left-color: var(--border-color-darkTheme);
+	.youtubeLinks thead {
+		border-bottom: 1px solid var(--border-color-darkTheme);
 	}
-	li:nth-child(2n) {
+	.youtubeLinks .item:nth-child(odd) {
 		background: #232323;
 	}
-	.list li .count {
+	.youtubeLinks .item .count {
 		background-color: #535;
 	}
-	.list li .title.unknown {
+	.youtubeLinks .item .title.unknown {
 		color: #aaa;
 	}
 	

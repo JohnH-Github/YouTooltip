@@ -34,32 +34,56 @@
 						<span class="value">0</span>
 					</div>
 				</div>
-				<div class="list">
+				<div class="youtubeLinks">
 					<details class="videos">
-						<summary>Videos</summary>
-						<ul></ul>
+						<summary class="button">Videos</summary>
+						<table>
+							<thead>
+								<tr>
+									<td class="countCell">#</td>
+									<td>Title</td>
+									<td class="linkCell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Open link"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></td>
+								</tr>
+							</thead>
+							<tbody class="list"></tbody>
+						</table>
 					</details>
 					<details class="playlists">
-						<summary>Playlists</summary>
-						<ul></ul>
+						<summary class="button">Playlists</summary>
+						<table>
+							<thead>
+								<tr>
+									<td class="countCell">#</td>
+									<td class="titleCell">Title</td>
+									<td class="linkCell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Open link"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></td>
+								</tr>
+							</thead>
+							<tbody class="list"></tbody>
+						</table>
 					</details>
 				</div>
-				<div id="error"></div>
 			</main>
 			<div class="notice">
 				<h2>Privileged page</h2>
 				<span>YouTooltip only works on web pages.</span>
 			</div>
+			<div id="error"></div>
 		</div>
 		
 		<template id="listEle">
-			<li data-id="asdfg">
-				<span class="count"></span>
-				<span class="title"></span>
-				<a class="link" href="" title="Open link">
-					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Open link"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-				</a>
-			</li>
+			<tr class="item" data-id="">
+				<td class="countCell">
+					<span class="count"></span>
+				</td>
+				<td class="titleCell">
+					<span class="title"></span>
+				</td>
+				<td class="linkCell">
+					<a class="link" href="" title="Open link">
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Open link"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+					</a>
+				</td>
+			</tr>
 		</template>
 		
 		<script src="popup.js"></script>
