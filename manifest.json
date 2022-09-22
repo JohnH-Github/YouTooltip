@@ -15,8 +15,7 @@
 	},
 	"permissions": [
 		"<all_urls>",
-		"storage",
-		"activeTab"
+		"storage"
 	],
 	"optional_permissions": [
 		"downloads",

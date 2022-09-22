@@ -50,8 +50,6 @@ Adds a tooltip containing information about videos and playlists when hovering o
 ### Required
 - #### Access your data for all websites
 	- This is needed to scan each page for links to YouTube videos and playlists. Except on youtube.com, of course.
-- #### Active tab
-	- For toolbar button. You won't be prompted for this.
 ### Optional
 - #### Download files and read and modify the browser’s download history
 	- For exporting settings. Asks for permission when you click on the 'Export' button.
