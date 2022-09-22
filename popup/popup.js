@@ -103,7 +103,7 @@ function update(newPageStats, newBucketsData) {
 	bucketsData = newBucketsData;
 }
 
-function isValidUrl(url) {
+function isValidUrl(url = "") {
 	return url.startsWith("http:") || url.startsWith("https:") || url.startsWith("file:");
 }
 
