@@ -2,6 +2,7 @@
 	color-scheme: light dark;
 	--border-color-lightTheme: #d7d7d7;
 	--border-color-darkTheme: #484848;
+	--popup-max-width: 500px;
 }
 
 * {
@@ -9,17 +10,15 @@
 }
 
 html {
-	/* min-height: 100vh; */
 	font-family: "Segoe UI", sans-serif;
 	background: #fff;
-	max-width: 500px;
+	max-width: var(--popup-max-width);
 	min-width: 300px;
 	width: 100%;
 }
 body {
 	margin: 0px;
-	/* min-height: 100vh; */
-	max-width: 500px;
+	max-width: var(--popup-max-width);
 	min-width: 300px;
 	width: 100%;
 	background: #fff;
@@ -33,7 +32,6 @@ a {
 }
 
 .content {
-	/* min-height: 100vh; */
 	visibility: hidden;
 	display: flex;
 	flex-direction: column;
@@ -164,25 +162,23 @@ input[type="radio"]:disabled {
 .youtubeLinks table {
 	width: 100%;
 	border-collapse: collapse;
-	table-layout: fixed;
 }
 .youtubeLinks thead {
 	border-bottom: 1px solid var(--border-color-lightTheme);
 }
 .youtubeLinks td {
 	padding: 3px 5px;
+	border: 1px solid var(--border-color-lightTheme);
 }
 .youtubeLinks .item:nth-child(odd) {
 	background: #f0f0f0;
 }
 .youtubeLinks .countCell, .youtubeLinks .linkCell {
-	width: max-content;
+	width: 0.5em;
 	vertical-align: top;
 }
-.youtubeLinks .item .count {
-	padding: 1px;
-	border-radius: 4px;
-	background-color: #e0c0e0;
+.youtubeLinks .titleCell {
+	width: var(--popup-max-width);
 }
 .youtubeLinks .item .title:hover {
 	text-decoration: underline;
@@ -253,8 +249,8 @@ input[type="radio"]:disabled {
 	.youtubeLinks .item:nth-child(odd) {
 		background: #232323;
 	}
-	.youtubeLinks .item .count {
-		background-color: #535;
+	.youtubeLinks td {
+		border: 1px solid var(--border-color-darkTheme);
 	}
 	.youtubeLinks .item .title.unknown {
 		color: #aaa;
