@@ -184,6 +184,9 @@ input[type="radio"]:disabled {
 	border-radius: 4px;
 	background-color: #e0c0e0;
 }
+.youtubeLinks .item .title:hover {
+	text-decoration: underline;
+}
 .youtubeLinks .item .title.unknown {
 	color: #5b5b5b;
 }

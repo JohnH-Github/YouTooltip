@@ -91,23 +91,31 @@ const pageStats = {
 	rickRollTotal: 0
 };
 browser.runtime.onMessage.addListener(async (message) => {
-	if (message.command === "getPageStats") {
-		return pageStats;
-	} else if (message.command === "getBucketsData") {
-		let bucketsArrays = {};
-		let bucketsData = {};
-		for (let bucket in elementMap) {
-			bucketsArrays[bucket] = [...elementMap[bucket]];
-			bucketsData[bucket] = [];
-			bucketsArrays[bucket].forEach(kvPair => {
-				bucketsData[bucket].push({
-					id: kvPair[0],
-					title: kvPair[1][0].title.substr(0, kvPair[1][0].title.indexOf("\n")),// Get just the video/playlist title, hopefully.
-					count: kvPair[1].length
+	switch (message.command) {
+		case "getPageStats":
+			return pageStats;
+			break;
+		case "getBucketsData":
+			let bucketsArrays = {};
+			let bucketsData = {};
+			for (let bucket in elementMap) {
+				bucketsArrays[bucket] = [...elementMap[bucket]];
+				bucketsData[bucket] = [];
+				bucketsArrays[bucket].forEach(kvPair => {
+					bucketsData[bucket].push({
+						id: kvPair[0],
+						title: kvPair[1][0].title.substr(0, kvPair[1][0].title.indexOf("\n")),// Get just the video/playlist title, hopefully.
+						count: kvPair[1].length
+					});
 				});
-			});
-		}
-		return JSON.stringify(bucketsData);
+			}
+			return JSON.stringify(bucketsData);
+			break;
+		case "gotoId":
+			let ele = elementMap[message.bucket].get(message.id)[message.index];
+			if (document.body.contains(ele))
+				ele.scrollIntoView();
+			break;
 	}
 });
 

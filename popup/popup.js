@@ -1,13 +1,50 @@
 "use strict";
 
+var previouslyLoading = false;
 var pageStats;
 var bucketsData;
+const gotoIdCurrent = {
+	id: "",
+	index: -1
+};
 
 document.getElementById("openOptions").addEventListener("click", async () => {
 	await browser.runtime.openOptionsPage();
 	window.close();
 });
 document.getElementById("refresh").addEventListener("click", getStats);
+
+async function gotoId(bucket, id, count) {
+	if (gotoIdCurrent.id === id) {
+		gotoIdCurrent.index = (gotoIdCurrent.index + 1) % count;
+	} else {
+		gotoIdCurrent.id = id;
+		gotoIdCurrent.index = 0;
+	}
+	let tabs = await browser.tabs.query({active: true, currentWindow: true});
+	try {
+		await browser.tabs.sendMessage(tabs[0].id, {
+			command: "gotoId",
+			bucket: bucket,
+			id: id,
+			index: gotoIdCurrent.index
+		});
+	} catch(error) {
+		console.error(error, error.message);
+		let errorEle = document.getElementById("error");
+		errorEle.classList.add("show");
+		errorEle.textContent = error.message;
+	}
+}
+function pageStatusChange(tabId, changeInfo, tabInfo) {
+	if (changeInfo.status === "complete" && previouslyLoading) {
+		previouslyLoading = false;
+		bucketsData = undefined;
+		getStats();
+	} else if (changeInfo.status === "loading") {
+		previouslyLoading = true;
+	}
+}
 
 function addListEle(bucket, datum, append = true) {
 	let listEle = document.querySelector("#listEle").content.firstElementChild.cloneNode(true);
@@ -21,6 +58,9 @@ function addListEle(bucket, datum, append = true) {
 		titleEle.textContent = datum.title;
 		titleEle.classList.remove("unknown");
 	}
+	titleEle.addEventListener("click", () => {
+		gotoId(bucket, datum.id, datum.count);
+	});
 	listEle.querySelector(".link").href = "https://www.youtube.com/" + (bucket === "videos" ? "watch?v=" : "playlist?list=") + datum.id;
 	if (append)
 		document.querySelector(`.youtubeLinks .${bucket} .list`).appendChild(listEle);
@@ -96,6 +136,11 @@ async function init() {
 		if (isValidUrl(tabs[0].url)) {
 			await getStats();
 			browser.runtime.onMessage.addListener(messageHandler);
+			browser.tabs.onUpdated.addListener(pageStatusChange, {
+				tabId: tabs[0].id,
+				windowId: browser.windows.WINDOW_ID_CURRENT,
+				properties: ["status"]// Listen for this page loading again.
+			});
 		} else {
 			document.body.classList.add("privileged");
 			document.getElementById("refresh").disabled = true;
