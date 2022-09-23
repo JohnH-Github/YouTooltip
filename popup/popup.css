@@ -182,6 +182,7 @@ input[type="radio"]:disabled {
 }
 .youtubeLinks .item .title:hover {
 	text-decoration: underline;
+	cursor: pointer;
 }
 .youtubeLinks .item .title.unknown {
 	color: #5b5b5b;
@@ -199,6 +200,10 @@ input[type="radio"]:disabled {
 }
 #error.show {
 	display: block;
+}
+
+#iconSymbols {
+	display: none !important;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -1,12 +1,13 @@
 "use strict";
 
 var previouslyLoading = false;
-var pageStats;
 var bucketsData;
 const gotoIdCurrent = {
 	id: "",
 	index: -1
 };
+
+const toLongNumber = new Intl.NumberFormat("default");
 
 document.getElementById("openOptions").addEventListener("click", async () => {
 	await browser.runtime.openOptionsPage();
@@ -97,9 +98,8 @@ function update(newPageStats, newBucketsData) {
 	}
 	let allStats = document.querySelectorAll(".statContainer .stat");
 	allStats.forEach(statEle => {
-		statEle.querySelector(".value").textContent = (newPageStats[statEle.dataset.stat]);
+		statEle.querySelector(".value").textContent = toLongNumber.format((newPageStats[statEle.dataset.stat]));
 	});
-	pageStats = newPageStats;
 	bucketsData = newBucketsData;
 }
 

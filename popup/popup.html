@@ -41,8 +41,8 @@
 							<thead>
 								<tr>
 									<td class="countCell">#</td>
-									<td>Title</td>
-									<td class="linkCell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Open link"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></td>
+									<td class="titleCell">Title</td>
+									<td class="linkCell"><svg width="24" height="24" viewBox="0 0 24 24" aria-label="Open link"><use href="#externalLink"/></svg></td>
 								</tr>
 							</thead>
 							<tbody class="list"></tbody>
@@ -55,7 +55,7 @@
 								<tr>
 									<td class="countCell">#</td>
 									<td class="titleCell">Title</td>
-									<td class="linkCell"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Open link"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></td>
+									<td class="linkCell"><svg width="24" height="24" viewBox="0 0 24 24" aria-label="Open link"><use href="#externalLink"/></svg></td>
 								</tr>
 							</thead>
 							<tbody class="list"></tbody>
@@ -76,15 +76,19 @@
 					<span class="count"></span>
 				</td>
 				<td class="titleCell">
-					<span class="title"></span>
+					<span class="title" title="Click to scroll to each instance of this link."></span>
 				</td>
 				<td class="linkCell">
-					<a class="link" href="" title="Open link">
-						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Open link"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+					<a class="link" href="" target="_blank" title="Open link.">
+						<svg width="24" height="24" viewBox="0 0 24 24" aria-label="Open link"><use href="#externalLink"/></svg>
 					</a>
 				</td>
 			</tr>
 		</template>
+		
+		<svg id="iconSymbols">
+			<symbol id="externalLink" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></symbol>
+		</svg>
 		
 		<script src="popup.js"></script>
 	</body>

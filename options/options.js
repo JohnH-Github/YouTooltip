@@ -227,13 +227,14 @@ allTabs.forEach(tab => {
 	});
 });
 
+const toLongNumber = new Intl.NumberFormat("default");
 async function updateStats() {
 	if (window.browser === undefined)// For testing as a local html file.
 		return;
 	let storageStats = await browser.storage.local.get("stats");
 	let allStats = document.querySelectorAll(".statContainer .stat");
 	allStats.forEach(statEle => {
-		statEle.querySelector(".value").textContent = (storageStats.stats[statEle.dataset.stat]);
+		statEle.querySelector(".value").textContent = toLongNumber.format((storageStats.stats[statEle.dataset.stat]));
 	});
 }
 document.getElementById("resetStats").addEventListener('click', async () => {
