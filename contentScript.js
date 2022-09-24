@@ -1,8 +1,10 @@
 "use strict";
 
 
-const urlVideoRegex = /(?:\.|\/)(?:youtube\.com\/watch\?.*v=|youtu\.be\/)([^\&\?]{5,})/;
-const urlPlaylistRegex = /(?:\.|\/)youtube\.com\/playlist\?list=([^\&\?]{5,})/;
+const regexs = {
+	videos: /(?:\.|\/)(?:youtube\.com\/watch\?.*v=|youtu\.be\/)([^\&\?]{5,})/,
+	playlists: /(?:\.|\/)youtube\.com\/playlist\?list=([^\&\?]{5,})/
+}
 
 const rickRollIds = [// Small collection of common rickrolls for statistics.
 	"dQw4w9WgXcQ",
@@ -159,8 +161,7 @@ async function incrementStat(stat, num = 1) {
 var observer = new MutationObserver((changes) => {
 	let newValidLinksBucket = {videos: [], playlists: []};
 	changes.forEach(change => {
-		let nodes = change.addedNodes;
-		nodes.forEach(node => {
+		change.addedNodes.forEach(node => {
 			let aElements = [];
 			
 			if (node.tagName === "A") {
@@ -174,6 +175,28 @@ var observer = new MutationObserver((changes) => {
 				for (let link of validLinksBucket[bucket]) {
 					if (!(link in newValidLinksBucket[bucket])) {
 						newValidLinksBucket[bucket].push(link);
+					}
+				}
+			}
+		});
+		change.removedNodes.forEach(node => {
+			let aElements = [];
+			
+			if (node.tagName === "A") {
+				aElements = [node];
+			} else {
+				aElements = node.getElementsByTagName("a");
+			}
+			
+			let validLinksBucket = getElementsWithValidLinks(aElements);
+			for (let bucket in validLinksBucket) {
+				for (let link of validLinksBucket[bucket]) {
+					let id = regexs[bucket].exec(decodeURIComponent(link.href))[1];
+					let filteredEleArray = elementMap[bucket].get(id).filter(ele => ele !== link);
+					if (filteredEleArray.length > 0) {
+						elementMap[bucket].set(id, filteredEleArray);
+					} else {
+						elementMap[bucket].delete(id);
 					}
 				}
 			}
@@ -198,9 +221,9 @@ function getElementsWithValidLinks(anchorElements) {
 	let elementBuckets = {videos: [], playlists: []};
 	for (let ele of anchorElements) {
 		let url = decodeURIComponent(ele.href);
-		if (options.videosEnable && urlVideoRegex.test(url)) {
+		if (options.videosEnable && regexs.videos.test(url)) {
 			elementBuckets.videos.push(ele);
-		} else if (options.playlistsEnable && urlPlaylistRegex.test(url)) {
+		} else if (options.playlistsEnable && regexs.playlists.test(url)) {
 			elementBuckets.playlists.push(ele);
 		}
 	}
@@ -215,15 +238,7 @@ function getLinkMap(linkBuckets) {
 	for (let bucket in linkBuckets) {
 		for (let link of linkBuckets[bucket]) {
 			let url = decodeURIComponent(link.href);
-			let id;
-			switch (bucket) {
-				case "videos":
-					id = urlVideoRegex.exec(url)[1];
-					break;
-				case "playlists":
-					id = urlPlaylistRegex.exec(url)[1];
-					break;
-			}
+			let id = regexs[bucket].exec(url)[1];
 			if (!linkMapBuckets[bucket].has(id))
 				linkMapBuckets[bucket].set(id, [link]);
 			else
