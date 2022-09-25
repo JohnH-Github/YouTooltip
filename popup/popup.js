@@ -95,6 +95,13 @@ function update(newPageStats, newBucketsData) {
 					document.querySelector(`.youtubeLinks .${bucket} .list`).replaceChild(newListEle, oldListEle);
 				}
 			});
+			bucketsData[bucket].forEach(item => {
+				let findResult = newBucketsData[bucket].find(({id}) => id === item.id);
+				if (findResult === undefined) {
+					// Remove nonexisting item.
+					document.querySelector(`.youtubeLinks .${bucket} .list .item[data-id="${item.id}"]`).remove();
+				}
+			});
 		}
 		document.querySelector(`.youtubeLinks .${bucket} summary .count`).textContent = totalCount;
 	}
