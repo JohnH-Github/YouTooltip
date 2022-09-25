@@ -155,6 +155,15 @@ input[type="radio"]:disabled {
 	width: auto;
 	user-select: none;
 }
+.youtubeLinks details summary .count {
+	margin-left: 0.2em;
+}
+.youtubeLinks details summary .count::before {
+	content: '(';
+}
+.youtubeLinks details summary .count::after {
+	content: ')';
+}
 .youtubeLinks svg {
 	width: 1em;
 	height: 1em;

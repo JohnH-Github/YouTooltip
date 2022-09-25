@@ -47,22 +47,22 @@ function pageStatusChange(tabId, changeInfo, tabInfo) {
 	}
 }
 
-function addListEle(bucket, datum, append = true) {
+function addListEle(bucket, item, append = true) {
 	let listEle = document.querySelector("#listEle").content.firstElementChild.cloneNode(true);
-	listEle.dataset.id = datum.id;
-	listEle.querySelector(".count").textContent = datum.count;
+	listEle.dataset.id = item.id;
+	listEle.querySelector(".count").textContent = item.count;
 	let titleEle = listEle.querySelector(".title");
-	if (datum.title === "") {
+	if (item.title === "") {
 		titleEle.textContent = "<Unknown>";
 		titleEle.classList.add("unknown");
 	} else {
-		titleEle.textContent = datum.title;
+		titleEle.textContent = item.title;
 		titleEle.classList.remove("unknown");
 	}
 	titleEle.addEventListener("click", () => {
-		gotoId(bucket, datum.id, datum.count);
+		gotoId(bucket, item.id, item.count);
 	});
-	listEle.querySelector(".link").href = "https://www.youtube.com/" + (bucket === "videos" ? "watch?v=" : "playlist?list=") + datum.id;
+	listEle.querySelector(".link").href = "https://www.youtube.com/" + (bucket === "videos" ? "watch?v=" : "playlist?list=") + item.id;
 	if (append)
 		document.querySelector(`.youtubeLinks .${bucket} .list`).appendChild(listEle);
 	else
@@ -70,19 +70,20 @@ function addListEle(bucket, datum, append = true) {
 }
 
 function update(newPageStats, newBucketsData) {
-	if (bucketsData === undefined) {
-		// Just opened popup. Build lists.
-		for (let bucket in newBucketsData) {
+	for (let bucket in newBucketsData) {
+		let totalCount = 0;
+		if (bucketsData === undefined) {
+			// Just opened popup. Build lists.
 			document.querySelector(`.youtubeLinks .${bucket} .list`).replaceChildren();
-			newBucketsData[bucket].forEach(datum => {
-				addListEle(bucket, datum);
-			});
-		}
-	} else {
-		// Updating lists. No need to rebuild everything.
-		// Note: Hover operation mode won't update until links are hovered. Not really a bug, but definitely feels a little odd.
-		for (let bucket in newBucketsData) {
 			newBucketsData[bucket].forEach(item => {
+				totalCount += item.count;
+				addListEle(bucket, item);
+			});
+		} else {
+			// Updating lists. No need to rebuild everything.
+			// Note: Hover operation mode won't update until links are hovered. Not really a bug, but definitely feels a little odd.
+			newBucketsData[bucket].forEach(item => {
+				totalCount += item.count;
 				let findResult = bucketsData[bucket].find(({id}) => id === item.id);
 				if (findResult === undefined) {
 					// Add new item at the end.
@@ -95,6 +96,7 @@ function update(newPageStats, newBucketsData) {
 				}
 			});
 		}
+		document.querySelector(`.youtubeLinks .${bucket} summary .count`).textContent = totalCount;
 	}
 	let allStats = document.querySelectorAll(".statContainer .stat");
 	allStats.forEach(statEle => {
