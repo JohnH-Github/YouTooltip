@@ -9,9 +9,9 @@ Adds a tooltip containing information about videos and playlists when hovering o
 | --- | --- |
 | ![YouTooltip screenshot tooltip](https://user-images.githubusercontent.com/34670767/187048059-01668031-cdc8-4d81-80e6-b8c316510ae8.jpg) | ![YouTooltip screenshot notification](https://user-images.githubusercontent.com/34670767/187048070-cab54590-d3e2-487b-b24d-9a1db1cbbb41.jpg) |
 
-| Options page. Has both light and dark themes |
-| --- |
-| ![YouTooltip screenshot tooltip](https://user-images.githubusercontent.com/34670767/189794807-7c20dafe-4946-491c-bbdf-2c2573b7f7d2.png) |
+| Options page. Has both light and dark themes | Popup. Has both light and dark themes |
+| --- | --- |
+| ![YouTooltip screenshot tooltip](https://user-images.githubusercontent.com/34670767/189794807-7c20dafe-4946-491c-bbdf-2c2573b7f7d2.png) | ![YouTooltip screenshot popup](https://user-images.githubusercontent.com/34670767/192407849-19811c80-dc28-455c-bbca-86610b4a49dd.png) |
 
 
 
