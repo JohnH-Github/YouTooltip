@@ -17,7 +17,8 @@
 					</div>
 					<div class="saveContainer">
 						<button class="button" id="saveButton" aria-describedby="saveButtonCaption" disabled>
-							<span class="text">Save</span>
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-labelledby="buttonTextSave"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+							<span class="text" id="buttonTextSave">Save</span>
 							<span class="pulseContainer">
 								<span class="pulse"></span>
 							</span>
@@ -27,15 +28,15 @@
 					
 					<nav class="tabsList">
 						<button class="tab selected" data-tab="settings" aria-labelledby="tabTextSettings">
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="tabTextSettings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="tabTextSettings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
 							<span id="tabTextSettings">Settings</span>
 						</button>
 						<button class="tab" data-tab="statistics" aria-labelledby="tabTextStatistics">
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="tabTextStatistics"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="tabTextStatistics"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
 							<span id="tabTextStatistics">Statistics</span>
 						</button>
 						<button class="tab" data-tab="about" aria-labelledby="tabTextAbout">
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="tabTextAbout"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="tabTextAbout"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
 							<span id="tabTextAbout">About</span>
 						</button>
 					</nav>
@@ -48,7 +49,7 @@
 					</div>
 					<div class="mainPanelContent">
 						<div class="mainGroup">
-							<h3>Operation</h3>
+							<h3>Operation mode</h3>
 							<div class="mainGroupContent">
 								<div class="section browser-style">
 									<input type="radio" id="operationModeAuto" name="operationMode" value="auto" class="setting" aria-describedby="operationModeAutoCaption"/><label for="operationModeAuto" class="sectionHeader" aria-describedby="operationModeAutoCaption">Auto</label>
@@ -123,9 +124,12 @@
 											<input id="displayModeNotification" class="setting" type="radio" name="displayMode" value="notification"/><label for="displayModeNotification">Notification</label>
 											<div class="formatPart">
 												<div class="permissionRequest">
-													<button class="button" id="notificationPermission">Grant permission</button>
+													<button class="button" id="notificationPermission" aria-labelledby="buttonTextGrantNotification">
+														<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextGrantNotification"><use href="#featherBell"/></svg>
+														<span id="buttonTextGrantNotification">Grant permission</span>
+													</button>
 													<span class="grantedNotice">
-														<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="checkmark">
+														<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="checkmark">
 															<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
 															<polyline points="22 4 12 14.01 9 11.01"></polyline>
 														</svg>
@@ -255,8 +259,14 @@
 							<div class="mainGroupContent">
 								<div class="section">
 									<div class="importExport">
-										<button class="button" id="import">Import</button>
-										<button class="button" id="export">Export</button>
+										<button class="button" id="import" aria-labelledby="buttonTextImport">
+											<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-labelledby="buttonTextImport"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+											<span id="buttonTextImport">Import</span>
+										</button>
+										<button class="button" id="export" aria-labelledby="buttonTextExport">
+											<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-labelledby="buttonTextExport"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+											<span id="buttonTextExport">Export</span>
+										</button>
 									</div>
 								</div>
 							</div>
@@ -267,8 +277,14 @@
 								<details>
 									<summary>Reset</summary>
 									<div class="browser-style">
-										<button class="button" id="resetOptionsButton">Reset options</button>
-										<button class="button" id="resetEverythingButton">Reset everything</button>
+										<button class="button" id="resetOptionsButton" aria-labelledby="buttonTextResetOptions">
+											<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextResetOptions"><use href="#featherTrash"/></svg>
+											<span id="buttonTextResetOptions">Reset options</span>
+										</button>
+										<button class="button" id="resetEverythingButton" aria-labelledby="buttonTextResetEverything">
+											<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextResetEverything"><use href="#featherTrash"/></svg>
+											<span id="buttonTextResetEverything">Reset everything</span>
+										</button>
 									</div>
 								</details>
 							</div>
@@ -287,14 +303,20 @@
 									<span id="statsCaption" class="caption">Statistics are not sent anywhere; they stay only on your device.</span>
 								</div>
 								<div class="section browser-style">
-									<button class="button" id="resetStats">Reset statistics</button>
+									<button class="button" id="resetStats" aria-labelledby="buttonTextResetStats">
+										<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextResetStats"><use href="#featherTrash"/></svg>
+										<span id="buttonTextResetStats">Reset statistics</span>
+									</button>
 								</div>
 							</div>
 						</div>
 						<div class="mainGroup">
 							<div class="mainGroupContent">
 								<div class="section browser-style">
-									<button class="button" id="refreshStats">Refresh</button>
+									<button class="button" id="refreshStats" aria-labelledby="buttonTextRefresh">
+										<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-labelledby="buttonTextRefresh"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+										<span id="buttonTextRefresh">Refresh</span>
+									</button>
 								</div>
 								<div class="section browser-style">
 									<div class="statContainer">
@@ -378,6 +400,18 @@
 							<div class="mainGroupContent">
 								<div class="section">
 									<details open>
+										<summary class="sectionHeader">v1.2.0</summary>
+										<div class="sectionList">
+											<ul>
+												<li>Added: Toolbar button and popup. Shows statistics for the page and lists the videos and playlists found on the page.</li>
+												<li>Changed: Minor UI improvements.</li>
+												<li>Fixed: Changing operation mode correctly switches published date option.</li>
+											</ul>
+										</div>
+									</details>
+								</div>
+								<div class="section">
+									<details>
 										<summary class="sectionHeader">v1.1.0</summary>
 										<div class="sectionList">
 											<ul>
@@ -410,6 +444,11 @@
 				<button class="button" id="mV3RequestPermissions">Request permission</button>
 			</div>
 		</div>
+		
+		<svg id="iconSymbols">
+			<symbol id="featherBell" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></symbol>
+			<symbol id="featherTrash" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></symbol>
+		</svg>
 		
 		<script src="options.js"></script>
 	</body>

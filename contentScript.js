@@ -1,8 +1,10 @@
 "use strict";
 
 
-const urlVideoRegex = /(?:\.|\/)(?:youtube\.com\/watch\?.*v=|youtu\.be\/)([^\&\?]{5,})/;
-const urlPlaylistRegex = /(?:\.|\/)youtube\.com\/playlist\?list=([^\&\?]{5,})/;
+const regexs = {
+	videos: /(?:\.|\/)(?:youtube\.com\/watch\?.*v=|youtu\.be\/)([^\&\?]{5,})/,
+	playlists: /(?:\.|\/)youtube\.com\/playlist\?list=([^\&\?]{5,})/
+}
 
 const rickRollIds = [// Small collection of common rickrolls for statistics.
 	"dQw4w9WgXcQ",
@@ -79,6 +81,46 @@ const onStorageChange = () => {
 	init();
 };
 
+/*
+ * Popup stuff.
+ */
+const pageStats = {
+	tooltipsSession: 0,
+	tooltipsTotal: 0,
+	requestsSession: 0,
+	requestsTotal: 0,
+	rickRollSession: 0,
+	rickRollTotal: 0
+};
+browser.runtime.onMessage.addListener(async (message) => {
+	switch (message.command) {
+		case "getPageStats":
+			return pageStats;
+			break;
+		case "getBucketsData":
+			let bucketsArrays = {};
+			let bucketsData = {};
+			for (let bucket in elementMap) {
+				bucketsArrays[bucket] = [...elementMap[bucket]];
+				bucketsData[bucket] = [];
+				bucketsArrays[bucket].forEach(kvPair => {
+					bucketsData[bucket].push({
+						id: kvPair[0],
+						title: kvPair[1][0].title.substr(0, kvPair[1][0].title.indexOf("\n")),// Get just the video/playlist title, hopefully.
+						count: kvPair[1].length
+					});
+				});
+			}
+			return JSON.stringify(bucketsData);
+			break;
+		case "gotoId":
+			let ele = elementMap[message.bucket].get(message.id)[message.index];
+			if (document.body.contains(ele))
+				ele.scrollIntoView();
+			break;
+	}
+});
+
 function getTitle(ele) {
 	if (options.displayMode === "tooltip")
 		return ele.title;
@@ -104,6 +146,7 @@ function checkIdStats(id) {
 }
 async function incrementStat(stat, num = 1) {
 	if (options.statsEnable) {
+		pageStats[stat] += num;
 		await browser.runtime.sendMessage({
 			command: "updateStat",
 			stat: stat,
@@ -118,8 +161,7 @@ async function incrementStat(stat, num = 1) {
 var observer = new MutationObserver((changes) => {
 	let newValidLinksBucket = {videos: [], playlists: []};
 	changes.forEach(change => {
-		let nodes = change.addedNodes;
-		nodes.forEach(node => {
+		change.addedNodes.forEach(node => {
 			let aElements = [];
 			
 			if (node.tagName === "A") {
@@ -133,6 +175,28 @@ var observer = new MutationObserver((changes) => {
 				for (let link of validLinksBucket[bucket]) {
 					if (!(link in newValidLinksBucket[bucket])) {
 						newValidLinksBucket[bucket].push(link);
+					}
+				}
+			}
+		});
+		change.removedNodes.forEach(node => {
+			let aElements = [];
+			
+			if (node.tagName === "A") {
+				aElements = [node];
+			} else {
+				aElements = node.getElementsByTagName("a");
+			}
+			
+			let validLinksBucket = getElementsWithValidLinks(aElements);
+			for (let bucket in validLinksBucket) {
+				for (let link of validLinksBucket[bucket]) {
+					let id = regexs[bucket].exec(decodeURIComponent(link.href))[1];
+					let filteredEleArray = elementMap[bucket].get(id).filter(ele => ele !== link);
+					if (filteredEleArray.length > 0) {
+						elementMap[bucket].set(id, filteredEleArray);
+					} else {
+						elementMap[bucket].delete(id);
 					}
 				}
 			}
@@ -157,9 +221,9 @@ function getElementsWithValidLinks(anchorElements) {
 	let elementBuckets = {videos: [], playlists: []};
 	for (let ele of anchorElements) {
 		let url = decodeURIComponent(ele.href);
-		if (options.videosEnable && urlVideoRegex.test(url)) {
+		if (options.videosEnable && regexs.videos.test(url)) {
 			elementBuckets.videos.push(ele);
-		} else if (options.playlistsEnable && urlPlaylistRegex.test(url)) {
+		} else if (options.playlistsEnable && regexs.playlists.test(url)) {
 			elementBuckets.playlists.push(ele);
 		}
 	}
@@ -174,15 +238,7 @@ function getLinkMap(linkBuckets) {
 	for (let bucket in linkBuckets) {
 		for (let link of linkBuckets[bucket]) {
 			let url = decodeURIComponent(link.href);
-			let id;
-			switch (bucket) {
-				case "videos":
-					id = urlVideoRegex.exec(url)[1];
-					break;
-				case "playlists":
-					id = urlPlaylistRegex.exec(url)[1];
-					break;
-			}
+			let id = regexs[bucket].exec(url)[1];
 			if (!linkMapBuckets[bucket].has(id))
 				linkMapBuckets[bucket].set(id, [link]);
 			else

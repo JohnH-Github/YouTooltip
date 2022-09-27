@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "YouTooltip",
 	"description": "Adds a tooltip containing information about videos and playlists when hovering over a YouTube link.",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "youtooltip@johnh.addons.mozilla.org",
@@ -26,6 +26,12 @@
 		"open_in_tab": true,
 		"browser_style": true,
 		"chrome_style": true
+	},
+	"browser_action": {
+		"browser_style": true,
+		"default_icon": "icons/icon.svg",
+		"default_title": "YouTooltip",
+		"default_popup": "popup/popup.html"
 	},
 	"background": {
 		"scripts": ["backgroundScript.js"],
