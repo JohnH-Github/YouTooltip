@@ -81,6 +81,7 @@ const onStorageChange = () => {
 	init();
 };
 
+
 /*
  * Popup stuff.
  */
@@ -104,9 +105,10 @@ browser.runtime.onMessage.addListener(async (message) => {
 				bucketsArrays[bucket] = [...elementMap[bucket]];
 				bucketsData[bucket] = [];
 				bucketsArrays[bucket].forEach(kvPair => {
+					let title = getTitle(kvPair[1][0]);
 					bucketsData[bucket].push({
 						id: kvPair[0],
-						title: kvPair[1][0].title.substr(0, kvPair[1][0].title.indexOf("\n")),// Get just the video/playlist title, hopefully.
+						title: title.substr(0, title.indexOf("\n")),// Get just the video/playlist title, hopefully.
 						count: kvPair[1].length
 					});
 				});
@@ -122,10 +124,7 @@ browser.runtime.onMessage.addListener(async (message) => {
 });
 
 function getTitle(ele) {
-	if (options.displayMode === "tooltip")
-		return ele.title;
-	else
-		return ele.dataset.youtooltipTitle;
+	return options.displayMode === "tooltip" ? ele.title : ele.dataset.youtooltipTitle;
 }
 function setTitle(ele, text) {
 	if (options.displayMode === "tooltip")
@@ -337,6 +336,7 @@ function setNewLinks(linkMapBuckets) {
 					});
 				}
 				if (options.displayMode === "notification") {
+					setTitle(element, "");
 					element.addEventListener("mouseenter", (e) => {
 						showNotification(e.target);
 					});
