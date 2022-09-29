@@ -57,8 +57,10 @@ async function init() {
 					command: "hasPermission",
 					permissions: {permissions: ["notifications"]}
 				});
-				if (!gotPermission)
+				if (!gotPermission) {
 					options.displayMode = "tooltip";// Fall back to tooltips if we don't have the notification permission.
+					console.warn("YouTooltip does not have notification permission. Falling back to tooltips.");
+				}
 			}
 			
 			// Check all anchor elements and set the appropriate tooltips.
@@ -288,18 +290,31 @@ async function showNotification(ele) {
 	currentHoverNotification.id = ele.dataset.youtooltipId;
 	clearTimeout(notificationTimeout);
 	notificationTimeout = setTimeout(async () => {
-		await browser.runtime.sendMessage({
-			command: "showNotification", info: ele.dataset.youtooltipTitle
-		});
+		try {
+			await browser.runtime.sendMessage({
+				command: "showNotification", info: ele.dataset.youtooltipTitle
+			});
+		} catch(error) {
+			if (error.message === "browser.notifications is undefined")
+				console.error("YouTooltip does not have notification permission.");
+			else
+				console.error(error);
+		}
 	}, 500);
 }
 async function clearNotification() {
 	currentHoverNotification.bucket = undefined;
 	currentHoverNotification.id = undefined;
 	clearTimeout(notificationTimeout);
-	await browser.runtime.sendMessage({
-		command: "clearNotification"
-	});
+	try {
+		await browser.runtime.sendMessage({
+			command: "clearNotification"
+		});
+	} catch(error) {
+		// We already log this error in showNotification().
+		if (error.message !== "browser.notifications is undefined")
+			console.error(error);
+	}
 }
 /*
  * Load tooltips for new links or set the tooltips of already mapped links with a new element.
