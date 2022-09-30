@@ -223,6 +223,7 @@ a:hover::after {
 .tab svg {
 	height: 1em;
 	width: 1em;
+	flex-shrink: 0;
 }
 
 
@@ -270,6 +271,7 @@ input[type="checkbox"], input[type="radio"] {
 	border: 1px solid #8f8f8f;
 	border-radius: 4px;
 	color: #000;
+	font-size: 0.835rem;
 }
 .button:hover {
 	background: #d0d0d0;
@@ -294,6 +296,7 @@ input[type="text"], select {
 	border-radius: 4px;
 	padding: 2px;
 	color: #000;
+	font-size: 0.835rem;
 }
 input[type="text"]:hover, select:hover {
 	background: #fff;
