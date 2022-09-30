@@ -51,11 +51,11 @@
 						<div class="mainGroup">
 							<h3>Operation mode</h3>
 							<div class="mainGroupContent">
-								<div class="section browser-style">
+								<div class="section">
 									<input type="radio" id="operationModeAuto" name="operationMode" value="auto" class="setting" aria-describedby="operationModeAutoCaption"/><label for="operationModeAuto" class="sectionHeader" aria-describedby="operationModeAutoCaption">Auto</label>
 									<span id="operationModeAutoCaption" class="caption">Gets all info on page load and whenever more links are added. Supports Google only.</span>
 								</div>
-								<div class="section browser-style">
+								<div class="section">
 									<input type="radio" id="operationModeHover" name="operationMode" value="hover" class="setting" aria-describedby="operationModeHoverCaption"/><label for="operationModeHover" class="sectionHeader" aria-describedby="operationModeHoverCaption">Hover</label>
 									<span id="operationModeHoverCaption" class="caption">Gets info only for links that are hovered over. Supports both Google and Invidious.</span>
 								</div>
@@ -64,30 +64,30 @@
 						<div class="mainGroup apiService">
 							<h3>API service</h3>
 							<div class="mainGroupContent">
-								<div class="section browser-style">
+								<div class="section">
 									<input type="radio" id="apiServiceGoogle" name="apiService" value="google" class="setting"/><label for="apiServiceGoogle" class="sectionHeader">Google</label>
 									<div class="sectionList">
-										<div class="sectionOption browser-style">
+										<div class="sectionOption">
 											<label for="keyDefaultIndex">Default key:</label>
-											<select class="browser-style setting" id="keyDefaultIndex" name="keyDefaultIndex">
+											<select class="setting" id="keyDefaultIndex" name="keyDefaultIndex">
 												<option>Default 1</option>
 												<option>Default 2</option>
 												<option>Default 3</option>
 											</select>
 										</div>
-										<div class="sectionOption browser-style">
+										<div class="sectionOption">
 											<label for="keyCustom" aria-describedby="keyCustomCaption">Custom key:</label>
 											<input type="text" id="keyCustom" name="keyCustom" class="setting" aria-describedby="keyCustomCaption"/>
 											<span id="keyCustomCaption" class="caption">Leave blank to use default key. <a href="https://developers.google.com/youtube/registering_an_application" target="_blank">How to get your own key</a>.</span>
 										</div>
 									</div>
 								</div>
-								<div class="section invidious browser-style">
+								<div class="section invidious">
 									<input type="radio" id="apiServiceInvidious" name="apiService" value="invidious" class="setting"/><label for="apiServiceInvidious" class="sectionHeader">Invidious</label>
 									<div class="sectionList">
-										<div class="sectionOption browser-style">
+										<div class="sectionOption">
 											<label for="invidiousDefaultInstance">Default instance:</label>
-											<select class="browser-style setting" id="invidiousDefaultInstance" name="invidiousDefaultInstance">
+											<select class="setting" id="invidiousDefaultInstance" name="invidiousDefaultInstance">
 												<option>inv.riverside.rocks</option>
 												<option>vid.puffyan.us</option>
 												<option>y.com.sb</option>
@@ -102,7 +102,7 @@
 												<option>invidious.slipfox.xyz</option>
 											</select>
 										</div>
-										<div class="sectionOption browser-style">
+										<div class="sectionOption">
 											<label for="invidiousCustomInstance" aria-describedby="invidiousCustomInstanceCaption">Custom instance:</label>
 											<input type="text" id="invidiousCustomInstance" name="invidiousCustomInstance" class="setting" aria-describedby="invidiousCustomInstanceCaption"/>
 											<span id="invidiousCustomInstanceCaption" class="caption">Leave blank to use default instance. <a href="https://api.invidious.io/" target="_blank">Public instances</a>.</span>
@@ -114,7 +114,7 @@
 						<div class="mainGroup">
 							<h3>Display</h3>
 							<div class="mainGroupContent">
-								<div class="section browser-style">
+								<div class="section">
 									<h4 class="sectionHeader">Display as:</h4>
 									<div class="sectionList">
 										<div class="sectionOption">
@@ -140,25 +140,25 @@
 										</div>
 									</div>
 								</div>
-								<div class="section browser-style">
+								<div class="section">
 									<input type="checkbox" id="videosEnable" name="videosEnable" class="setting"/><label for="videosEnable" class="sectionHeader">Videos</label>
 									<div class="sectionList">
-										<div class="sectionOption browser-style">
+										<div class="sectionOption">
 											<input type="checkbox" id="videosDurationEnable" name="videosDurationEnable" class="setting"/><label for="videosDurationEnable">Duration</label>
 											<div class="formatPart">
 												<label for="videosDurationFormat">Format:</label>
-												<select class="browser-style setting" id="videosDurationFormat" name="videosDurationFormat">
+												<select class="setting" id="videosDurationFormat" name="videosDurationFormat">
 													<option>hh:mm:ss</option>
 													<option>[##h] [##m] ##s</option>
 												</select>
 											</div>
 										</div>
 										<div class="apiSwitch google">
-											<div class="sectionOption browser-style">
+											<div class="sectionOption">
 												<input type="checkbox" id="videosPublishedEnable" name="videosPublishedEnable" class="setting"/><label for="videosPublishedEnable">Published date and time</label>
 												<div class="formatPart">
 													<label for="videosPublishedFormat">Format:</label>
-													<select class="browser-style setting" id="videosPublishedFormat" name="videosPublishedFormat">
+													<select class="setting" id="videosPublishedFormat" name="videosPublishedFormat">
 														<option>12-hour (local)</option>
 														<option>24-hour (local)</option>
 														<option>GMT</option>
@@ -168,51 +168,51 @@
 											</div>
 										</div>
 										<div class="apiSwitch invidious hide">
-											<div class="sectionOption browser-style">
+											<div class="sectionOption">
 												<input type="checkbox" id="videosPublishedEnableInvidious" name="videosPublishedEnableInvidious" class="setting"/><label for="videosPublishedEnableInvidious">Published date</label>
 												<div class="formatPart">
 													<label for="videosPublishedFormatInvidious">Format:</label>
-													<select class="browser-style setting" id="videosPublishedFormatInvidious" name="videosPublishedFormatInvidious">
+													<select class="setting" id="videosPublishedFormatInvidious" name="videosPublishedFormatInvidious">
 														<option>GMT</option>
 														<option>Time ago</option>
 													</select>
 												</div>
 											</div>
 										</div>
-										<div class="sectionOption browser-style">
+										<div class="sectionOption">
 											<input type="checkbox" id="videosViewcountEnable" name="videosViewcountEnable" class="setting"/><label for="videosViewcountEnable">Viewcount</label>
 											<div class="formatPart">
 												<label for="videosViewcountFormat">Format:</label>
-												<select class="browser-style setting" id="videosViewcountFormat" name="videosViewcountFormat">
+												<select class="setting" id="videosViewcountFormat" name="videosViewcountFormat">
 													<option>Short</option>
 													<option>Long</option>
 												</select>
 											</div>
 										</div>
-										<div class="sectionOption browser-style">
+										<div class="sectionOption">
 											<input type="checkbox" id="videosLikesEnable" name="videosLikesEnable" class="setting"/><label for="videosLikesEnable">Likes</label>
 											<div class="formatPart">
 												<label for="videosLikesFormat">Format:</label>
-												<select class="browser-style setting" id="videosLikesFormat" name="videosLikesFormat">
+												<select class="setting" id="videosLikesFormat" name="videosLikesFormat">
 													<option>Short</option>
 													<option>Long</option>
 												</select>
 											</div>
 										</div>
-										<div class="sectionOption browser-style">
+										<div class="sectionOption">
 											<input type="checkbox" id="videosChannelEnable" name="videosChannelEnable" class="setting"/><label for="videosChannelEnable">Channel name</label>
 										</div>
 									</div>
 								</div>
-								<div class="section browser-style">
+								<div class="section">
 									<input type="checkbox" id="playlistsEnable" name="playlistsEnable" class="setting"/><label for="playlistsEnable" class="sectionHeader">Playlists</label>
 									<div class="sectionList">
 										<div class="apiSwitch google">
-											<div class="sectionOption browser-style">
+											<div class="sectionOption">
 												<input type="checkbox" id="playlistsPublishedEnable" name="playlistsPublishedEnable" class="setting"/><label for="playlistsPublishedEnable">Published date and time</label>
 												<div class="formatPart">
 													<label for="playlistsPublishedFormat">Format:</label>
-													<select class="browser-style setting" id="playlistsPublishedFormat" name="playlistsPublishedFormat">
+													<select class="setting" id="playlistsPublishedFormat" name="playlistsPublishedFormat">
 														<option>12-hour (local)</option>
 														<option>24-hour (local)</option>
 														<option>GMT</option>
@@ -222,32 +222,32 @@
 											</div>
 										</div>
 										<div class="apiSwitch invidious hide">
-											<div class="sectionOption browser-style">
+											<div class="sectionOption">
 												<input type="checkbox" id="playlistsUpdatedEnableInvidious" name="playlistsUpdatedEnableInvidious" class="setting"/><label for="playlistsUpdatedEnableInvidious">Updated date</label>
 												<div class="formatPart">
 													<label for="playlistsUpdatedFormatInvidious">Format:</label>
-													<select class="browser-style setting" id="playlistsUpdatedFormatInvidious" name="playlistsUpdatedFormatInvidious">
+													<select class="setting" id="playlistsUpdatedFormatInvidious" name="playlistsUpdatedFormatInvidious">
 														<option>GMT</option>
 														<option>Time ago</option>
 													</select>
 												</div>
 											</div>
 										</div>
-										<div class="sectionOption browser-style">
+										<div class="sectionOption">
 											<input type="checkbox" id="playlistsPrivacyEnable" name="playlistsPrivacyEnable" class="setting" aria-describedby="playlistsPrivacyEnableCaption"/><label for="playlistsPrivacyEnable" aria-describedby="playlistsPrivacyEnableCaption">Privacy</label>
 											<span id="playlistsPrivacyEnableCaption" class="caption">For Google, shows 'public', 'unlisted', and 'private'. For Invidious, shows public and unlisted as 'listed', and private as 'unlisted'.</span>
 										</div>
-										<div class="sectionOption browser-style">
+										<div class="sectionOption">
 											<input type="checkbox" id="playlistsVideoCountEnable" name="playlistsVideoCountEnable" class="setting"/><label for="playlistsVideoCountEnable">Video count</label>
 											<div class="formatPart">
 												<label for="playlistsVideoCountFormat">Format:</label>
-												<select class="browser-style setting" id="playlistsVideoCountFormat" name="playlistsVideoCountFormat">
+												<select class="setting" id="playlistsVideoCountFormat" name="playlistsVideoCountFormat">
 													<option>Short</option>
 													<option>Long</option>
 												</select>
 											</div>
 										</div>
-										<div class="sectionOption browser-style">
+										<div class="sectionOption">
 											<input type="checkbox" id="playlistsChannelEnable" name="playlistsChannelEnable" class="setting"/><label for="playlistsChannelEnable">Channel name</label>
 										</div>
 									</div>
@@ -276,7 +276,7 @@
 							<div class="mainGroupContent">
 								<details>
 									<summary>Reset</summary>
-									<div class="browser-style">
+									<div>
 										<button class="button" id="resetOptionsButton" aria-labelledby="buttonTextResetOptions">
 											<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextResetOptions"><use href="#featherTrash"/></svg>
 											<span id="buttonTextResetOptions">Reset options</span>
@@ -298,11 +298,11 @@
 					<div class="mainPanelContent">
 						<div class="mainGroup">
 							<div class="mainGroupContent">
-								<div class="section browser-style">
+								<div class="section">
 									<input type="checkbox" id="statsEnable" name="statsEnable" class="setting" aria-describedby="statsCaption"/><label for="statsEnable"  aria-describedby="statsCaption">Enable statistics</label>
 									<span id="statsCaption" class="caption">Statistics are not sent anywhere; they stay only on your device.</span>
 								</div>
-								<div class="section browser-style">
+								<div class="section">
 									<button class="button" id="resetStats" aria-labelledby="buttonTextResetStats">
 										<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextResetStats"><use href="#featherTrash"/></svg>
 										<span id="buttonTextResetStats">Reset statistics</span>
@@ -312,13 +312,13 @@
 						</div>
 						<div class="mainGroup">
 							<div class="mainGroupContent">
-								<div class="section browser-style">
+								<div class="section">
 									<button class="button" id="refreshStats" aria-labelledby="buttonTextRefresh">
 										<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-labelledby="buttonTextRefresh"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
 										<span id="buttonTextRefresh">Refresh</span>
 									</button>
 								</div>
-								<div class="section browser-style">
+								<div class="section">
 									<div class="statContainer">
 										<div class="stat" data-stat="tooltipsSession">
 											<span>Tooltips added this session:</span>
