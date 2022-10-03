@@ -13,7 +13,13 @@ const rickRollIds = [// Small collection of common rickrolls for statistics.
 	"xvFZjo5PgG0",
 	"iik25wqIuFo",
 	"ub82Xb1C8os",
-	"eBGIQ7ZuuiU"
+	"eBGIQ7ZuuiU",
+	"8ybW48rKBME",
+	"xbXoWRs2C8M",
+	"xfr64zoBTAQ",
+	"QB7ACr7pUuE",
+	"Yb6dZ1IFlKc",
+	"PzqQSOaCcnw"
 ];
 
 const elementMap = {
