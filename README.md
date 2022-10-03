@@ -11,7 +11,7 @@ Adds a tooltip containing information about videos and playlists when hovering o
 
 | Options page. Has both light and dark themes | Popup. Has both light and dark themes |
 | --- | --- |
-| ![YouTooltip screenshot tooltip](https://user-images.githubusercontent.com/34670767/189794807-7c20dafe-4946-491c-bbdf-2c2573b7f7d2.png) | ![YouTooltip screenshot popup](https://user-images.githubusercontent.com/34670767/192407849-19811c80-dc28-455c-bbca-86610b4a49dd.png) |
+| ![YouTooltip screenshot options](https://user-images.githubusercontent.com/34670767/189794807-7c20dafe-4946-491c-bbdf-2c2573b7f7d2.png) | ![YouTooltip screenshot popup](https://user-images.githubusercontent.com/34670767/192407849-19811c80-dc28-455c-bbca-86610b4a49dd.png) |
 
 
 
@@ -30,6 +30,9 @@ Adds a tooltip containing information about videos and playlists when hovering o
 		- Notification.
 	- Enable/disable information about videos and playlists.
 	- Change the display format for certain information.
+- Popup
+	- Shows statistics for the page.
+	- Lists all videos and playlists found on the page.
 
 ## Installation
 ### Install from Firefox AMO
@@ -39,7 +42,7 @@ Adds a tooltip containing information about videos and playlists when hovering o
 2. Go to about:addons in Firefox.
 3. Click on the gear icon near the top of the page.
 4. Click "Install Add-on From File..."
-5. Select the .xpi file and click "Open".
+5. Select the ```.xpi``` file and click "Open".
 ### Install manually (temporary)
 1. Download the code.
 2. Go to about:debugging in Firefox, click on "This Firefox" in the sidebar.
