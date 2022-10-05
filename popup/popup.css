@@ -72,12 +72,6 @@ body.privileged .notice {
 }
 
 
-input[type="checkbox"] + label, input[type="radio"] + label {
-	font-size: 1.1rem;
-}
-input[type="checkbox"], input[type="radio"] {
-	margin-left: 0px;
-}
 .button {
 	display: inline-flex;
 	align-items: center;
@@ -108,21 +102,6 @@ input[type="checkbox"], input[type="radio"] {
 	width: 1em;
 }
 
-input[type="text"], select {
-	background: #fafafa;
-	border: 1px solid #8f8f9d;
-	border-radius: 4px;
-	padding: 2px;
-	color: #000;
-}
-input[type="text"]:hover, select:hover {
-	background: #fff;
-	border-color: #676774;
-}
-input[type="radio"]:disabled {
-	opacity: 0.5;
-	pointer-events: none;
-}
 
 .statContainer {
 	display: flex;
@@ -229,15 +208,6 @@ input[type="radio"]:disabled {
 		background-color: #232323;
 	}
 	
-	input[type="text"], select {
-		background: #292929;
-		border: 1px solid #8f8f8f;
-		color: #fbfbfe;
-	}
-	input[type="text"]:hover, select:hover {
-		border-color: #b1b1b1;
-		background: #333;
-	}
 	.button {
 		background: #292929;
 		border-color: #8f8f8f;
