@@ -50,13 +50,11 @@ async function init() {
 						index: options.keyDefaultIndex
 					});
 				}
-			} else {
-				if (options.invidiousCustomInstance === "") {
-					invidiousDefaultInstance = await browser.runtime.sendMessage({
-						command: "getInvidiousDefaultInstance",
-						index: options.invidiousDefaultInstance
-					});
-				}
+			} else if (options.invidiousCustomInstance === "") {
+				invidiousDefaultInstance = await browser.runtime.sendMessage({
+					command: "getInvidiousDefaultInstance",
+					index: options.invidiousDefaultInstance
+				});
 			}
 			if (options.displayMode === "notification") {
 				let gotPermission = await browser.runtime.sendMessage({
@@ -170,13 +168,7 @@ var observer = new MutationObserver((changes) => {
 	changes.forEach(change => {
 		change.addedNodes.forEach(node => {
 			let aElements = [];
-			
-			if (node.tagName === "A") {
-				aElements = [node];
-			} else {
-				aElements = node.getElementsByTagName("a");
-			}
-			
+			aElements = node.tagName === "A" ? [node] : node.getElementsByTagName("a");
 			let validLinksBucket = getElementsWithValidLinks(aElements);
 			for (let bucket in validLinksBucket) {
 				for (let link of validLinksBucket[bucket]) {
@@ -188,13 +180,7 @@ var observer = new MutationObserver((changes) => {
 		});
 		change.removedNodes.forEach(node => {
 			let aElements = [];
-			
-			if (node.tagName === "A") {
-				aElements = [node];
-			} else {
-				aElements = node.getElementsByTagName("a");
-			}
-			
+			aElements = node.tagName === "A" ? [node] : node.getElementsByTagName("a");
 			let validLinksBucket = getElementsWithValidLinks(aElements);
 			for (let bucket in validLinksBucket) {
 				for (let link of validLinksBucket[bucket]) {
@@ -301,10 +287,7 @@ async function showNotification(ele) {
 				command: "showNotification", info: ele.dataset.youtooltipTitle
 			});
 		} catch(error) {
-			if (error.message === "browser.notifications is undefined")
-				console.error("YouTooltip does not have notification permission.");
-			else
-				console.error(error);
+			console.error(error.message === "browser.notifications is undefined" ? "YouTooltip does not have notification permission." : error);
 		}
 	}, 500);
 }
