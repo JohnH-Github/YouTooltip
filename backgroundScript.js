@@ -204,7 +204,7 @@ async function incrementStat(stat, num = 1) {
 	}
 }
 
-browser.runtime.onMessage.addListener(async (message) => {
+browser.runtime.onMessage.addListener(async (message, sender) => {
 	switch (message.command) {
 		case "reset":
 			if (message.reset === "everything") {
@@ -229,7 +229,9 @@ browser.runtime.onMessage.addListener(async (message) => {
 			await setDefaultStats();
 			break;
 		case "updateStat":
-			await incrementStat(message.stat, message.num);
+			// Only increment stats when we are in normal browsing, not private browsing.
+			if (!sender.tab.incognito)
+				await incrementStat(message.stat, message.num);
 			break;
 		case "getKeyDefault":
 			if (message.index === undefined) {
