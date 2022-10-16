@@ -346,7 +346,7 @@ async function saveAndRestoreOptions(opt, configObject) {
 	} else if (opt === "import") {
 		try {
 			options = configObject.checkedImport.checkedOptions;
-			let blacklistArray = await browser.runtime.sendMessage({command: "updateBlacklist", blacklist: document.getElementById("blacklist").value});
+			let blacklistArray = await browser.runtime.sendMessage({command: "updateBlacklist", blacklist: options.blacklist});
 			document.getElementById("blacklist").value = blacklistArray.join("\n");
 			await browser.storage.local.set({
 				options,
