@@ -247,11 +247,6 @@ document.getElementById("resetStats").addEventListener('click', async () => {
 document.getElementById("refreshStats").addEventListener('click', updateStats);
 
 var options;
-class blacklistDomainError extends Error {
-	constructor(entry, lineNumber) {
-		super(`Invalid blacklist domain: ${entry}\nLine: ${lineNumber + 1}`);
-	}
-}
 async function saveAndRestoreOptions(opt, configObject) {
 	let properties = ["value", "checked", "selectedIndex", "radio"];
 	let optionsList = [
@@ -294,24 +289,8 @@ async function saveAndRestoreOptions(opt, configObject) {
 	
 	if (opt === "save") {
 		try {
-			// Remove error-causing characters and empty lines.
-			let blacklistArray = document.getElementById("blacklist").value.replaceAll(/[ *%^[\]:"|<>]/g, "").split("\n").filter(Boolean);
-			let matchPatterns = [];
-			let testURL;
-			blacklistArray.forEach((entry, index) => {
-				try {
-					testURL = new URL((entry.startsWith("http") ? "" : "https://") + entry);
-				} catch(error) {
-					throw new blacklistDomainError(entry, index);
-				}
-				blacklistArray[index] = testURL.host;
-				matchPatterns.push("*://*." + testURL.host + "/*");
-			})
+			let blacklistArray = await browser.runtime.sendMessage({command: "updateBlacklist", blacklist: document.getElementById("blacklist").value});
 			document.getElementById("blacklist").value = blacklistArray.join("\n");
-			await browser.scripting.updateContentScripts([{
-				id: "contentScript",
-				excludeMatches: ["https://*.youtube.com/*", ...matchPatterns]
-			}]);
 			
 			optionsList.forEach(option => {
 				if (option.name === "blacklist") {
@@ -329,8 +308,6 @@ async function saveAndRestoreOptions(opt, configObject) {
 			console.error(error);
 			if (error.message.startsWith("Invalid url pattern"))
 				alert("Could not save options\nInvalid url pattern: " + error.message.replace("Invalid url pattern: ", ""));
-			else if (error.message.startsWith("Invalid blacklist domain"))
-				alert("Could not save options\n" + error.message)
 			else
 				alert("Could not save options\n" + error);
 			return false;
@@ -369,6 +346,8 @@ async function saveAndRestoreOptions(opt, configObject) {
 	} else if (opt === "import") {
 		try {
 			options = configObject.checkedImport.checkedOptions;
+			let blacklistArray = await browser.runtime.sendMessage({command: "updateBlacklist", blacklist: document.getElementById("blacklist").value});
+			document.getElementById("blacklist").value = blacklistArray.join("\n");
 			await browser.storage.local.set({
 				options,
 				stats: configObject.checkedImport.checkedStats

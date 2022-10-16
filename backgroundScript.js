@@ -171,6 +171,7 @@ browser.runtime.onInstalled.addListener(async (details) => {
 		let options = await checkOptions(details.previousVersion);
 		let stats = await checkStats(details.previousVersion);
 		await browser.storage.local.set({options, stats});
+		await updateBlacklist(options.blacklist);
 		// browser.tabs.create({
 			// url: "options/options.html#releaseNotes"
 		// });
@@ -271,5 +272,31 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
 		case "hasPermission":
 			return await browser.permissions.contains(message.permissions);
 			break;
+		case "updateBlacklist":
+			return await updateBlacklist(message.blacklist);
+			break;
 	}
 });
+
+
+async function updateBlacklist(blacklist) {
+	// Remove error-causing characters and empty lines.
+	let blacklistArray = (typeof blacklist === "string") ? blacklist.replaceAll(/[ *%^[\]:"|<>]/g, "").split("\n").filter(Boolean) : blacklist;
+	let matchPatterns = [];
+	let testURL;
+	blacklistArray.forEach((entry, index) => {
+		try {
+			testURL = new URL((entry.startsWith("http") ? "" : "https://") + entry);
+		} catch(error) {
+			return error;
+		}
+		blacklistArray[index] = testURL.host;
+		matchPatterns.push("*://*." + testURL.host + "/*");
+	})
+	await browser.scripting.updateContentScripts([{
+		id: "contentScript",
+		excludeMatches: ["*://*.youtube.com/*", ...matchPatterns]
+	}]);
+	return blacklistArray;
+}
+
