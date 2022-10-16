@@ -139,17 +139,38 @@ async function getStats() {
 	}
 }
 
+async function isBlacklisted(url) {
+	let urlObj = new URL(url);
+	let registeredContentScripts = await browser.scripting.getRegisteredContentScripts({
+		ids: ["contentScript"],
+	});
+	return registeredContentScripts[0].excludeMatches.some(excludeMatch => {
+		let replacedString = ".*" + excludeMatch.replace("*://*.", "").replaceAll(".", "\\.").replace("/*", "");
+		let escapedString = replacedString.replace(/[()|[\]{}]/g, "\\$&");
+		let urlRegex = new RegExp(escapedString);
+		return urlRegex.test(urlObj.host);
+	});
+}
+
+var options;
 async function init() {
 	if (window.browser !== undefined) {
 		let tabs = await browser.tabs.query({active: true, currentWindow: true});
 		if (isValidUrl(tabs[0].url)) {
-			await getStats();
-			browser.runtime.onMessage.addListener(messageHandler);
-			browser.tabs.onUpdated.addListener(pageStatusChange, {
-				tabId: tabs[0].id,
-				windowId: browser.windows.WINDOW_ID_CURRENT,
-				properties: ["status"]// Listen for this page loading again.
-			});
+			if (await isBlacklisted(tabs[0].url)) {
+				document.body.classList.add("blacklisted");
+				document.getElementById("refresh").disabled = true;
+			} else {
+				let storageOptions = await browser.storage.local.get("options");
+				options = storageOptions.options;
+				await getStats();
+				browser.runtime.onMessage.addListener(messageHandler);
+				browser.tabs.onUpdated.addListener(pageStatusChange, {
+					tabId: tabs[0].id,
+					windowId: browser.windows.WINDOW_ID_CURRENT,
+					properties: ["status"]// Listen for this page loading again.
+				});
+			}
 		} else {
 			document.body.classList.add("privileged");
 			document.getElementById("refresh").disabled = true;
