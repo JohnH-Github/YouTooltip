@@ -31,8 +31,9 @@ document.getElementById("notificationPermission").addEventListener('click', asyn
 
 document.getElementById("saveButton").addEventListener('click', async () => {
 	let saveButton = document.getElementById("saveButton");
-	await saveAndRestoreOptions("save");
-	saveButtonHighlight(false);
+	let saveOk = await saveAndRestoreOptions("save");
+	if (saveOk)
+		saveButtonHighlight(false);
 });
 document.getElementById("resetOptionsButton").addEventListener('click', async () => {
 	if (confirm("All options will be reset, but statistics will remain.\nReset options?")) {
@@ -246,6 +247,11 @@ document.getElementById("resetStats").addEventListener('click', async () => {
 document.getElementById("refreshStats").addEventListener('click', updateStats);
 
 var options;
+class blacklistDomainError extends Error {
+	constructor(entry, lineNumber) {
+		super(`Invalid blacklist domain: ${entry}\nLine: ${lineNumber + 1}`);
+	}
+}
 async function saveAndRestoreOptions(opt, configObject) {
 	let properties = ["value", "checked", "selectedIndex", "radio"];
 	let optionsList = [
@@ -281,22 +287,53 @@ async function saveAndRestoreOptions(opt, configObject) {
 		{name: "playlistsVideoCountFormat", type: 2},
 		{name: "playlistsChannelEnable", type: 1},
 		
-		{name: "statsEnable", type: 1}
+		{name: "statsEnable", type: 1},
+		
+		{name: "blacklist", type: 0}
 	];
 	
 	if (opt === "save") {
-		optionsList.forEach(option => {
-			if (option.type === 3)
-				options[option.name] = document.querySelector(`[name=${option.name}]:checked`).value;
-			else
-				options[option.name] = document.getElementById(option.name)[properties[option.type]];
-		});
-		
 		try {
+			// Remove error-causing characters and empty lines.
+			let blacklistArray = document.getElementById("blacklist").value.replaceAll(/[ *%^[\]:"|<>]/g, "").split("\n").filter(Boolean);
+			let matchPatterns = [];
+			let testURL;
+			blacklistArray.forEach((entry, index) => {
+				try {
+					testURL = new URL((entry.startsWith("http") ? "" : "https://") + entry);
+				} catch(error) {
+					throw new blacklistDomainError(entry, index);
+				}
+				blacklistArray[index] = testURL.host;
+				matchPatterns.push("*://*." + testURL.host + "/*");
+			})
+			document.getElementById("blacklist").value = blacklistArray.join("\n");
+			await browser.scripting.updateContentScripts([{
+				id: "contentScript",
+				excludeMatches: ["https://*.youtube.com/*", ...matchPatterns]
+			}]);
+			
+			optionsList.forEach(option => {
+				if (option.name === "blacklist") {
+					options[option.name] = document.getElementById("blacklist").value.split("\n");
+				} else if (option.type === 3) {
+					options[option.name] = document.querySelector(`[name=${option.name}]:checked`).value;
+				} else {
+					options[option.name] = document.getElementById(option.name)[properties[option.type]];
+				}
+			});
+			
 			await browser.storage.local.set({options});
+			return true;
 		} catch(error) {
 			console.error(error);
-			alert("Could not save options\n" + error);
+			if (error.message.startsWith("Invalid url pattern"))
+				alert("Could not save options\nInvalid url pattern: " + error.message.replace("Invalid url pattern: ", ""));
+			else if (error.message.startsWith("Invalid blacklist domain"))
+				alert("Could not save options\n" + error.message)
+			else
+				alert("Could not save options\n" + error);
+			return false;
 		}
 	} else if (opt === "restore") {
 		try {
@@ -304,10 +341,13 @@ async function saveAndRestoreOptions(opt, configObject) {
 			options = storageOptions.options;
 			
 			optionsList.forEach(option => {
-				if (option.type === 3)
+				if (option.name === "blacklist") {
+					document.getElementById("blacklist").value = options[option.name].join("\n");
+				} else if (option.type === 3) {
 					document.querySelector(`[name=${option.name}][value=${options[option.name]}]`).checked = true;
-				else
+				} else {
 					document.getElementById(option.name)[properties[option.type]] = options[option.name];
+				}
 			});
 			saveButtonHighlight(false);
 			changeOperationMode();
@@ -320,9 +360,11 @@ async function saveAndRestoreOptions(opt, configObject) {
 			allRadios.forEach(radio => {
 				toggleChildOptions(radio);
 			});
+			return true;
 		} catch(error) {
 			console.error(error);
 			alert("Could not restore options\n" + error);
+			return false;
 		}
 	} else if (opt === "import") {
 		try {
@@ -332,9 +374,11 @@ async function saveAndRestoreOptions(opt, configObject) {
 				stats: configObject.checkedImport.checkedStats
 			});
 			await saveAndRestoreOptions("restore");
+			return true;
 		} catch(error) {
 			console.error(error);
 			alert("Could not import options\n" + error);
+			return false;
 		}
 	}
 }

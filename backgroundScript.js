@@ -57,7 +57,9 @@ const defaultOptions = {
 	playlistsVideoCountFormat: 0,
 	playlistsChannelEnable: true,
 	
-	statsEnable: true
+	statsEnable: true,
+	
+	blacklist: []
 };
 
 const defaultStats = {
@@ -158,6 +160,12 @@ browser.runtime.onInstalled.addListener(async (details) => {
 	if (details.reason === "install") {
 		await setDefaultOptions();
 		await setDefaultStats();
+		await browser.scripting.registerContentScripts([{
+			id: "contentScript",
+			js: ["contentScript.js"],
+			matches: ["<all_urls>"],
+			excludeMatches: ["https://*.youtube.com/*"]
+		}]);
 		await browser.runtime.openOptionsPage();
 	} else if (details.reason === "update") {
 		let options = await checkOptions(details.previousVersion);

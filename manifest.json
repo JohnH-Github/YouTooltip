@@ -15,7 +15,8 @@
 	},
 	"permissions": [
 		"<all_urls>",
-		"storage"
+		"storage",
+		"scripting"
 	],
 	"optional_permissions": [
 		"downloads",
@@ -36,14 +37,5 @@
 	"background": {
 		"scripts": ["backgroundScript.js"],
 		"persistent": false
-	},
-	"content_scripts": [
-		{
-			"matches": ["<all_urls>"],
-			"js": ["contentScript.js"],
-			"exclude_matches": [
-				"https://*.youtube.com/*"
-			]
-		}
-	]
+	}
 }

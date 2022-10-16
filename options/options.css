@@ -290,7 +290,7 @@ input[type="checkbox"], input[type="radio"] {
 	height: 1em;
 	width: 1em;
 }
-input[type="text"], select {
+input[type="text"], select, textarea {
 	background: #fafafa;
 	border: 1px solid #8f8f9d;
 	border-radius: 4px;
@@ -298,13 +298,16 @@ input[type="text"], select {
 	color: #000;
 	font-size: 0.835rem;
 }
-input[type="text"]:hover, select:hover {
+input[type="text"]:hover, select:hover, textarea:hover {
 	background: #fff;
 	border-color: #676774;
 }
 input[type="radio"]:disabled {
 	opacity: 0.5;
 	pointer-events: none;
+}
+textarea {
+	resize: vertical;
 }
 
 
@@ -477,12 +480,12 @@ input[type="radio"]:disabled {
 		box-shadow: 0px 0px 10px #0c0c0c;
 	}
 	
-	input[type="text"], select {
+	input[type="text"], select, textarea {
 		background: #292929;
 		border: 1px solid #8f8f8f;
 		color: #fbfbfe;
 	}
-	input[type="text"]:hover, select:hover {
+	input[type="text"]:hover, select:hover, textarea:hover {
 		border-color: #b1b1b1;
 		background: #333;
 	}
