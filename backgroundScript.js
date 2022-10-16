@@ -160,6 +160,7 @@ browser.runtime.onInstalled.addListener(async (details) => {
 	if (details.reason === "install") {
 		await setDefaultOptions();
 		await setDefaultStats();
+		await browser.scripting.unregisterContentScripts();// Remove old stragglers.
 		await browser.scripting.registerContentScripts([{
 			id: "contentScript",
 			js: ["contentScript.js"],
