@@ -86,12 +86,14 @@ async function init() {
 				return;
 			}
 			
-			// Check all anchor elements and set the appropriate tooltips.
-			let linkMapBuckets = getLinkMap(getElementsWithValidLinks(document.getElementsByTagName("a")));
-			setNewLinks(linkMapBuckets);
-			
-			// Start observing.
-			observer.observe(document.body, {childList: true, subtree: true});
+			if (document.body) {
+				// Check all anchor elements and set the appropriate tooltips.
+				let linkMapBuckets = getLinkMap(getElementsWithValidLinks(document.getElementsByTagName("a")));
+				setNewLinks(linkMapBuckets);
+				
+				// Start observing.
+				observer.observe(document.body, {childList: true, subtree: true});
+			}
 		} else {
 			throw `Could not retrieve options from storage. onStorageChange tries: ${onStorageChangeCounter}`;
 		}
