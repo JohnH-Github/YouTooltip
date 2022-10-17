@@ -246,6 +246,21 @@ document.getElementById("resetStats").addEventListener('click', async () => {
 });
 document.getElementById("refreshStats").addEventListener('click', updateStats);
 
+function parseBlacklist(blacklist) {
+	// Remove error-causing characters and empty lines.
+	let blacklistArray = blacklist.replaceAll(/[ *%^[\]:"|<>]/g, "").split("\n").filter(Boolean);
+	let testURL;
+	blacklistArray.forEach((entry, index) => {
+		try {
+			testURL = new URL((entry.startsWith("http") ? "" : "https://") + entry);
+		} catch(error) {
+			return error;
+		}
+		blacklistArray[index] = testURL.host;
+	})
+	return blacklistArray;
+}
+
 var options;
 async function saveAndRestoreOptions(opt, configObject) {
 	let properties = ["value", "checked", "selectedIndex", "radio"];
@@ -289,7 +304,7 @@ async function saveAndRestoreOptions(opt, configObject) {
 	
 	if (opt === "save") {
 		try {
-			let blacklistArray = await browser.runtime.sendMessage({command: "updateBlacklist", blacklist: document.getElementById("blacklist").value});
+			let blacklistArray = parseBlacklist(document.getElementById("blacklist").value);
 			document.getElementById("blacklist").value = blacklistArray.join("\n");
 			
 			optionsList.forEach(option => {
@@ -346,8 +361,6 @@ async function saveAndRestoreOptions(opt, configObject) {
 	} else if (opt === "import") {
 		try {
 			options = configObject.checkedImport.checkedOptions;
-			let blacklistArray = await browser.runtime.sendMessage({command: "updateBlacklist", blacklist: options.blacklist});
-			document.getElementById("blacklist").value = blacklistArray.join("\n");
 			await browser.storage.local.set({
 				options,
 				stats: configObject.checkedImport.checkedStats

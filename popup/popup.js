@@ -41,7 +41,7 @@ function pageStatusChange(tabId, changeInfo, tabInfo) {
 	if (changeInfo.status === "complete" && previouslyLoading) {
 		previouslyLoading = false;
 		bucketsData = undefined;
-		getStats();
+		init();
 	} else if (changeInfo.status === "loading") {
 		previouslyLoading = true;
 	}
@@ -127,29 +127,11 @@ async function getStats() {
 		});
 		update(newPageStats, JSON.parse(newBucketsData));
 	} catch(error) {
-		if (error.message === "Could not establish connection. Receiving end does not exist.") {
-			// Content script hasn't been injected yet. We'll wait until it messages the background script.
-			browser.runtime.onMessage.addListener(onContentScriptActive);
-		} else {
-			console.error(error, error.message);
-			let errorEle = document.getElementById("error");
-			errorEle.classList.add("show");
-			errorEle.textContent = error.message;
-		}
+		console.error(error, error.message);
+		let errorEle = document.getElementById("error");
+		errorEle.classList.add("show");
+		errorEle.textContent = error.message;
 	}
-}
-
-async function isBlacklisted(url) {
-	let urlObj = new URL(url);
-	let registeredContentScripts = await browser.scripting.getRegisteredContentScripts({
-		ids: ["contentScript"],
-	});
-	return registeredContentScripts[0].excludeMatches.some(excludeMatch => {
-		let replacedString = ".*" + excludeMatch.replace("*://*.", "").replaceAll(".", "\\.").replace("/*", "");
-		let escapedString = replacedString.replace(/[()|[\]{}]/g, "\\$&");
-		let urlRegex = new RegExp(escapedString);
-		return urlRegex.test(urlObj.host);
-	});
 }
 
 var options;
@@ -157,19 +139,33 @@ async function init() {
 	if (window.browser !== undefined) {
 		let tabs = await browser.tabs.query({active: true, currentWindow: true});
 		if (isValidUrl(tabs[0].url)) {
-			if (await isBlacklisted(tabs[0].url)) {
-				document.body.classList.add("blacklisted");
-				document.getElementById("refresh").disabled = true;
-			} else {
-				let storageOptions = await browser.storage.local.get("options");
-				options = storageOptions.options;
-				await getStats();
-				browser.runtime.onMessage.addListener(messageHandler);
-				browser.tabs.onUpdated.addListener(pageStatusChange, {
-					tabId: tabs[0].id,
-					windowId: browser.windows.WINDOW_ID_CURRENT,
-					properties: ["status"]// Listen for this page loading again.
+			let isBlacklisted = false;
+			try {
+				isBlacklisted = await browser.tabs.sendMessage(tabs[0].id, {
+					command: "isBlacklisted"
 				});
+				if (isBlacklisted) {
+					document.body.classList.add("blacklisted");
+					document.getElementById("refresh").disabled = true;
+				} else {
+					await getStats();
+					browser.runtime.onMessage.addListener(messageHandler);
+					browser.tabs.onUpdated.addListener(pageStatusChange, {
+						tabId: tabs[0].id,
+						windowId: browser.windows.WINDOW_ID_CURRENT,
+						properties: ["status"]// Listen for this page loading again.
+					});
+				}
+			} catch(error) {
+				if (error.message === "Could not establish connection. Receiving end does not exist.") {
+					// Content script hasn't been injected yet. We'll wait until it messages the background script.
+					browser.runtime.onMessage.addListener(onContentScriptActive);
+				} else {
+					console.error(error, error.message);
+					let errorEle = document.getElementById("error");
+					errorEle.classList.add("show");
+					errorEle.textContent = error.message;
+				}
 			}
 		} else {
 			document.body.classList.add("privileged");
@@ -182,7 +178,7 @@ init();
 
 const onContentScriptActive = () => {
 	browser.runtime.onMessage.removeListener(onContentScriptActive);
-	getStats();
+	init();
 };
 
 function messageHandler(message) {

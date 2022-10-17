@@ -31,6 +31,19 @@ var options;
 var keyDefault;
 var invidiousDefaultInstance;
 var onStorageChangeCounter = 0;
+var blacklisted = false;
+
+function isBlacklisted(url) {
+	let urlObj = new URL(url);
+	return options.blacklist.some(excludeMatch => {
+		let replacedString = ".*" + excludeMatch.replaceAll(".", "\\.");
+		let escapedString = replacedString.replace(/[()|[\]{}]/g, "\\$&");
+		let urlRegex = new RegExp(escapedString);
+		console.log(urlRegex, urlObj.host)
+		return urlRegex.test(urlObj.host);
+	});
+}
+
 /*
  * Initializes the script by retrieving options, scanning the page, and starting the observer.
  */
@@ -67,6 +80,12 @@ async function init() {
 				}
 			}
 			
+			// Check for blacklist after sending messages to make sure the popup receives them if it is listening.
+			if (isBlacklisted(window.location)) {
+				blacklisted = true;
+				return;
+			}
+			
 			// Check all anchor elements and set the appropriate tooltips.
 			let linkMapBuckets = getLinkMap(getElementsWithValidLinks(document.getElementsByTagName("a")));
 			setNewLinks(linkMapBuckets);
@@ -101,10 +120,15 @@ const pageStats = {
 };
 browser.runtime.onMessage.addListener(async (message) => {
 	switch (message.command) {
+		case "isBlacklisted":
+			return blacklisted;
+			break;
 		case "getPageStats":
-			return pageStats;
+			return blacklisted ? null : pageStats;
 			break;
 		case "getBucketsData":
+			if (blacklisted)
+				return null;
 			let bucketsArrays = {};
 			let bucketsData = {};
 			for (let bucket in elementMap) {
@@ -122,6 +146,8 @@ browser.runtime.onMessage.addListener(async (message) => {
 			return JSON.stringify(bucketsData);
 			break;
 		case "gotoId":
+			if (blacklisted)
+				return null;
 			let ele = elementMap[message.bucket].get(message.id)[message.index];
 			if (document.body.contains(ele))
 				ele.scrollIntoView();
