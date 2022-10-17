@@ -39,7 +39,6 @@ function isBlacklisted(url) {
 		let replacedString = ".*" + excludeMatch.replaceAll(".", "\\.");
 		let escapedString = replacedString.replace(/[()|[\]{}]/g, "\\$&");
 		let urlRegex = new RegExp(escapedString);
-		console.log(urlRegex, urlObj.host)
 		return urlRegex.test(urlObj.host);
 	});
 }
