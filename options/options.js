@@ -309,7 +309,7 @@ async function saveAndRestoreOptions(opt, configObject) {
 			
 			optionsList.forEach(option => {
 				if (option.name === "blacklist") {
-					options[option.name] = document.getElementById("blacklist").value.split("\n");
+					options[option.name] = blacklistArray;
 				} else if (option.type === 3) {
 					options[option.name] = document.querySelector(`[name=${option.name}]:checked`).value;
 				} else {
