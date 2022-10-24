@@ -112,10 +112,6 @@ function update(newPageStats, newBucketsData) {
 	bucketsData = newBucketsData;
 }
 
-function isValidUrl(url = "") {
-	return url.startsWith("http:") || url.startsWith("https:") || url.startsWith("file:");
-}
-
 async function getStats() {
 	let tabs = await browser.tabs.query({active: true, currentWindow: true});
 	try {
@@ -134,11 +130,43 @@ async function getStats() {
 	}
 }
 
+function isValidUrl(url) {
+	if (url === undefined)
+		return {valid: false, reason: "browserPage"};
+	let restrictedDomains = [
+		"accounts-static.cdn.mozilla.net",
+		"accounts.firefox.com",
+		"addons.cdn.mozilla.net",
+		"addons.mozilla.org",
+		"api.accounts.firefox.com",
+		"content.cdn.mozilla.net",
+		"discovery.addons.mozilla.org",
+		"install.mozilla.org",
+		"oauth.accounts.firefox.com",
+		"profile.accounts.firefox.com",
+		"support.mozilla.org",
+		"sync.services.mozilla.com"
+	];
+	let validProtocols = [
+		"http:",
+		"https:",
+		"file:",
+	];
+	let URLobj = new URL(url);
+	if (restrictedDomains.find(entry => entry === URLobj.hostname) !== undefined)
+		return {valid: false, reason: "restrictedDomain"};
+	else if (validProtocols.find(entry => entry === URLobj.protocol) === undefined)
+		return {valid: false, reason: "badProtocol"};
+	else
+		return {valid: true, reason: ""};
+}
+
 var options;
 async function init() {
 	if (window.browser !== undefined) {
 		let tabs = await browser.tabs.query({active: true, currentWindow: true});
-		if (isValidUrl(tabs[0].url)) {
+		let validUrlObj = isValidUrl(tabs[0].url);
+		if (validUrlObj.valid) {
 			let isBlacklisted = false;
 			try {
 				isBlacklisted = await browser.tabs.sendMessage(tabs[0].id, {
@@ -169,6 +197,7 @@ async function init() {
 			}
 		} else {
 			document.body.classList.add("privileged");
+			document.body.classList.add(validUrlObj.reason);
 			document.getElementById("refresh").disabled = true;
 		}
 	}

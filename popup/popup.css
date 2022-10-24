@@ -57,9 +57,9 @@ main {
 body.privileged main, body.blacklisted main {
 	display: none;
 }
-body.privileged .notice {
-	display: block;
-}
+body.privileged.browserPage .browserPageNotice,
+body.privileged.restrictedDomain .restrictedDomainNotice,
+body.privileged.badProtocol .badProtocolNotice,
 body.blacklisted .blacklistedNotice {
 	display: block;
 }
@@ -69,16 +69,6 @@ body.blacklisted .blacklistedNotice {
 	padding: 10px;
 }
 .notice h2 {
-	margin: 0 0 0.5em 0;
-	font-size: 1.1rem;
-	text-align: center;
-}
-.blacklistedNotice {
-	display: none;
-	text-align: center;
-	padding: 10px;
-}
-.blacklistedNotice h2 {
 	margin: 0 0 0.5em 0;
 	font-size: 1.1rem;
 	text-align: center;
