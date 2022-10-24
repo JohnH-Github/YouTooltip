@@ -32,12 +32,9 @@ a {
 }
 
 .content {
-	visibility: hidden;
 	display: flex;
 	flex-direction: column;
-}
-.content.show {
-	visibility: visible;
+	position: relative;
 }
 
 header {
@@ -51,8 +48,36 @@ header {
 	margin-left: auto;
 }
 
+#loading {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+#loading.show {
+	display: flex;
+}
+#loading svg {
+	animation: spin 3s linear infinite;
+	flex-shrink: 0;
+	height: 1.25em;
+	width: 1.25em;
+}
+@keyframes spin { 
+	100% { 
+		transform: rotate(360deg); 
+	} 
+}
+
 main {
 	padding: 10px;
+	visibility: hidden;
+}
+main.show {
+	visibility: visible;
 }
 body.privileged main, body.blacklisted main {
 	display: none;

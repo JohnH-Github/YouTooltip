@@ -163,6 +163,10 @@ function isValidUrl(url) {
 
 var options;
 async function init() {
+	function showMain() {
+		document.querySelector("#loading").classList.remove("show");
+		document.querySelector("main").classList.add("show");
+	}
 	if (window.browser !== undefined) {
 		let tabs = await browser.tabs.query({active: true, currentWindow: true});
 		let validUrlObj = isValidUrl(tabs[0].url);
@@ -172,10 +176,11 @@ async function init() {
 				isBlacklisted = await browser.tabs.sendMessage(tabs[0].id, {
 					command: "isBlacklisted"
 				});
+				showMain();
 				if (isBlacklisted) {
 					document.body.classList.add("blacklisted");
-					document.getElementById("refresh").disabled = true;
 				} else {
+					document.getElementById("refresh").disabled = false;
 					await getStats();
 					browser.runtime.onMessage.addListener(messageHandler);
 					browser.tabs.onUpdated.addListener(pageStatusChange, {
@@ -196,12 +201,13 @@ async function init() {
 				}
 			}
 		} else {
+			showMain();
 			document.body.classList.add("privileged");
 			document.body.classList.add(validUrlObj.reason);
-			document.getElementById("refresh").disabled = true;
 		}
+	} else {
+		showMain();
 	}
-	document.querySelector(".content").classList.add("show");
 }
 init();
 
