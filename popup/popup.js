@@ -131,7 +131,7 @@ async function getStats() {
 }
 
 function isValidUrl(url) {
-	if (url === undefined)
+	if (url === undefined || url.startsWith("moz-extension:"))
 		return {valid: false, reason: "browserPage"};
 	let restrictedDomains = [
 		"accounts-static.cdn.mozilla.net",
