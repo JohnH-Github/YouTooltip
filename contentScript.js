@@ -36,10 +36,12 @@ var blacklisted = false;
 function isBlacklisted(url) {
 	let urlObj = new URL(url);
 	return options.blacklist.some(excludeMatch => {
-		let replacedString = ".*" + excludeMatch.replaceAll(".", "\\.");
+		if (excludeMatch === "")
+			return false;
+		let replacedString = ".*" + excludeMatch.replaceAll(".", "\\.") + "$";
 		let escapedString = replacedString.replace(/[()|[\]{}]/g, "\\$&");
 		let urlRegex = new RegExp(escapedString);
-		return urlRegex.test(urlObj.host);
+		return urlRegex.test(urlObj.hostname);
 	});
 }
 
