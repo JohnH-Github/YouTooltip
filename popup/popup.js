@@ -115,13 +115,10 @@ function update(newPageStats, newBucketsData) {
 async function getStats() {
 	let tabs = await browser.tabs.query({active: true, currentWindow: true});
 	try {
-		let newPageStats = await browser.tabs.sendMessage(tabs[0].id, {
-			command: "getPageStats"
+		let data = await browser.tabs.sendMessage(tabs[0].id, {
+			command: "getData"
 		});
-		let newBucketsData = await browser.tabs.sendMessage(tabs[0].id, {
-			command: "getBucketsData"
-		});
-		update(newPageStats, JSON.parse(newBucketsData));
+		update(data.pageStats, data.bucketsData);
 	} catch(error) {
 		console.error(error, error.message);
 		let errorEle = document.getElementById("error");
@@ -176,7 +173,6 @@ async function init() {
 				isBlacklisted = await browser.tabs.sendMessage(tabs[0].id, {
 					command: "isBlacklisted"
 				});
-				showMain();
 				if (isBlacklisted) {
 					document.body.classList.add("blacklisted");
 				} else {
@@ -189,6 +185,7 @@ async function init() {
 						properties: ["status"]// Listen for this page loading again.
 					});
 				}
+				showMain();
 			} catch(error) {
 				if (error.message === "Could not establish connection. Receiving end does not exist.") {
 					// Content script hasn't been injected yet. We'll wait until it messages the background script.
@@ -201,9 +198,9 @@ async function init() {
 				}
 			}
 		} else {
-			showMain();
 			document.body.classList.add("privileged");
 			document.body.classList.add(validUrlObj.reason);
+			showMain();
 		}
 	} else {
 		showMain();

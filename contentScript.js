@@ -126,10 +126,7 @@ browser.runtime.onMessage.addListener(async (message) => {
 		case "isBlacklisted":
 			return blacklisted;
 			break;
-		case "getPageStats":
-			return blacklisted ? null : pageStats;
-			break;
-		case "getBucketsData":
+		case "getData":
 			if (blacklisted)
 				return null;
 			let bucketsArrays = {};
@@ -146,7 +143,10 @@ browser.runtime.onMessage.addListener(async (message) => {
 					});
 				});
 			}
-			return JSON.stringify(bucketsData);
+			return {
+				pageStats: pageStats,
+				bucketsData: bucketsData
+			};
 			break;
 		case "gotoId":
 			if (blacklisted)
