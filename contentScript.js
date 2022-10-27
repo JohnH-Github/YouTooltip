@@ -38,9 +38,9 @@ function isBlacklisted(url) {
 	return options.blacklist.some(excludeMatch => {
 		if (excludeMatch === "")
 			return false;
-		let replacedString = "(^|\\.)" + excludeMatch.replaceAll(".", "\\.") + "$";
-		let escapedString = replacedString.replace(/[()|[\]{}]/g, "\\$&");
-		let urlRegex = new RegExp(escapedString);
+		let escapedString = excludeMatch.replace(/[()|[\]{}]/g, "\\$&");
+		let replacedString = "(^|\\.)" + escapedString.replaceAll(".", "\\.") + "$";
+		let urlRegex = new RegExp(replacedString, "i");
 		return urlRegex.test(urlObj.hostname);
 	});
 }
