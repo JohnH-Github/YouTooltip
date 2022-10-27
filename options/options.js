@@ -1,15 +1,13 @@
 "use strict";
 
-function saveButtonHighlight(highlight) {
-	let saveButton = document.getElementById("saveButton");
-	if (highlight) {
-		saveButton.disabled = false;
-		saveButton.classList.add("unsaved");
-	} else {
-		saveButton.disabled = true;
-		saveButton.classList.remove("unsaved");
-	}
-}
+
+document.getElementById("sidebarToggle").addEventListener('click', () => {
+	let sidebar = document.querySelector(".sidebar");
+	if (sidebar.classList.contains("show"))
+		sidebar.classList.remove("show");
+	else
+		sidebar.classList.add("show");
+});
 
 async function updateNotificationPermission() {
 	let notificationPermission = document.getElementById("notificationPermission");
@@ -29,24 +27,16 @@ document.getElementById("notificationPermission").addEventListener('click', asyn
 		updateNotificationPermission();
 });
 
-document.getElementById("saveButton").addEventListener('click', async () => {
-	let saveButton = document.getElementById("saveButton");
-	let saveOk = await saveAndRestoreOptions("save");
-	if (saveOk)
-		saveButtonHighlight(false);
-});
 document.getElementById("resetOptionsButton").addEventListener('click', async () => {
 	if (confirm("All options will be reset, but statistics will remain.\nReset options?")) {
 		await browser.runtime.sendMessage({command: "reset", reset:"options"});
 		await saveAndRestoreOptions("restore");
-		saveButtonHighlight(false);
 	}
 });
 document.getElementById("resetEverythingButton").addEventListener('click', async () => {
 	if (confirm("ALL options and statistics will be reset.\nReset everything?")) {
 		await browser.runtime.sendMessage({command: "reset", reset:"everything"});
 		await saveAndRestoreOptions("restore");
-		saveButtonHighlight(false);
 	}
 });
 
@@ -199,17 +189,17 @@ const allSettings = document.querySelectorAll(".setting");
 const allCheckboxes = document.querySelectorAll("[type='checkbox']");
 const allRadios = document.querySelectorAll("[type='radio']");
 allSettings.forEach(setting => {
-	setting.addEventListener("input", () => {
-		saveButtonHighlight(true);
+	setting.addEventListener("change", async () => {
+		await saveAndRestoreOptions("save");
 	});
 });
 allCheckboxes.forEach(checkbox => {
-	checkbox.addEventListener("input", () => {
+	checkbox.addEventListener("change", () => {
 		toggleChildOptions(checkbox);
 	});
 });
 allRadios.forEach(radio => {
-	radio.addEventListener("input", () => {
+	radio.addEventListener("change", () => {
 		toggleChildOptions(radio);
 	});
 });
@@ -223,6 +213,7 @@ allTabs.forEach(tab => {
 		currentSelectedTab.classList.remove("selected");
 		document.querySelector(`[data-panel=${currentSelectedTab.dataset.tab}]`).classList.remove("show");
 		tab.classList.add("selected");
+		document.querySelector(".mainHeader h2").textContent = tab.querySelector("span").textContent;
 		document.querySelector(`[data-panel=${tab.dataset.tab}]`).classList.add("show");
 		scroll({top: 0});
 	});
@@ -248,7 +239,7 @@ document.getElementById("refreshStats").addEventListener('click', updateStats);
 
 function parseBlacklist(blacklist) {
 	// Remove error-causing characters and empty lines.
-	let blacklistArray = blacklist.replaceAll(/[ *%^[\]:"|<>]/g, "").split("\n").filter(Boolean);
+	let blacklistArray = blacklist.replaceAll(/[ *%^[\]:"\/|<>]/g, "").split("\n").filter(Boolean);
 	let testURL;
 	blacklistArray.forEach((entry, index) => {
 		try {
@@ -341,7 +332,6 @@ async function saveAndRestoreOptions(opt, configObject) {
 					document.getElementById(option.name)[properties[option.type]] = options[option.name];
 				}
 			});
-			saveButtonHighlight(false);
 			changeOperationMode();
 			changeApiService();
 			await updateNotificationPermission();
