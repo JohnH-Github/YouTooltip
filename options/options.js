@@ -28,13 +28,13 @@ document.getElementById("notificationPermission").addEventListener('click', asyn
 });
 
 document.getElementById("resetOptionsButton").addEventListener('click', async () => {
-	if (confirm("All options will be reset, but statistics will remain.\nReset options?")) {
+	if (await showConfirmDialog("Reset options", "All options will be reset, but statistics will remain.\nReset options?")) {
 		await browser.runtime.sendMessage({command: "reset", reset:"options"});
 		await saveAndRestoreOptions("restore");
 	}
 });
 document.getElementById("resetEverythingButton").addEventListener('click', async () => {
-	if (confirm("ALL options and statistics will be reset.\nReset everything?")) {
+	if (await showConfirmDialog("Reset everything", "ALL options and statistics will be reset.\nReset everything?")) {
 		await browser.runtime.sendMessage({command: "reset", reset:"everything"});
 		await saveAndRestoreOptions("restore");
 	}
@@ -136,7 +136,7 @@ document.getElementById("export").addEventListener('click', async () => {
 		URL.revokeObjectURL(objectURL);
 		if (error.message !== "Download canceled by the user") {
 			console.error(error);
-			alert("Could not save export file:\n" + error.message);
+			showErrorDialog("Export error", "Could not save export file:\n" + error.message);
 		}
 	}
 });
@@ -154,7 +154,7 @@ document.getElementById("import").addEventListener('click', async () => {
 				try {
 					let data = JSON.parse(fileReader.result);
 					if (data.name === "YouTooltip") {
-						if (confirm("Import and overwrite settings and statistics?")) {
+						if (await showConfirmDialog("Import", "Import and overwrite settings and statistics?")) {
 							let checkedImport = await browser.runtime.sendMessage({
 								command: "checkImport",
 								version: data.version,
@@ -170,7 +170,7 @@ document.getElementById("import").addEventListener('click', async () => {
 					}
 				} catch(error) {
 					console.error(error);
-					alert(`Could not import settings:\n${error.name === "SyntaxError" ? "JSON syntax corrupted." : error.message || error}`);
+					showErrorDialog("Import error", `Could not import settings:\n${error.name === "SyntaxError" ? "JSON syntax corrupted." : error.message || error}`);
 				}
 			};
 			await fileReader.readAsText(file);
@@ -230,12 +230,32 @@ async function updateStats() {
 	});
 }
 document.getElementById("resetStats").addEventListener('click', async () => {
-	if (confirm("Reset statistics?")) {
+	if (await showConfirmDialog("Reset statistics", "Reset statistics?")) {
 		await browser.runtime.sendMessage({command: "resetStats"});
 		await updateStats();
 	}
 });
 document.getElementById("refreshStats").addEventListener('click', updateStats);
+
+function showErrorDialog(title, text) {
+	let errorDialog = document.getElementById("errorDialog");
+	errorDialog.querySelector(".title").textContent = title;
+	errorDialog.querySelector(".text").textContent = text;
+	errorDialog.showModal();
+}
+
+function showConfirmDialog(title, text) {
+	let confirmDialog = document.getElementById("confirmDialog");
+	confirmDialog.querySelector(".title").textContent = title;
+	confirmDialog.querySelector(".text").textContent = text;
+	let closeDialogPromise = new Promise((resolve, reject) => {
+		confirmDialog.addEventListener("close", () => {
+			resolve(confirmDialog.returnValue === "ok");
+		}, {once: true});
+	});
+	confirmDialog.showModal();
+	return closeDialogPromise;
+}
 
 function parseBlacklist(blacklist) {
 	// Remove error-causing characters and empty lines.
@@ -313,9 +333,9 @@ async function saveAndRestoreOptions(opt, configObject) {
 		} catch(error) {
 			console.error(error);
 			if (error.message.startsWith("Invalid url pattern"))
-				alert("Could not save options\nInvalid url pattern: " + error.message.replace("Invalid url pattern: ", ""));
+				showErrorDialog("Options error", "Could not save options:\nInvalid url pattern: " + error.message.replace("Invalid url pattern: ", ""));
 			else
-				alert("Could not save options\n" + error);
+				showErrorDialog("Options error", "Could not save options:\n" + error);
 			return false;
 		}
 	} else if (opt === "restore") {
@@ -345,7 +365,7 @@ async function saveAndRestoreOptions(opt, configObject) {
 			return true;
 		} catch(error) {
 			console.error(error);
-			alert("Could not restore options\n" + error);
+			showErrorDialog("Options error", "Could not restore options:\n" + error);
 			return false;
 		}
 	} else if (opt === "import") {
@@ -359,7 +379,7 @@ async function saveAndRestoreOptions(opt, configObject) {
 			return true;
 		} catch(error) {
 			console.error(error);
-			alert("Could not import options\n" + error);
+			showErrorDialog("Options error", "Could not import options:\n" + error);
 			return false;
 		}
 	}

@@ -150,6 +150,7 @@ a:hover::after {
 	border: none;
 	border-radius: 4px;
 	background: transparent;
+	color: inherit;
 	font: inherit;
 	display: flex;
 	align-items: center;
@@ -200,6 +201,7 @@ main {
 	width: 2rem;
 	height: 2rem;
 	background: transparent;
+	color: inherit;
 	border: none;
 }
 #sidebarToggle svg {
@@ -243,6 +245,17 @@ input[type="checkbox"], input[type="radio"] {
 .button:hover:active {
 	background: #b1b1b1;
 	border-color: #484848;
+}
+.button.okButton {
+	background: #0061e0;
+	border-color: #8faebf;
+	color: #fbfbfb;
+}
+.button.okButton:hover {
+	background: #0250bb;
+}
+.button.okButton:hover:active {
+	background: #053e94;
 }
 .button:disabled {
 	background: #e7e7e7 !important;
@@ -404,6 +417,55 @@ textarea {
 }
 
 
+dialog {
+	min-width: 200px;
+	padding: 10px;
+	background: #ffffff;
+	border: none;
+	border-radius: 8px;
+	box-shadow: 0 2px 6px 0 rgba(0,0,0,0.3);
+	font-size: 0.9rem;
+}
+dialog::backdrop {
+	background: rgba(0, 0, 0, 0.3);
+}
+dialog .titleContainer {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	max-width: 500px;
+}
+dialog .titleContainer svg {
+	flex-shrink: 0;
+	height: 1.4em;
+	width: 1.4em;
+}
+#errorDialog .titleContainer svg {
+	color: #f55;
+}
+#confirmDialog .titleContainer svg {
+	color: #1947a2;
+}
+dialog .titleContainer .title {
+	margin: 0;
+	font-size: 1em;
+	font-weight: bold;
+}
+dialog .text {
+	white-space: pre-wrap;
+	max-width: 500px;
+}
+dialog form[method="dialog"] {
+	display: flex;
+	gap: 5px;
+	margin-left: auto;
+	width: max-content;
+}
+dialog .button {
+	padding: 5px 10px;
+}
+
+
 .releaseNotes ul {
 	margin: 0;
 	padding: 0;
@@ -467,6 +529,16 @@ textarea {
 		background: #5b5b5b;
 		border-color: #d0d0d0;
 	}
+	.button.okButton {
+		background: #295e6f;
+		border-color: #8faebf;
+	}
+	.button.okButton:hover {
+		background: #447e8f;
+	}
+	.button.okButton:hover:active {
+		background: #5b8e9f;
+	}
 	.button:disabled {
 		background: #212121 !important;
 		border-color: #444 !important;
@@ -496,6 +568,14 @@ textarea {
 	.notice {
 		background: #343218;
 		color: #d0b46d;
+	}
+	
+	
+	dialog {
+		background: #414141;
+	}
+	#confirmDialog .titleContainer svg {
+		color: #50fbfb;
 	}
 }
 

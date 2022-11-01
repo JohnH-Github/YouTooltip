@@ -6,7 +6,7 @@
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "youtooltip@johnh.addons.mozilla.org",
-			"strict_min_version": "92.0"
+			"strict_min_version": "98.0"
 		}
 	},
 	"icons": {
