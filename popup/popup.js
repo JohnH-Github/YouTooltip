@@ -1,5 +1,6 @@
 "use strict";
 
+var thisTab;
 var previouslyLoading = false;
 var bucketsData;
 const gotoIdCurrent = {
@@ -15,6 +16,13 @@ document.getElementById("openOptions").addEventListener("click", async () => {
 });
 document.getElementById("refresh").addEventListener("click", getStats);
 
+function showError(error) {
+	console.error(error, error.message);
+	let errorEle = document.getElementById("error");
+	errorEle.classList.add("show");
+	errorEle.textContent = error.message;
+}
+
 async function gotoId(bucket, id, count) {
 	if (gotoIdCurrent.id === id) {
 		gotoIdCurrent.index = (gotoIdCurrent.index + 1) % count;
@@ -22,19 +30,15 @@ async function gotoId(bucket, id, count) {
 		gotoIdCurrent.id = id;
 		gotoIdCurrent.index = 0;
 	}
-	let tabs = await browser.tabs.query({active: true, currentWindow: true});
 	try {
-		await browser.tabs.sendMessage(tabs[0].id, {
+		await browser.tabs.sendMessage(thisTab.id, {
 			command: "gotoId",
 			bucket: bucket,
 			id: id,
 			index: gotoIdCurrent.index
 		});
 	} catch(error) {
-		console.error(error, error.message);
-		let errorEle = document.getElementById("error");
-		errorEle.classList.add("show");
-		errorEle.textContent = error.message;
+		showError(error);
 	}
 }
 function pageStatusChange(tabId, changeInfo, tabInfo) {
@@ -113,17 +117,13 @@ function update(newPageStats, newBucketsData) {
 }
 
 async function getStats() {
-	let tabs = await browser.tabs.query({active: true, currentWindow: true});
 	try {
-		let data = await browser.tabs.sendMessage(tabs[0].id, {
+		let data = await browser.tabs.sendMessage(thisTab.id, {
 			command: "getData"
 		});
 		update(data.pageStats, data.bucketsData);
 	} catch(error) {
-		console.error(error, error.message);
-		let errorEle = document.getElementById("error");
-		errorEle.classList.add("show");
-		errorEle.textContent = error.message;
+		showError(error);
 	}
 }
 
@@ -158,29 +158,28 @@ function isValidUrl(url) {
 		return {valid: true, reason: ""};
 }
 
-var options;
 async function init() {
 	function showMain() {
 		document.querySelector("#loading").classList.remove("show");
 		document.querySelector("main").classList.add("show");
 	}
-	if (window.browser !== undefined) {
-		let tabs = await browser.tabs.query({active: true, currentWindow: true});
-		let validUrlObj = isValidUrl(tabs[0].url);
+	try {
+		thisTab = (await browser.tabs.query({active: true, currentWindow: true}))[0];
+		let validUrlObj = isValidUrl(thisTab.url);
 		if (validUrlObj.valid) {
 			let isBlacklisted = false;
 			try {
-				isBlacklisted = await browser.tabs.sendMessage(tabs[0].id, {
+				isBlacklisted = await browser.tabs.sendMessage(thisTab.id, {
 					command: "isBlacklisted"
 				});
 				if (isBlacklisted) {
 					document.body.classList.add("blacklisted");
 				} else {
-					document.getElementById("refresh").disabled = false;
 					await getStats();
+					document.getElementById("refresh").disabled = false;
 					browser.runtime.onMessage.addListener(messageHandler);
 					browser.tabs.onUpdated.addListener(pageStatusChange, {
-						tabId: tabs[0].id,
+						tabId: thisTab.id,
 						windowId: browser.windows.WINDOW_ID_CURRENT,
 						properties: ["status"]// Listen for this page loading again.
 					});
@@ -191,10 +190,7 @@ async function init() {
 					// Content script hasn't been injected yet. We'll wait until it messages the background script.
 					browser.runtime.onMessage.addListener(onContentScriptActive);
 				} else {
-					console.error(error, error.message);
-					let errorEle = document.getElementById("error");
-					errorEle.classList.add("show");
-					errorEle.textContent = error.message;
+					showError(error);
 				}
 			}
 		} else {
@@ -202,8 +198,11 @@ async function init() {
 			document.body.classList.add(validUrlObj.reason);
 			showMain();
 		}
-	} else {
-		showMain();
+	} catch (error) {
+		if (error.name === "ReferenceError" && error.message.includes("browser"))
+			showMain();
+		else
+			showError(error);
 	}
 }
 init();
