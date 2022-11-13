@@ -11,8 +11,16 @@ const gotoIdCurrent = {
 const toLongNumber = new Intl.NumberFormat("default");
 
 document.getElementById("openOptions").addEventListener("click", async () => {
-	await browser.runtime.openOptionsPage();
-	window.close();
+	try {
+		await browser.runtime.openOptionsPage();
+		window.close();
+	} catch(error) {
+		// Firefox bug (not my fault): When a permission is granted or revoked, then runtime.openOptionsPage() fails. Reloading the extension fixes the problem. Last Firefox version checked: 106.0.5.
+		if (error.message === "An unexpected error occurred")
+			browser.runtime.reload();
+		else
+			console.error(error);
+	}
 });
 document.getElementById("refresh").addEventListener("click", getStats);
 
