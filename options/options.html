@@ -78,21 +78,12 @@
 									<input type="radio" id="apiServiceInvidious" name="apiService" value="invidious" class="setting"/><label for="apiServiceInvidious" class="sectionHeader">Invidious</label>
 									<div class="sectionList">
 										<div class="sectionOption">
-											<label for="invidiousDefaultInstance">Default instance:</label>
-											<select class="setting" id="invidiousDefaultInstance" name="invidiousDefaultInstance">
-												<option>inv.riverside.rocks</option>
-												<option>vid.puffyan.us</option>
-												<option>y.com.sb</option>
-												<option>yt.artemislena.eu</option>
-												<option>invidious.flokinet.to</option>
-												<option>invidious.sethforprivacy.com</option>
-												<option>invidious.tiekoetter.com</option>
-												<option>inv.bp.projectsegfau.lt</option>
-												<option>invidious.projectsegfau.lt</option>
-												<option>inv.vern.cc</option>
-												<option>invidious.nerdvpn.de</option>
-												<option>invidious.slipfox.xyz</option>
-											</select>
+											<label for="invidiousDefaultInstances">Default instance:</label>
+											<select class="setting" id="invidiousDefaultInstances" name="invidiousDefaultInstances" style="min-width: 23rem;"></select>
+											<button class="button" id="refreshInvidiousDefaultInstances" aria-labelledby="buttonTextRefreshInvidiousDefaultInstances">
+												<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextRefreshInvidiousDefaultInstances"><use href="#featherRefresh"/></svg>
+												<span id="buttonTextRefreshInvidiousDefaultInstances">Refresh list</span>
+											</button>
 										</div>
 										<div class="sectionOption">
 											<label for="invidiousCustomInstance" aria-describedby="invidiousCustomInstanceCaption">Custom instance:</label>
@@ -317,7 +308,7 @@ example2.net"></textarea><!-- This must be unindented. -->
 							<div class="mainGroupContent">
 								<div class="section">
 									<button class="button" id="refreshStats" aria-labelledby="buttonTextRefresh">
-										<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-labelledby="buttonTextRefresh"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+										<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextRefresh"><use href="#featherRefresh"/></svg>
 										<span id="buttonTextRefresh">Refresh</span>
 									</button>
 								</div>
@@ -485,6 +476,7 @@ example2.net"></textarea><!-- This must be unindented. -->
 		<svg id="iconSymbols">
 			<symbol id="featherBell" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></symbol>
 			<symbol id="featherTrash" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></symbol>
+			<symbol id="featherRefresh" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></symbol>
 		</svg>
 		
 		<script src="options.js"></script>

@@ -101,6 +101,68 @@ function toggleChildOptions(ele) {
 	}
 }
 
+async function populateInvidiousDefaultInstancesSelect(index) {
+	let invidiousDefaultInstancesSelect = document.getElementById("invidiousDefaultInstances");
+	let selectedInstance = options.invidiousDefaultInstances[index]?.domain || invidiousDefaultInstancesSelect.selectedOptions[0]?.value;
+	invidiousDefaultInstancesSelect.replaceChildren();
+	options.invidiousDefaultInstances.forEach(instance => {
+		let optionElem = document.createElement("option");
+		optionElem.textContent = `${instance.domain} (${instance.flag} ${instance.region}, ${instance.uptime}% uptime)`;
+		optionElem.value = instance.domain;
+		invidiousDefaultInstancesSelect.appendChild(optionElem);
+	});
+	if (selectedInstance)
+		invidiousDefaultInstancesSelect.selectedIndex = Math.max(0, options.invidiousDefaultInstances.findIndex(instance => instance.domain === selectedInstance));
+}
+
+async function getInvidiousInstances() {
+	let invidiousDefaultInstances = []
+	let invidiousDefaultInstancesSelect = document.getElementById("invidiousDefaultInstances");
+	let refreshInvidiousDefaultInstances = document.getElementById("refreshInvidiousDefaultInstances");
+	invidiousDefaultInstancesSelect.disabled = true;
+	refreshInvidiousDefaultInstances.disabled = true;
+	let abortController = new AbortController();
+	const requestTimeout = setTimeout(() => {
+		abortController.abort();// Abort request after 30 seconds if not complete.
+	}, 5000);
+	let response;
+	let responseBody;
+	try {
+		response = await fetch("https://api.invidious.io/instances.json?sort_by=type,health", {signal: abortController.signal});
+		if (!response.ok)
+			throw `Response not ok: ${response.status} ${response.statusText}`;
+		responseBody = await response.json();
+		options.invidiousDefaultInstances = [];
+		responseBody.forEach(instance => {
+			if (instance[1].api !== true || instance[1].type !== "https" || instance[1].monitor?.dailyRatios[0].label !== "success")
+				return;
+			options.invidiousDefaultInstances.push({
+				domain: instance[0],
+				flag: instance[1].flag,
+				region: instance[1].region,
+				uptime: instance[1].monitor['30dRatio'].ratio
+			});
+		});
+		await populateInvidiousDefaultInstancesSelect();
+		await saveAndRestoreOptions("save");
+	} catch(error) {
+		console.error(error);
+		if (error.message.includes("NetworkError"))
+			showErrorDialog("Invidious error", "Could not send request. Check your internet connection.");
+		else if (error.name === "AbortError")
+			showErrorDialog("Invidious error", "Connection timed out.");
+		else if (response.status > 499 && response.status < 600)
+			showErrorDialog("Invidious error", `Server error: ${response.status} ${response.statusText}`);
+		else if (response.status > 399 && response.status < 500) {
+			showErrorDialog("Invidious error", error);
+		}
+	} finally {
+		invidiousDefaultInstancesSelect.disabled = false;
+		refreshInvidiousDefaultInstances.disabled = false;
+	}
+}
+document.getElementById("refreshInvidiousDefaultInstances").addEventListener("click", getInvidiousInstances);
+
 document.getElementById("export").addEventListener('click', async () => {
 	let permissionRequest = await browser.permissions.request({
 		permissions: ["downloads"]
@@ -281,7 +343,7 @@ async function saveAndRestoreOptions(opt, configObject) {
 		{name: "apiService", type: 3},
 		{name: "keyCustom", type: 0},
 		{name: "keyDefaultIndex", type: 2},
-		{name: "invidiousDefaultInstance", type: 2},
+		{name: "invidiousDefaultInstances", type: 2},
 		{name: "invidiousCustomInstance", type: 0},
 		
 		{name: "displayMode", type: 3},
@@ -321,6 +383,8 @@ async function saveAndRestoreOptions(opt, configObject) {
 			optionsList.forEach(option => {
 				if (option.name === "blacklist") {
 					options[option.name] = blacklistArray;
+				} else if (option.name === "invidiousDefaultInstances") {
+					options.invidiousDefaultInstance = document.getElementById("invidiousDefaultInstances").selectedIndex;
 				} else if (option.type === 3) {
 					options[option.name] = document.querySelector(`[name=${option.name}]:checked`).value;
 				} else {
@@ -346,6 +410,8 @@ async function saveAndRestoreOptions(opt, configObject) {
 			optionsList.forEach(option => {
 				if (option.name === "blacklist") {
 					document.getElementById("blacklist").value = options[option.name].join("\n");
+				} else if (option.name === "invidiousDefaultInstances") {
+					populateInvidiousDefaultInstancesSelect(options.invidiousDefaultInstance);
 				} else if (option.type === 3) {
 					document.querySelector(`[name=${option.name}][value=${options[option.name]}]`).checked = true;
 				} else {

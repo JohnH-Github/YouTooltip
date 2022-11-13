@@ -29,7 +29,6 @@ const elementMap = {
 
 var options;
 var keyDefault;
-var invidiousDefaultInstance;
 var onStorageChangeCounter = 0;
 var blacklisted = false;
 
@@ -64,11 +63,8 @@ async function init() {
 						index: options.keyDefaultIndex
 					});
 				}
-			} else if (options.invidiousCustomInstance === "") {
-				invidiousDefaultInstance = await browser.runtime.sendMessage({
-					command: "getInvidiousDefaultInstance",
-					index: options.invidiousDefaultInstance
-				});
+			} else {
+				await browser.runtime.sendMessage({});// Send empty message in case the popup is listening.
 			}
 			if (options.displayMode === "notification") {
 				let gotPermission = await browser.runtime.sendMessage({
@@ -601,6 +597,8 @@ async function getYTInfo(ids, bucket) {
 		"&fields=items(" + fields + ")" +
 		(bucket === "playlists" ? "&maxResults=50" : "");
 	} else {
+		if (options.invidiousCustomInstance === "" && !options.invidiousDefaultInstances.length)
+			return {error: "No Invidious instance selected."};
 		switch (bucket) {
 			case "videos":
 				fields = [
@@ -626,7 +624,7 @@ async function getYTInfo(ids, bucket) {
 		}
 		fields = fields.filter(Boolean).join(",");
 		
-		address = "https://" + (options.invidiousCustomInstance === "" ? invidiousDefaultInstance : options.invidiousCustomInstance) + 
+		address = "https://" + (options.invidiousCustomInstance === "" ? options.invidiousDefaultInstances[options.invidiousDefaultInstance].domain : options.invidiousCustomInstance) + 
 		"/api/v1/" + bucket +
 		"/" + ids + 
 		"?fields=" + fields;
@@ -652,7 +650,7 @@ async function getYTInfo(ids, bucket) {
 			addressUrl.searchParams.set("key", "APIKEY");// Don't show my (or the user's) api key in the error message.
 		console.error(error, `Bucket: ${bucket}.`, `API: ${options.apiService}.`, `URL: ${decodeURIComponent(addressUrl.href)}`);
 		if (error.message === "NetworkError when attempting to fetch resource.")
-			return {error: `Could not send request. Check your internet connection.`};
+			return {error: "Could not send request. Check your internet connection."};
 		else if (response.status > 499 && response.status < 600)
 			return {error: `Server error: ${response.status} ${response.statusText}`};
 		else if (response.status > 399 && response.status < 500) {

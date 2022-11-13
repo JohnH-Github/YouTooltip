@@ -9,21 +9,6 @@ const keyDefaultArray = [
 	"AIzaSyC6st7GgMdBwwc4ruhzwW1XN8Ib7YU_DBg"
 ];
 
-const invidiousDefaultInstanceArray = [
-	"inv.riverside.rocks",
-	"vid.puffyan.us",
-	"y.com.sb",
-	"yt.artemislena.eu",
-	"invidious.flokinet.to",
-	"invidious.sethforprivacy.com",
-	"invidious.tiekoetter.com",
-	"inv.bp.projectsegfau.lt",
-	"invidious.projectsegfau.lt",
-	"inv.vern.cc",
-	"invidious.nerdvpn.de",
-	"invidious.slipfox.xyz"
-];
-
 const defaultOptions = {
 	operationMode: "auto",
 	
@@ -31,6 +16,7 @@ const defaultOptions = {
 	keyCustom: "",
 	keyDefaultIndex: undefined,
 	invidiousDefaultInstance: undefined,
+	invidiousDefaultInstances: [],
 	invidiousCustomInstance: "",
 	
 	displayMode: "tooltip",
@@ -75,7 +61,6 @@ var updateStatsTracker = defaultStats;
 async function setDefaultOptions() {
 	let options = defaultOptions;
 	options.keyDefaultIndex = Math.floor(Math.random() * keyDefaultArray.length);
-	options.invidiousDefaultInstance = Math.floor(Math.random() * invidiousDefaultInstanceArray.length);
 	return await browser.storage.local.set({options});
 }
 
@@ -92,6 +77,29 @@ async function checkOptions(previousVersion, options) {
 		}
 		options = storageOptions.options;
 	}
+	
+	// Modernize old settings.
+	if (previousVersion < "1.3.0") {
+		// If Invidious API is selected and the custom instance field is blank, set the selected default instance as the custom instance.
+		if (options.apiService === "invidious" && options.invidiousCustomInstance === "") {
+			let invidiousDefaultInstanceArray = [
+				"inv.riverside.rocks",
+				"vid.puffyan.us",
+				"y.com.sb",
+				"yt.artemislena.eu",
+				"invidious.flokinet.to",
+				"invidious.sethforprivacy.com",
+				"invidious.tiekoetter.com",
+				"inv.bp.projectsegfau.lt",
+				"invidious.projectsegfau.lt",
+				"inv.vern.cc",
+				"invidious.nerdvpn.de",
+				"invidious.slipfox.xyz"
+			];
+			options.invidiousCustomInstance = invidiousDefaultInstanceArray[options.invidiousDefaultInstance];
+		}
+	}
+	
 	// Make sure that properties match.
 	// Minimum browser versions for Object.hasOwn(): Firefox 92, Chromium 93.
 	for (let prop in options) {
@@ -110,10 +118,6 @@ async function checkOptions(previousVersion, options) {
 	// Select a new default key if needed.
 	if (keyDefaultArray[options.keyDefaultIndex] === undefined)
 		options.keyDefaultIndex = Math.floor(Math.random() * keyDefaultArray.length);
-	
-	// Select a new default Invidious instance if needed.
-	if (invidiousDefaultInstanceArray[options.invidiousDefaultInstance] === undefined)
-		options.invidiousDefaultInstance = Math.floor(Math.random() * invidiousDefaultInstanceArray.length);
 	
 	return options;
 }
@@ -241,14 +245,6 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
 				return keyDefaultArray[storageOptions.options.keyDefaultIndex];
 			} else {
 				return keyDefaultArray[message.index];
-			}
-			break;
-		case "getInvidiousDefaultInstance":
-			if (message.index === undefined) {
-				let storageOptions = await browser.storage.local.get("invidiousDefaultInstance");
-				return invidiousDefaultInstanceArray[storageOptions.options.invidiousDefaultInstance];
-			} else {
-				return invidiousDefaultInstanceArray[message.index];
 			}
 			break;
 		case "showNotification":
