@@ -14,8 +14,8 @@ const defaultOptions = {
 	
 	apiService: "google",
 	keyCustom: "",
-	keyDefaultIndex: undefined,
-	invidiousDefaultInstance: undefined,
+	keyDefaultIndex: null,
+	invidiousDefaultInstance: null,
 	invidiousDefaultInstances: [],
 	invidiousCustomInstance: "",
 	
@@ -116,7 +116,7 @@ async function checkOptions(previousVersion, options) {
 	}
 	
 	// Select a new default key if needed.
-	if (keyDefaultArray[options.keyDefaultIndex] === undefined)
+	if (keyDefaultArray[options.keyDefaultIndex] === null)
 		options.keyDefaultIndex = Math.floor(Math.random() * keyDefaultArray.length);
 	
 	return options;
