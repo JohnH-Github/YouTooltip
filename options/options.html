@@ -58,6 +58,7 @@
 							<div class="mainGroupContent">
 								<div class="section">
 									<input type="radio" id="apiServiceGoogle" name="apiService" value="google" class="setting"/><label for="apiServiceGoogle" class="sectionHeader">Google</label>
+									<span class="caption">Use the Google API.</span>
 									<div class="sectionList">
 										<div class="sectionOption">
 											<label for="keyDefaultIndex">Default key:</label>
@@ -67,6 +68,7 @@
 												<option>Default 3</option>
 											</select>
 										</div>
+										<span class="caption">Select the default key. If a problem occurs, try selecting a different key.</span>
 										<div class="sectionOption">
 											<label for="keyCustom" aria-describedby="keyCustomCaption">Custom key:</label>
 											<input type="text" id="keyCustom" name="keyCustom" class="setting" aria-describedby="keyCustomCaption"/>
@@ -76,6 +78,7 @@
 								</div>
 								<div class="section invidious">
 									<input type="radio" id="apiServiceInvidious" name="apiService" value="invidious" class="setting"/><label for="apiServiceInvidious" class="sectionHeader">Invidious</label>
+									<span class="caption">Use the <a href="https://invidious.io/">Invidious</a> API. Operation mode must be set to 'Hover' to use this API.</span>
 									<div class="sectionList">
 										<div class="sectionOption">
 											<label for="invidiousDefaultInstances">Default instance:</label>
@@ -85,6 +88,7 @@
 												<span id="buttonTextRefreshInvidiousDefaultInstances">Refresh list</span>
 											</button>
 										</div>
+										<span class="caption">Select the default instance. Press 'Refresh list' to retrieve a list of valid and working instances.</span>
 										<div class="sectionOption">
 											<label for="invidiousCustomInstance" aria-describedby="invidiousCustomInstanceCaption">Custom instance:</label>
 											<input type="text" id="invidiousCustomInstance" name="invidiousCustomInstance" class="setting" aria-describedby="invidiousCustomInstanceCaption"/>
@@ -102,9 +106,11 @@
 									<div class="sectionList">
 										<div class="sectionOption">
 											<input id="displayModeTooltip" class="setting" type="radio" name="displayMode" value="tooltip"/><label for="displayModeTooltip">Tooltip</label>
+											<span class="caption">Use the browser tooltip.</span>
 										</div>
 										<div class="sectionOption">
 											<input id="displayModeNotification" class="setting" type="radio" name="displayMode" value="notification"/><label for="displayModeNotification">Notification</label>
+											<span class="caption">Use the browser notification feature. Requires the notification permission.</span>
 											<div class="formatPart">
 												<div class="permissionRequest">
 													<button class="button" id="notificationPermission" aria-labelledby="buttonTextGrantNotification">
@@ -251,35 +257,38 @@ example2.net"></textarea><!-- This must be unindented. -->
 							<h3>Import/Export</h3>
 							<div class="mainGroupContent">
 								<div class="section">
-									<div class="importExport">
-										<button class="button" id="import" aria-labelledby="buttonTextImport">
-											<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-labelledby="buttonTextImport"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-											<span id="buttonTextImport">Import</span>
-										</button>
-										<button class="button" id="export" aria-labelledby="buttonTextExport">
-											<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-labelledby="buttonTextExport"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-											<span id="buttonTextExport">Export</span>
-										</button>
-									</div>
+									<button class="button" id="import" aria-labelledby="buttonTextImport">
+										<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-labelledby="buttonTextImport"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+										<span id="buttonTextImport">Import</span>
+									</button>
+									<span class="caption">Imports settings and statistics from a file on your computer.</span>
+								</div>
+								<div class="section">
+									<button class="button" id="export" aria-labelledby="buttonTextExport">
+										<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-labelledby="buttonTextExport"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+										<span id="buttonTextExport">Export</span>
+									</button>
+									<span class="caption">Exports settings and statistics to a JSON file on your computer.</span>
 								</div>
 							</div>
 						</div>
 						<div class="mainGroup">
-							<h3>Extra</h3>
+							<h3>Reset</h3>
 							<div class="mainGroupContent">
-								<details>
-									<summary>Reset</summary>
-									<div>
-										<button class="button" id="resetOptionsButton" aria-labelledby="buttonTextResetOptions">
-											<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextResetOptions"><use href="#featherTrash"/></svg>
-											<span id="buttonTextResetOptions">Reset options</span>
-										</button>
-										<button class="button" id="resetEverythingButton" aria-labelledby="buttonTextResetEverything">
-											<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextResetEverything"><use href="#featherTrash"/></svg>
-											<span id="buttonTextResetEverything">Reset everything</span>
-										</button>
-									</div>
-								</details>
+								<div class="section">
+									<button class="button" id="resetOptionsButton" aria-labelledby="buttonTextResetOptions">
+										<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextResetOptions"><use href="#featherTrash"/></svg>
+										<span id="buttonTextResetOptions">Reset options</span>
+									</button>
+									<span class="caption">Resets options, but keeps statistics.</span>
+								</div>
+								<div class="section">
+									<button class="button" id="resetEverythingButton" aria-labelledby="buttonTextResetEverything">
+										<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextResetEverything"><use href="#featherTrash"/></svg>
+										<span id="buttonTextResetEverything">Reset everything</span>
+									</button>
+									<span class="caption">Resets everything, including statistics.</span>
+								</div>
 							</div>
 						</div>
 					</div>
