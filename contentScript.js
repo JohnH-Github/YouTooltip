@@ -876,12 +876,10 @@ const customTooltip = {
 			// Too far down.
 			translate[1] = "-100%"
 			tooltip.style.top = yPos + "px";
-			console.log("too far down")
 		} else {
 			// Default position: 15px below cursor.
 			tooltip.style.top = (yPos + 15) + "px";
 		}
-		console.info(yPos, boundingClientRect.height, document.documentElement.clientHeight)
 		tooltip.style.transform = `translate(${translate.toString()})`;
 	}
 }
