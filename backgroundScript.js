@@ -20,6 +20,7 @@ const defaultOptions = {
 	invidiousCustomInstance: "",
 	
 	displayMode: "tooltip",
+	customTooltipCSS: "",
 	videosEnable: true,
 	videosDurationEnable: true,
 	videosDurationFormat: 0,

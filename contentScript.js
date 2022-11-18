@@ -370,6 +370,18 @@ function setNewLinks(linkMapBuckets) {
 						showNotification(e.target);
 					});
 					element.addEventListener("mouseleave", clearNotification);
+				} else if (options.displayMode === "customTooltip") {
+					setTitle(element, "");
+					element.addEventListener("mouseenter", (e) => {
+						currentHoverNotification.bucket = e.target.dataset.youtooltipBucket;
+						currentHoverNotification.id = e.target.dataset.youtooltipId;
+						customTooltip.createTooltip(e.clientX, e.clientY, e.target.dataset.youtooltipTitle);
+					});
+					element.addEventListener("mouseleave", () => {
+						currentHoverNotification.bucket = undefined;
+						currentHoverNotification.id = undefined;
+						customTooltip.removeTooltip();
+					});
 				}
 			}
 		}
@@ -465,7 +477,10 @@ async function loadTooltipsHover(bucket, key) {
 			ele.dataset.youtooltipState = 2;
 		}
 		if (options.operationMode === "hover" && currentHoverNotification.id === key) {
-			showNotification(mapValues[0]);
+			if (options.displayMode === "notification")
+				showNotification(mapValues[0]);
+			else if (options.displayMode === "customTooltip")
+				customTooltip.updateText(mapValues[0].dataset.youtooltipTitle);
 		}
 		incrementStat("tooltipsSession", mapValues.length);
 		incrementStat("tooltipsTotal", mapValues.length);
@@ -794,5 +809,79 @@ function formatNumber(num, opt, str) {
 			break;
 		case 1:
 			return toLongNumber.format(num) + (str === undefined ? "" : " " + str);
+	}
+}
+
+/*
+ * Creates a custom HTML tooltip.
+ */
+const customTooltip = {
+	displayTimeout: null,
+	xPos: null,
+	yPos: null,
+	createTooltip: function(xPos, yPos, text) {
+		customTooltip.xPos = xPos;
+		customTooltip.yPos = yPos;
+		let tooltip = document.getElementById("youTooltip");
+		if (tooltip !== null)
+			customTooltip.removeTooltip();
+		tooltip = document.createElement("div");
+		tooltip.id = "youTooltip";
+		tooltip.setAttribute("role", "tooltip");
+		tooltip.setAttribute("style", "display: none; position: fixed; padding: 3px; max-width: 560px; width: max-content; border-radius: 4px; font-size: 12px; font-family: 'Segoe UI', system-ui, sans-serif; white-space: pre-wrap; pointer-events: none; background-color: #f9f9f9; border: 1px solid #676767; color: #000;" + (window.matchMedia("(prefers-color-scheme: dark)").matches ? "background-color: #000; border-color: #878787; color: #fff;" : "") + options.customTooltipCSS);
+		tooltip.textContent = text;
+		document.body.appendChild(tooltip);
+		document.body.addEventListener("keydown", customTooltip.onEscapeKey);
+		customTooltip.displayTimeout = setTimeout(() => {
+			tooltip.style.display = "block";
+			customTooltip.calculatePosition(xPos, yPos);
+		}, 500);
+		
+	},
+	updateText: function(text) {
+		document.getElementById("youTooltip").textContent = text;
+		customTooltip.calculatePosition(customTooltip.xPos, customTooltip.yPos);
+	},
+	onEscapeKey: function(e) {
+		if (e.key === "Escape") {
+			customTooltip.removeTooltip();
+		}
+	},
+	removeTooltip: function() {
+		document.getElementById("youTooltip").remove();
+		document.body.removeEventListener("keydown", customTooltip.onEscapeKey);
+		clearTimeout(customTooltip.displayTimeout);
+	},
+	calculatePosition: function(xPos, yPos) {
+		let tooltip = document.getElementById("youTooltip");
+		
+		// Here be black magic.
+		let boundingClientRect = tooltip.getBoundingClientRect();
+		let translate = ["0%", "0%"];
+		if ((((xPos + 5) - boundingClientRect.width) < 0) && (((xPos + 5) + boundingClientRect.width) > document.documentElement.clientWidth)) {
+			// Too far left AND right.
+			tooltip.style.width = "auto";
+			tooltip.style.left = "0px";
+		} else if (((xPos + 5) + boundingClientRect.width) > document.documentElement.clientWidth) {
+			// Too far right.
+			translate[0] = "-100%"
+			tooltip.style.left = xPos + "px";
+		} else {
+			// Default position: 5px to the right of cursor.
+			tooltip.style.left = (xPos + 5) + "px";
+		}
+		if (((yPos - boundingClientRect.height) < 0) && ((yPos + boundingClientRect.height) > document.documentElement.clientHeight)) {
+			tooltip.style.top = "0px";
+		} else if ((yPos + boundingClientRect.height) > document.documentElement.clientHeight) {
+			// Too far down.
+			translate[1] = "-100%"
+			tooltip.style.top = yPos + "px";
+			console.log("too far down")
+		} else {
+			// Default position: 15px below cursor.
+			tooltip.style.top = (yPos + 15) + "px";
+		}
+		console.info(yPos, boundingClientRect.height, document.documentElement.clientHeight)
+		tooltip.style.transform = `translate(${translate.toString()})`;
 	}
 }

@@ -109,6 +109,20 @@
 											<span class="caption">Use the browser tooltip.</span>
 										</div>
 										<div class="sectionOption">
+											<input id="displayModeCustomTooltip" class="setting" type="radio" name="displayMode" value="customTooltip"/><label for="displayModeCustomTooltip">Custom tooltip</label>
+											<span class="caption">Use a custom tooltip.</span>
+											<div class="formatPart">
+												<details>
+													<summary>Custom CSS</summary>
+													<div>
+														<span class="caption">Enter valid CSS to style the tooltip. Leave blank to use default styles.</span>
+														<textarea id="customTooltipCSS" class="setting" rows="5" spellcheck="false" placeholder="color: #ff0;
+background-color: #aaa;"></textarea><!-- This must be unindented. -->
+													</div>
+												</details>
+											</div>
+										</div>
+										<div class="sectionOption">
 											<input id="displayModeNotification" class="setting" type="radio" name="displayMode" value="notification"/><label for="displayModeNotification">Notification</label>
 											<span class="caption">Use the browser notification feature. Requires the notification permission.</span>
 											<div class="formatPart">
@@ -132,6 +146,9 @@
 								<div class="section">
 									<input type="checkbox" id="videosEnable" name="videosEnable" class="setting"/><label for="videosEnable" class="sectionHeader">Videos</label>
 									<div class="sectionList">
+										<div class="sectionOption">
+											<input type="checkbox" id="videosTitleEnable" name="videosTitleEnable" disabled checked/><label for="videosTitleEnable">Title</label>
+										</div>
 										<div class="sectionOption">
 											<input type="checkbox" id="videosDurationEnable" name="videosDurationEnable" class="setting"/><label for="videosDurationEnable">Duration</label>
 											<div class="formatPart">
@@ -196,6 +213,9 @@
 								<div class="section">
 									<input type="checkbox" id="playlistsEnable" name="playlistsEnable" class="setting"/><label for="playlistsEnable" class="sectionHeader">Playlists</label>
 									<div class="sectionList">
+										<div class="sectionOption">
+											<input type="checkbox" id="playlistsTitleEnable" name="playlistsTitleEnable" disabled checked/><label for="playlistsTitleEnable">Title</label>
+										</div>
 										<div class="apiSwitch google">
 											<div class="sectionOption">
 												<input type="checkbox" id="playlistsPublishedEnable" name="playlistsPublishedEnable" class="setting"/><label for="playlistsPublishedEnable">Published date and time</label>

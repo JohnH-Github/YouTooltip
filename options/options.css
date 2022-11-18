@@ -335,7 +335,7 @@ textarea {
 	opacity: 0.5;
 	pointer-events: none;
 }
-.sectionOption:not(:first-of-type) {
+.sectionList > :not(:first-child) {
 	padding-top: .5rem;
 }
 

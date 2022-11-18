@@ -347,6 +347,7 @@ async function saveAndRestoreOptions(opt, configObject) {
 		{name: "invidiousCustomInstance", type: 0},
 		
 		{name: "displayMode", type: 3},
+		{name: "customTooltipCSS", type: 0},
 		{name: "videosEnable", type: 1},
 		{name: "videosDurationEnable", type: 1},
 		{name: "videosDurationFormat", type: 2},
