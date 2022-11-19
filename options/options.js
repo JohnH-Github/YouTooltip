@@ -266,11 +266,20 @@ allRadios.forEach(radio => {
 	});
 });
 
+
+async function onStorageChange(changes) {
+	if ("stats" in changes)
+		await updateStats(changes.stats.newValue);
+}
 const allTabs = document.querySelectorAll(".tab");
 allTabs.forEach(tab => {
 	tab.addEventListener("click", async () => {
-		if (tab.dataset.tab === "statistics")
+		if (tab.dataset.tab === "statistics") {
 			await updateStats();
+			browser.storage.local.onChanged.addListener(onStorageChange);
+		} else {
+			browser.storage.local.onChanged.removeListener(onStorageChange);
+		}
 		let currentSelectedTab = document.querySelector(".tab.selected");
 		currentSelectedTab.classList.remove("selected");
 		document.querySelector(`[data-panel=${currentSelectedTab.dataset.tab}]`).classList.remove("show");
@@ -282,7 +291,7 @@ allTabs.forEach(tab => {
 });
 
 const toLongNumber = new Intl.NumberFormat("default");
-async function updateStats() {
+async function updateStats(newStats) {
 	if (window.browser === undefined)// For testing as a local html file.
 		return;
 	let storageStats = await browser.storage.local.get("stats");
@@ -297,7 +306,6 @@ document.getElementById("resetStats").addEventListener('click', async () => {
 		await updateStats();
 	}
 });
-document.getElementById("refreshStats").addEventListener('click', updateStats);
 
 function showErrorDialog(title, text) {
 	let errorDialog = document.getElementById("errorDialog");
