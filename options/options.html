@@ -15,16 +15,16 @@
 						<img class="logo" src="../icons/icon.svg" alt="YouTooltip logo"/>
 						<h1 class="title">YouTooltip</h1>
 					</div>
-					<nav class="tabsList">
-						<button class="tab selected" data-tab="settings" aria-labelledby="tabTextSettings">
+					<nav class="tabsList" role="tablist" aria-orientation="vertical" aria-label="Tabs list">
+						<button id="tabSettings" class="tab selected" data-tab="settings" aria-labelledby="tabTextSettings" role="tab" aria-selected="true" aria-controls="tabPanelSettings">
 							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="tabTextSettings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
 							<span id="tabTextSettings">Settings</span>
 						</button>
-						<button class="tab" data-tab="statistics" aria-labelledby="tabTextStatistics">
+						<button id="tabStatistics" class="tab" data-tab="statistics" aria-labelledby="tabTextStatistics" role="tab" aria-controls="tabPanelStatistics">
 							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="tabTextStatistics"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
 							<span id="tabTextStatistics">Statistics</span>
 						</button>
-						<button class="tab" data-tab="about" aria-labelledby="tabTextAbout">
+						<button id="tabAbout" class="tab" data-tab="about" aria-labelledby="tabTextAbout" role="tab" aria-controls="tabPanelAbout">
 							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="tabTextAbout"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
 							<span id="tabTextAbout">About</span>
 						</button>
@@ -38,7 +38,7 @@
 					</button>
 					<h2>Settings</h2>
 				</div>
-				<div class="mainPanel show" data-panel="settings">
+				<div id="tabPanelSettings" class="mainPanel show" data-panel="settings" role="tabpanel" aria-labelledby="tabSettings">
 					<div class="mainPanelContent">
 						<div class="mainGroup">
 							<h3>Operation mode</h3>
@@ -87,8 +87,8 @@
 												<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextRefreshInvidiousDefaultInstances"><use href="#featherRefresh"/></svg>
 												<span id="buttonTextRefreshInvidiousDefaultInstances">Refresh list</span>
 											</button>
+											<span class="caption">Select the default instance. Press 'Refresh list' to retrieve a list of valid and working instances.</span>
 										</div>
-										<span class="caption">Select the default instance. Press 'Refresh list' to retrieve a list of valid and working instances.</span>
 										<div class="sectionOption">
 											<label for="invidiousCustomInstance" aria-describedby="invidiousCustomInstanceCaption">Custom instance:</label>
 											<input type="text" id="invidiousCustomInstance" name="invidiousCustomInstance" class="setting" aria-describedby="invidiousCustomInstanceCaption"/>
@@ -313,7 +313,7 @@ example2.net"></textarea><!-- This must be unindented. -->
 						</div>
 					</div>
 				</div>
-				<div class="mainPanel" data-panel="statistics">
+				<div id="tabPanelStatistics" class="mainPanel" data-panel="statistics" role="tabpanel" aria-labelledby="tabStatistics">
 					<div class="mainPanelContent">
 						<div class="mainGroup">
 							<div class="mainGroupContent">
@@ -367,7 +367,7 @@ example2.net"></textarea><!-- This must be unindented. -->
 						</div>
 					</div>
 				</div>
-				<div class="mainPanel" data-panel="about">
+				<div id="tabPanelAbout" class="mainPanel" data-panel="about" role="tabpanel" aria-labelledby="tabAbout">
 					<div class="mainPanelContent">
 						<div class="mainGroup">
 							<h3>YouTooltip</h3>
@@ -417,6 +417,7 @@ example2.net"></textarea><!-- This must be unindented. -->
 										<summary class="sectionHeader">v1.3.0</summary>
 										<div class="sectionList">
 											<ul>
+												<li>Added: Custom tooltip display mode.</li>
 												<li>Added: Blacklist.</li>
 												<li>Changed: Options now autosave. You still need to reload other tabs for changes to take effect.</li>
 												<li>Changed: Invidious default instance list is now dynamic. You must refresh it manually.</li>

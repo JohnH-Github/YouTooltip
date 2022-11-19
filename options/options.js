@@ -282,8 +282,10 @@ allTabs.forEach(tab => {
 		}
 		let currentSelectedTab = document.querySelector(".tab.selected");
 		currentSelectedTab.classList.remove("selected");
+		currentSelectedTab.setAttribute("aria-selected", false);
 		document.querySelector(`[data-panel=${currentSelectedTab.dataset.tab}]`).classList.remove("show");
 		tab.classList.add("selected");
+		tab.setAttribute("aria-selected", true);
 		document.querySelector(".mainHeader h2").textContent = tab.querySelector("span").textContent;
 		document.querySelector(`[data-panel=${tab.dataset.tab}]`).classList.add("show");
 		scroll({top: 0});
