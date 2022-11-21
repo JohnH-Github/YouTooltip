@@ -462,9 +462,33 @@ dialog .button {
 }
 
 
+details {
+	max-width: 70ch;
+	border: 1px solid var(--border-color-lightTheme);
+	border-radius: 5px;
+	background: #f5f5f5;
+	box-shadow: 0 0.1rem 1rem -0.5rem rgba(0, 0, 0, 0.4);
+}
+summary {
+	padding: 5px;
+	border-radius: 4px;
+}
+summary:hover, details[open] > summary {
+	background: #eee;
+	cursor: pointer;
+}
+details[open] > summary {
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
+details > div {
+	padding: 5px;
+}
+
+
 .releaseNotes ul {
 	margin: 0;
-	padding: 0;
+	padding: 0 0 0 1rem;
 }
 
 #iconSymbols {
@@ -572,6 +596,15 @@ dialog .button {
 	}
 	#confirmDialog .titleContainer svg {
 		color: #50fbfb;
+	}
+	
+	
+	details {
+		border-color: var(--border-color-darkTheme);
+		background: #202020;
+	}
+	summary:hover, details[open] > summary {
+		background: #252525;
 	}
 }
 
