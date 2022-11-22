@@ -14,6 +14,7 @@ async function updateNotificationPermission() {
 	if (await browser.permissions.contains({permissions: ["notifications"]})) {
 		notificationPermission.parentElement.classList.add("granted");
 		notificationPermission.disabled = true;
+		notificationPermission.classList.add("stayDisabled");
 	} else {
 		notificationPermission.parentElement.classList.remove("granted");
 		notificationPermission.disabled = false;
@@ -71,8 +72,13 @@ document.getElementsByName("apiService").forEach(service => {
 
 
 function toggleChildOptions(ele) {
+	function disableChildControls(topParent) {
+		childOptions.querySelectorAll(":is(.setting, button, details):not(.stayDisabled)").forEach(setting => {
+			setting.disabled = !topParent.checked;
+		});
+	}
+	let childOptions;
 	if (ele.type === "radio") {
-		let childOptions;
 		let radioGroup = document.getElementsByName(ele.name);
 		radioGroup.forEach(radio => {
 			childOptions = radio.parentElement.querySelector(".sectionList") || radio.parentElement.querySelector(".formatPart");
@@ -81,22 +87,18 @@ function toggleChildOptions(ele) {
 					childOptions.classList.remove("disabled");
 				else
 					childOptions.classList.add("disabled");
+				disableChildControls(radio);
 			}
 		});
 	} else {
-		let sectionList = ele.parentElement.querySelector(".sectionList");
-		let formatPart = ele.parentElement.querySelector(".formatPart");
-		if (sectionList !== null) {
+		childOptions = ele.parentElement.querySelector(".sectionList") || ele.parentElement.querySelector(".formatPart");
+		if (childOptions !== null) {
 			if (ele.checked)
-				sectionList.classList.remove("disabled");
+				childOptions.classList.remove("disabled");
 			else
-				sectionList.classList.add("disabled");
-		} else if (formatPart !== null) {
-			if (ele.checked)
-				formatPart.classList.remove("disabled");
-			else
-				formatPart.classList.add("disabled");
-			formatPart.querySelector("select").disabled = !ele.checked;
+				childOptions.classList.add("disabled");
+			childOptions.querySelector("select").disabled = !ele.checked;
+			disableChildControls(ele);
 		}
 	}
 }
