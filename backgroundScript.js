@@ -44,6 +44,10 @@ const defaultOptions = {
 	playlistsVideoCountFormat: 0,
 	playlistsChannelEnable: true,
 	
+	badgeEnable: true,
+	badgeCount: 0,
+	badgeColor: "#800000",
+	
 	statsEnable: true,
 	
 	blacklist: []
@@ -261,6 +265,16 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
 			break;
 		case "hasPermission":
 			return await browser.permissions.contains(message.permissions);
+			break;
+		case "updateBadge":
+			browser.browserAction.setBadgeText({
+				text: (message.num > 99999 ? "∞" : message.num > 999 ? Math.floor(message.num / 1000) + "k" : message.num).toString(),
+				tabId: sender.tab.id
+			});
+			browser.browserAction.setBadgeBackgroundColor({
+				color: message.badgeColor,
+				tabId: sender.tab.id
+			});
 			break;
 	}
 });

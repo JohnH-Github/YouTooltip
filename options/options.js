@@ -97,7 +97,6 @@ function toggleChildOptions(ele) {
 				childOptions.classList.remove("disabled");
 			else
 				childOptions.classList.add("disabled");
-			childOptions.querySelector("select").disabled = !ele.checked;
 			disableChildControls(ele);
 		}
 	}
@@ -249,6 +248,10 @@ document.getElementById("import").addEventListener('click', async () => {
 	inputEle.click();
 });
 
+document.getElementById("badgeColor").addEventListener("change", async () => {
+	await browser.browserAction.setBadgeBackgroundColor({color: options.badgeColor});
+});
+
 const allSettings = document.querySelectorAll(".setting");
 const allCheckboxes = document.querySelectorAll("[type='checkbox']");
 const allRadios = document.querySelectorAll("[type='radio']");
@@ -382,6 +385,10 @@ async function saveAndRestoreOptions(opt, configObject) {
 		{name: "playlistsVideoCountEnable", type: 1},
 		{name: "playlistsVideoCountFormat", type: 2},
 		{name: "playlistsChannelEnable", type: 1},
+		
+		{name: "badgeEnable", type: 1},
+		{name: "badgeCount", type: 2},
+		{name: "badgeColor", type: 0},
 		
 		{name: "statsEnable", type: 1},
 		

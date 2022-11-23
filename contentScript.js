@@ -175,8 +175,18 @@ function checkIdStats(id) {
 	}
 }
 async function incrementStat(stat, num = 1) {
+	pageStats[stat] += num;
 	if (options.statsEnable) {
-		pageStats[stat] += num;
+		if (options.badgeEnable && ["rickRollTotal", "tooltipsTotal", "requestsTotal"].indexOf(stat) > -1) {
+			let statValue = pageStats[["rickRollTotal", "tooltipsTotal", "requestsTotal"][options.badgeCount]];
+			if (statValue > 0) {
+				await browser.runtime.sendMessage({
+					command: "updateBadge",
+					num: statValue,
+					badgeColor: options.badgeColor
+				});
+			}
+		}
 		await browser.runtime.sendMessage({
 			command: "updateStat",
 			stat: stat,
