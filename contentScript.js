@@ -165,34 +165,31 @@ function setTitle(ele, text) {
 }
 
 function checkIdStats(id) {
-	if (options.statsEnable) {
-		for (let rickRoll of rickRollIds) {
-			if (id === rickRoll) {
-				incrementStat("rickRollSession");
-				incrementStat("rickRollTotal");
-			}
+	for (let rickRoll of rickRollIds) {
+		if (id === rickRoll) {
+			incrementStat("rickRollSession");
+			incrementStat("rickRollTotal");
 		}
 	}
 }
 async function incrementStat(stat, num = 1) {
 	pageStats[stat] += num;
-	if (options.statsEnable) {
-		if (options.badgeEnable && ["rickRollTotal", "tooltipsTotal", "requestsTotal"].indexOf(stat) > -1) {
-			let statValue = pageStats[["rickRollTotal", "tooltipsTotal", "requestsTotal"][options.badgeCount]];
-			if (statValue > 0) {
-				await browser.runtime.sendMessage({
-					command: "updateBadge",
-					num: statValue,
-					badgeColor: options.badgeColor
-				});
-			}
+	if (options.badgeEnable && ["rickRollTotal", "tooltipsTotal", "requestsTotal"].indexOf(stat) > -1) {
+		let statValue = pageStats[["rickRollTotal", "tooltipsTotal", "requestsTotal"][options.badgeCount]];
+		if (statValue > 0) {
+			await browser.runtime.sendMessage({
+				command: "updateBadge",
+				num: statValue,
+				badgeColor: options.badgeColor
+			});
 		}
-		await browser.runtime.sendMessage({
-			command: "updateStat",
-			stat: stat,
-			num: num
-		});
 	}
+	await browser.runtime.sendMessage({
+		command: "updateStat",
+		stat: stat,
+		num: num,
+		statsEnable: options.statsEnable// Popup requires updateStat messages, but the background script can safely ignore them if statsEnable=false.
+	});
 }
 
 /*

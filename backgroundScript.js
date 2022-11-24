@@ -241,8 +241,10 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
 			break;
 		case "updateStat":
 			// Only increment stats when we are in normal browsing, not private browsing.
-			if (!sender.tab.incognito)
-				await incrementStat(message.stat, message.num);
+			if (!sender.tab.incognito) {
+				if (message.statsEnable)
+					await incrementStat(message.stat, message.num);
+			}
 			break;
 		case "getKeyDefault":
 			if (message.index === undefined) {
