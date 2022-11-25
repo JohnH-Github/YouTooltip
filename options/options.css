@@ -95,15 +95,17 @@ a:hover::after {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 15px;
+	gap: 5px;
 	height: 100vh;
 	overflow: auto;
 	padding: 10px;
+	scrollbar-width: thin;
 }
 .sidebar .meta {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	margin-bottom: 10px;
 }
 .sidebar .meta .logo {
 	width: 64px;
@@ -170,6 +172,12 @@ a:hover::after {
 	height: 1em;
 	width: 1em;
 	flex-shrink: 0;
+}
+
+.sidebar .saveCaption {
+	text-align: center;
+	border-top: 1px solid var(--border-color-lightTheme);
+	padding-top: 5px;
 }
 
 
@@ -502,6 +510,9 @@ details > div {
 	margin: 0;
 	padding: 0 0 0 1rem;
 }
+.releaseNotes ul li:not(:first-child) {
+	margin-top: 0.4rem;
+}
 
 #iconSymbols {
 	display: none !important;
@@ -530,6 +541,10 @@ details > div {
 	.tab:hover:active {
 		background: #3b3b3b;
 	}
+	.sidebar .saveCaption {
+		border-top-color: var(--border-color-darkTheme);
+	}
+	
 	main {
 		background: #1c1c1c;
 	}
