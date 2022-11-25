@@ -223,8 +223,6 @@ const onContentScriptActive = () => {
 function messageHandler(message) {
 	// Update stats and links when stats are sent to the background script for recording.
 	// Note: As stated above, hover mode won't trigger this until a link is hovered.
-	if (message.command === "updateStat") {
-		if (["tooltipsTotal", "requestsTotal", "rickRollTotal"].indexOf(message.stat) > -1)
-			getStats();
-	}
+	if (message.command === "updateStat")
+		getStats();
 }

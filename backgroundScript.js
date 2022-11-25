@@ -199,7 +199,8 @@ function getStatToUpdate() {
 }
 var statsUpdating = false;
 async function incrementStat(stat, num = 1) {
-	updateStatsTracker[stat] += num;
+	updateStatsTracker[stat + "Session"] += num;
+	updateStatsTracker[stat + "Total"] += num;
 	if (!statsUpdating) {
 		statsUpdating = true;
 		let statToUpdate = getStatToUpdate();
@@ -241,9 +242,8 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
 			break;
 		case "updateStat":
 			// Only increment stats when we are in normal browsing, not private browsing.
-			if (!sender.tab.incognito) {
-				if (message.statsEnable)
-					await incrementStat(message.stat, message.num);
+			if (!sender.tab.incognito && message.statsEnable) {
+				await incrementStat(message.stat, message.num);
 			}
 			break;
 		case "getKeyDefault":

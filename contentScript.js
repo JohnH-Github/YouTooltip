@@ -110,12 +110,10 @@ const onStorageChange = () => {
  * Popup stuff.
  */
 const pageStats = {
-	tooltipsSession: 0,
-	tooltipsTotal: 0,
-	requestsSession: 0,
-	requestsTotal: 0,
-	rickRollSession: 0,
-	rickRollTotal: 0
+	tooltips: 0,
+	requests: 0,
+	rickRoll: 0
+	
 };
 browser.runtime.onMessage.addListener(async (message) => {
 	switch (message.command) {
@@ -166,16 +164,14 @@ function setTitle(ele, text) {
 
 function checkIdStats(id) {
 	for (let rickRoll of rickRollIds) {
-		if (id === rickRoll) {
-			incrementStat("rickRollSession");
-			incrementStat("rickRollTotal");
-		}
+		if (id === rickRoll)
+			incrementStat("rickRoll");
 	}
 }
 async function incrementStat(stat, num = 1) {
 	pageStats[stat] += num;
-	if (options.badgeEnable && ["rickRollTotal", "tooltipsTotal", "requestsTotal"].indexOf(stat) > -1) {
-		let statValue = pageStats[["rickRollTotal", "tooltipsTotal", "requestsTotal"][options.badgeCount]];
+	if (options.badgeEnable) {
+		let statValue = pageStats[["rickRoll", "tooltips", "requests"][options.badgeCount]];
 		if (statValue > 0) {
 			await browser.runtime.sendMessage({
 				command: "updateBadge",
@@ -302,8 +298,7 @@ function hoverLink(event) {
 				// Loaded. Copy tooltip.
 				event.target.dataset.youtooltipState = 2;
 				setTitle(event.target, getTitle(listOfElements[0]));
-				incrementStat("tooltipsSession");
-				incrementStat("tooltipsTotal");
+				incrementStat("tooltips");
 				break;
 		}
 	}
@@ -351,8 +346,7 @@ function setNewLinks(linkMapBuckets) {
 						listOfElements.push(element);
 						if (options.operationMode === "auto") {// Only on auto mode, copy tooltip.
 							setTitle(element, getTitle(listOfElements[0]));
-							incrementStat("tooltipsSession");
-							incrementStat("tooltipsTotal");
+							incrementStat("tooltips");
 						}
 					}
 				}
@@ -413,8 +407,7 @@ async function loadTooltips(linkMapBuckets) {
 		for (let ele of mapValues) {
 			setTitle(ele, text);
 		}
-		incrementStat("tooltipsSession", mapValues.length);
-		incrementStat("tooltipsTotal", mapValues.length);
+		incrementStat("tooltips", mapValues.length);
 	}
 	for (let bucket in linkMapBuckets) {
 		// The youtube api can only take a maximum 50 ids at a time, so they are split.
@@ -489,8 +482,7 @@ async function loadTooltipsHover(bucket, key) {
 			else if (options.displayMode === "customTooltip")
 				customTooltip.updateText(mapValues[0].dataset.youtooltipTitle);
 		}
-		incrementStat("tooltipsSession", mapValues.length);
-		incrementStat("tooltipsTotal", mapValues.length);
+		incrementStat("tooltips", mapValues.length);
 	}
 	let data = await getYTInfo(key, bucket);
 	if (data === undefined) {
@@ -652,8 +644,7 @@ async function getYTInfo(ids, bucket) {
 		"?fields=" + fields;
 	}
 	
-	incrementStat("requestsSession");
-	incrementStat("requestsTotal");
+	incrementStat("requests");
 	let abortController = new AbortController();
 	const requestTimeout = setTimeout(() => {
 		abortController.abort();// Abort request after 30 seconds if not complete.
