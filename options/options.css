@@ -322,7 +322,7 @@ textarea {
 .section:not(:first-child) {
 	margin-top: 1rem;
 }
-.section.disabled {
+.section.disabled :is(:disabled, label) {
 	opacity: 0.5;
 	pointer-events: none;
 }
@@ -337,12 +337,12 @@ textarea {
 	border-left: 4px solid var(--border-color-lightTheme);
 	padding-left: 2rem;
 }
-.section:not(.disabled) .sectionList.disabled {
+:not(.disabled) .sectionList.disabled :is(:disabled, label) {
 	opacity: 0.5;
 	pointer-events: none;
 }
 
-.section:not(.disabled) .sectionList:not(.disabled) .formatPart.disabled {
+:not(.disabled) .formatPart.disabled :is(:disabled, label) {
 	opacity: 0.5;
 	pointer-events: none;
 }
@@ -353,7 +353,7 @@ textarea {
 .formatPart {
 	margin-left: 2rem;
 }
-.formatPart.disabled {
+.formatPart.disabled :is(:disabled, label) {
 	opacity: 0.5;
 	pointer-events: none;
 }
