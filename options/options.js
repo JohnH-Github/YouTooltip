@@ -43,13 +43,16 @@ document.getElementById("resetEverythingButton").addEventListener('click', async
 
 function changeOperationMode() {
 	let apiServiceGoogle = document.getElementsByName("apiService")[0];
+	let apiServiceInvidious = document.getElementsByName("apiService")[1];
 	let invidiousSection = document.querySelector(".mainGroup.apiService .section.invidious");
 	if (document.querySelector("[name=operationMode]:checked").value === "auto") {
 		apiServiceGoogle.checked = true;
 		toggleChildOptions(apiServiceGoogle);
+		apiServiceInvidious.disabled = true;
 		invidiousSection.classList.add("disabled");
 		changeApiService();
 	} else {
+		apiServiceInvidious.disabled = false;
 		invidiousSection.classList.remove("disabled");
 	}
 }
