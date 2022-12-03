@@ -301,10 +301,15 @@ allTabs.forEach(tab => {
 });
 
 const toLongNumber = new Intl.NumberFormat("default");
-async function updateStats(newStats) {
+async function updateStats() {
 	if (window.browser === undefined)// For testing as a local html file.
 		return;
 	let storageStats = await browser.storage.local.get("stats");
+	if (storageStats.stats === undefined) {
+		await browser.runtime.sendMessage({command: "resetStats"});
+		await updateStats();
+		return;
+	}
 	let allStats = document.querySelectorAll(".statContainer .stat");
 	allStats.forEach(statEle => {
 		statEle.querySelector(".value").textContent = toLongNumber.format((storageStats.stats[statEle.dataset.stat]));
@@ -429,6 +434,11 @@ async function saveAndRestoreOptions(opt, configObject) {
 		try {
 			let storageOptions = await browser.storage.local.get("options");
 			options = storageOptions.options;
+			if (options === undefined) {
+				await browser.runtime.sendMessage({command: "reset", reset:"options"});
+				await saveAndRestoreOptions("restore");
+				return;
+			}
 			
 			optionsList.forEach(option => {
 				if (option.name === "blacklist") {
