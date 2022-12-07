@@ -79,15 +79,18 @@ main {
 main.show {
 	visibility: visible;
 }
-body.privileged main, body.blacklisted main {
+body.privileged main {
 	display: none;
 }
 body.privileged.browserPage .browserPageNotice,
 body.privileged.restrictedDomain .restrictedDomainNotice,
 body.privileged.badProtocol .badProtocolNotice,
-body.blacklisted .blacklistedNotice {
+body.privileged.youtube .youtubeNotice,
+body.privileged.alternateFrontend .alternateFrontendNotice,
+body.privileged.blacklisted .blacklistedNotice {
 	display: block;
 }
+
 .notice {
 	display: none;
 	text-align: center;

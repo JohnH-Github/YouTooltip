@@ -30,8 +30,24 @@ const elementMap = {
 var options;
 var keyDefault;
 var onStorageChangeCounter = 0;
-var blacklisted = false;
+const disabledOnSite = {
+	state: false,
+	reason: ""
+}
 
+/*
+ * Checks if the site is an alternative front-end that contains direct links to youtube.
+ * Definitely not a good solution, but it works for now.
+ */
+function isAlternateFrontend(url) {
+	let urlObj = new URL(url);
+	return (urlObj.hostname === "tube.cadence.moe" ||// Cloudtube
+		document.head.querySelector("meta[name=description]")?.content === "An alternative front-end to YouTube");// Invidious
+}
+
+/*
+ * Checks if the site is blacklisted in the options.
+ */
 function isBlacklisted(url) {
 	let urlObj = new URL(url);
 	return options.blacklist.some(excludeMatch => {
@@ -77,9 +93,15 @@ async function init() {
 				}
 			}
 			
-			// Check for blacklist after sending messages to make sure the popup receives them if it is listening.
+			// Check after sending messages to make sure the popup receives them if it is listening.
+			if (isAlternateFrontend(window.location)) {
+				disabledOnSite.state = true;
+				disabledOnSite.reason = "alternateFrontend";
+				return;
+			}
 			if (isBlacklisted(window.location)) {
-				blacklisted = true;
+				disabledOnSite.state = true;
+				disabledOnSite.reason = "blacklisted";
 				return;
 			}
 			
@@ -117,11 +139,11 @@ const pageStats = {
 };
 browser.runtime.onMessage.addListener(async (message) => {
 	switch (message.command) {
-		case "isBlacklisted":
-			return blacklisted;
+		case "isDisabled":
+			return disabledOnSite;
 			break;
 		case "getData":
-			if (blacklisted)
+			if (disabledOnSite.state)
 				return null;
 			let bucketsArrays = {};
 			let bucketsData = {};
@@ -143,7 +165,7 @@ browser.runtime.onMessage.addListener(async (message) => {
 			};
 			break;
 		case "gotoId":
-			if (blacklisted)
+			if (disabledOnSite.state)
 				return null;
 			let ele = elementMap[message.bucket].get(message.id)[message.index];
 			if (document.body.contains(ele))

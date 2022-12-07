@@ -162,6 +162,8 @@ function isValidUrl(url) {
 		return {valid: false, reason: "restrictedDomain"};
 	else if (validProtocols.find(entry => entry === URLobj.protocol) === undefined)
 		return {valid: false, reason: "badProtocol"};
+	else if (/(^|\.)youtube\.com$/.test(URLobj.hostname))
+		return {valid: false, reason: "youtube"};
 	else
 		return {valid: true, reason: ""};
 }
@@ -175,13 +177,14 @@ async function init() {
 		thisTab = (await browser.tabs.query({active: true, currentWindow: true}))[0];
 		let validUrlObj = isValidUrl(thisTab.url);
 		if (validUrlObj.valid) {
-			let isBlacklisted = false;
+			let isDisabled = false;
 			try {
-				isBlacklisted = await browser.tabs.sendMessage(thisTab.id, {
-					command: "isBlacklisted"
+				isDisabled = await browser.tabs.sendMessage(thisTab.id, {
+					command: "isDisabled"
 				});
-				if (isBlacklisted) {
-					document.body.classList.add("blacklisted");
+				if (isDisabled.state) {
+					document.body.classList.add("privileged");
+					document.body.classList.add(isDisabled.reason);
 				} else {
 					await getStats();
 					document.getElementById("refresh").disabled = false;
