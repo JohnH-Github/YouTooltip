@@ -254,6 +254,9 @@ document.getElementById("import").addEventListener('click', async () => {
 document.getElementById("badgeColor").addEventListener("change", async () => {
 	await browser.browserAction.setBadgeBackgroundColor({color: options.badgeColor});
 });
+document.getElementById("customTooltipCSS").addEventListener("change", (e) => {
+	document.getElementById("customTooltipCSSPreview").style = e.target.value;
+});
 
 const allSettings = document.querySelectorAll(".setting");
 const allCheckboxes = document.querySelectorAll("[type='checkbox']");
@@ -461,6 +464,7 @@ async function saveAndRestoreOptions(opt, configObject) {
 			allRadios.forEach(radio => {
 				toggleChildOptions(radio);
 			});
+			document.getElementById("customTooltipCSSPreview").style = options.customTooltipCSS;
 			return true;
 		} catch(error) {
 			console.error(error);

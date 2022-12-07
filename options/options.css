@@ -416,6 +416,28 @@ textarea {
 }
 
 
+#customTooltipCSSPreviewHeader {
+	margin: 1rem 0 0.5rem 0;
+	font-weight: normal;
+}
+#customTooltipCSSPreview {
+	margin: 0;
+	
+	display: block;
+	padding: 3px;
+	max-width: 560px;
+	width: max-content;
+	border-radius: 4px;
+	font-size: 12px;
+	font-family: "Segoe UI", system-ui, sans-serif;
+	white-space: pre-wrap;
+	pointer-events: none;
+	border: 1px solid #676767;
+	background-color: #f9f9f9;
+	color: #000;
+}
+
+
 .statContainer {
 	display: flex;
 	flex-direction: column;
@@ -615,6 +637,13 @@ details > div {
 	.notice {
 		background: #343218;
 		color: #d0b46d;
+	}
+	
+	
+	#customTooltipCSSPreview {
+		border-color: #878787;
+		background-color: #000;
+		color: #fff;
 	}
 	
 	
