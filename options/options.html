@@ -68,8 +68,8 @@
 												<option>Default 2</option>
 												<option>Default 3</option>
 											</select>
+											<span class="caption">Select the default key. If a problem occurs, try selecting a different key.</span>
 										</div>
-										<span class="caption">Select the default key. If a problem occurs, try selecting a different key.</span>
 										<div class="sectionOption">
 											<label for="keyCustom" aria-describedby="keyCustomCaption">Custom key:</label>
 											<input type="text" id="keyCustom" name="keyCustom" class="setting" aria-describedby="keyCustomCaption"/>
@@ -94,6 +94,26 @@
 											<label for="invidiousCustomInstance" aria-describedby="invidiousCustomInstanceCaption">Custom instance:</label>
 											<input type="text" id="invidiousCustomInstance" name="invidiousCustomInstance" class="setting" aria-describedby="invidiousCustomInstanceCaption"/>
 											<span id="invidiousCustomInstanceCaption" class="caption">Leave blank to use default instance. <a href="https://api.invidious.io/" target="_blank">Public instances</a>.</span>
+										</div>
+									</div>
+								</div>
+								<div class="section piped">
+									<input type="radio" id="apiServicePiped" name="apiService" value="piped" class="setting"/><label for="apiServicePiped" class="sectionHeader">Piped</label>
+									<span class="caption">Use the <a href="https://github.com/TeamPiped/Piped">Piped</a> API. Operation mode must be set to 'Hover' to use this API.</span>
+									<div class="sectionList">
+										<div class="sectionOption">
+											<label for="pipedDefaultInstances">Default instance:</label>
+											<select class="setting" id="pipedDefaultInstances" name="pipedDefaultInstances" style="min-width: 23rem;"></select>
+											<button class="button" id="refreshPipedDefaultInstances" aria-labelledby="buttonTextRefreshPipedDefaultInstances">
+												<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextRefreshPipedDefaultInstances"><use href="#featherRefresh"/></svg>
+												<span id="buttonTextRefreshPipedDefaultInstances">Refresh list</span>
+											</button>
+											<span class="caption">Select the default instance. Press 'Refresh list' to retrieve a list of instances.</span>
+										</div>
+										<div class="sectionOption">
+											<label for="pipedCustomInstance" aria-describedby="pipedCustomInstance">Custom instance:</label>
+											<input type="text" id="pipedCustomInstance" name="pipedCustomInstance" class="setting" aria-describedby="pipedCustomInstanceCaption"/>
+											<span id="pipedCustomInstanceCaption" class="caption">Leave blank to use default instance. <a href="https://github.com/TeamPiped/Piped/wiki/Instances" target="_blank">Public instances</a>.</span>
 										</div>
 									</div>
 								</div>
@@ -181,7 +201,7 @@ Rick Astley</figure>
 												</div>
 											</div>
 										</div>
-										<div class="apiSwitch invidious hide">
+										<div class="apiSwitch invidious piped hide">
 											<div class="sectionOption">
 												<input type="checkbox" id="videosPublishedEnableInvidious" name="videosPublishedEnableInvidious" class="setting"/><label for="videosPublishedEnableInvidious">Published date</label>
 												<div class="formatPart">
@@ -251,9 +271,11 @@ Rick Astley</figure>
 												</div>
 											</div>
 										</div>
-										<div class="sectionOption">
-											<input type="checkbox" id="playlistsPrivacyEnable" name="playlistsPrivacyEnable" class="setting" aria-describedby="playlistsPrivacyEnableCaption"/><label for="playlistsPrivacyEnable" aria-describedby="playlistsPrivacyEnableCaption">Privacy</label>
-											<span id="playlistsPrivacyEnableCaption" class="caption">For Google, shows 'public', 'unlisted', and 'private'. For Invidious, shows public and unlisted as 'listed', and private as 'unlisted'.</span>
+										<div class="apiSwitch google invidious">
+											<div class="sectionOption">
+												<input type="checkbox" id="playlistsPrivacyEnable" name="playlistsPrivacyEnable" class="setting" aria-describedby="playlistsPrivacyEnableCaption"/><label for="playlistsPrivacyEnable" aria-describedby="playlistsPrivacyEnableCaption">Privacy</label>
+												<span id="playlistsPrivacyEnableCaption" class="caption">For Google, shows 'public', 'unlisted', and 'private'. For Invidious, shows public and unlisted as 'listed', and private as 'unlisted'.</span>
+											</div>
 										</div>
 										<div class="sectionOption">
 											<input type="checkbox" id="playlistsVideoCountEnable" name="playlistsVideoCountEnable" class="setting"/><label for="playlistsVideoCountEnable">Video count</label>

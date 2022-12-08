@@ -44,16 +44,22 @@ document.getElementById("resetEverythingButton").addEventListener('click', async
 function changeOperationMode() {
 	let apiServiceGoogle = document.getElementsByName("apiService")[0];
 	let apiServiceInvidious = document.getElementsByName("apiService")[1];
+	let apiServicePiped = document.getElementsByName("apiService")[2];
 	let invidiousSection = document.querySelector(".mainGroup.apiService .section.invidious");
+	let pipedSection = document.querySelector(".mainGroup.apiService .section.piped");
 	if (document.querySelector("[name=operationMode]:checked").value === "auto") {
 		apiServiceGoogle.checked = true;
 		toggleChildOptions(apiServiceGoogle);
 		apiServiceInvidious.disabled = true;
 		invidiousSection.classList.add("disabled");
+		apiServicePiped.disabled = true;
+		pipedSection.classList.add("disabled");
 		changeApiService();
 	} else {
 		apiServiceInvidious.disabled = false;
 		invidiousSection.classList.remove("disabled");
+		apiServicePiped.disabled = false;
+		pipedSection.classList.remove("disabled");
 	}
 }
 document.getElementsByName("operationMode").forEach(service => {
@@ -166,6 +172,73 @@ async function getInvidiousInstances() {
 	}
 }
 document.getElementById("refreshInvidiousDefaultInstances").addEventListener("click", getInvidiousInstances);
+
+async function populatePipedDefaultInstancesSelect(index) {
+	let pipedDefaultInstancesSelect = document.getElementById("pipedDefaultInstances");
+	let selectedInstance = options.pipedDefaultInstances[index]?.domain || pipedDefaultInstancesSelect.selectedOptions[0]?.value;
+	pipedDefaultInstancesSelect.replaceChildren();
+	options.pipedDefaultInstances.forEach(instance => {
+		let optionElem = document.createElement("option");
+		optionElem.textContent = `${instance.name} (${instance.flag}${instance.cdn ? ', CDN' : ''})`;
+		optionElem.value = instance.domain;
+		pipedDefaultInstancesSelect.appendChild(optionElem);
+	});
+	if (selectedInstance)
+		pipedDefaultInstancesSelect.selectedIndex = Math.max(0, options.pipedDefaultInstances.findIndex(instance => instance.domain === selectedInstance));
+}
+async function getPipedInstances() {
+	let pipedDefaultInstancesSelect = document.getElementById("pipedDefaultInstances");
+	let refreshPipedDefaultInstances = document.getElementById("refreshPipedDefaultInstances");
+	pipedDefaultInstancesSelect.disabled = true;
+	refreshPipedDefaultInstances.disabled = true;
+	let abortController = new AbortController();
+	const requestTimeout = setTimeout(() => {
+		abortController.abort();// Abort request after 30 seconds if not complete.
+	}, 5000);
+	let response;
+	let responseBody;
+	try {
+		response = await fetch("https://raw.githubusercontent.com/wiki/TeamPiped/Piped-Frontend/Instances.md", {signal: abortController.signal});
+		if (!response.ok)
+			throw `Response not ok: ${response.status} ${response.statusText}`;
+		responseBody = await response.text();
+		options.pipedDefaultInstances = [];
+		let skipped = 0;
+		const lines = responseBody.split("\n");
+		lines.map(line => {
+			const split = line.split("|");
+			if (split.length > 4) {
+				if (skipped < 2) {
+					skipped++;
+					return;
+				}
+				options.pipedDefaultInstances.push({
+					name: split[0].trim(),
+					domain: split[1].trim(),
+					flag: split[2].trim(),
+					cdn: split[3].trim() === "Yes"
+				});
+			}
+		});
+		await populatePipedDefaultInstancesSelect();
+		await saveAndRestoreOptions("save");
+	} catch(error) {
+		console.error(error);
+		if (error.message.includes("NetworkError"))
+			showErrorDialog("Piped error", "Could not send request. Check your internet connection.");
+		else if (error.name === "AbortError")
+			showErrorDialog("Piped error", "Connection timed out.");
+		else if (response.status > 499 && response.status < 600)
+			showErrorDialog("Piped error", `Server error: ${response.status} ${response.statusText}`);
+		else if (response.status > 399 && response.status < 500) {
+			showErrorDialog("Piped error", error);
+		}
+	} finally {
+		pipedDefaultInstancesSelect.disabled = false;
+		refreshPipedDefaultInstances.disabled = false;
+	}
+}
+document.getElementById("refreshPipedDefaultInstances").addEventListener("click", getPipedInstances);
 
 document.getElementById("export").addEventListener('click', async () => {
 	let permissionRequest = await browser.permissions.request({
@@ -371,6 +444,8 @@ async function saveAndRestoreOptions(opt, configObject) {
 		{name: "keyDefaultIndex", type: 2},
 		{name: "invidiousDefaultInstances", type: 2},
 		{name: "invidiousCustomInstance", type: 0},
+		{name: "pipedDefaultInstances", type: 2},
+		{name: "pipedCustomInstance", type: 0},
 		
 		{name: "displayMode", type: 3},
 		{name: "customTooltipCSS", type: 0},
@@ -416,6 +491,8 @@ async function saveAndRestoreOptions(opt, configObject) {
 					options[option.name] = blacklistArray;
 				} else if (option.name === "invidiousDefaultInstances") {
 					options.invidiousDefaultInstance = document.getElementById("invidiousDefaultInstances").selectedIndex;
+				} else if (option.name === "pipedDefaultInstances") {
+					options.pipedDefaultInstance = document.getElementById("pipedDefaultInstances").selectedIndex;
 				} else if (option.type === 3) {
 					options[option.name] = document.querySelector(`[name=${option.name}]:checked`).value;
 				} else {
@@ -448,6 +525,8 @@ async function saveAndRestoreOptions(opt, configObject) {
 					document.getElementById("blacklist").value = options[option.name].join("\n");
 				} else if (option.name === "invidiousDefaultInstances") {
 					populateInvidiousDefaultInstancesSelect(options.invidiousDefaultInstance);
+				} else if (option.name === "pipedDefaultInstances") {
+					populatePipedDefaultInstancesSelect(options.pipedDefaultInstance);
 				} else if (option.type === 3) {
 					document.querySelector(`[name=${option.name}][value=${options[option.name]}]`).checked = true;
 				} else {

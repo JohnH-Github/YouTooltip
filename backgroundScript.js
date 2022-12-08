@@ -18,6 +18,9 @@ const defaultOptions = {
 	invidiousDefaultInstance: null,
 	invidiousDefaultInstances: [],
 	invidiousCustomInstance: "",
+	pipedDefaultInstance: null,
+	pipedDefaultInstances: [],
+	pipedCustomInstance: "",
 	
 	displayMode: "tooltip",
 	customTooltipCSS: "",

@@ -514,7 +514,10 @@ async function loadTooltipsHover(bucket, key) {
 			// Regex filters out wierd link tags that really shouldn't be in an error message.
 			setTooltips(elementMap[bucket].get(key), `Could not get ${bucket.slice(0, -1)} info:\n${data.error.message.replace(/<\/?[^>]+(>|$)/g, "")}`);
 		} else {
-			setTooltips(elementMap[bucket].get(key), `Could not get ${bucket.slice(0, -1)} info:\n${data.error}`);
+			if (data.error === "Invalid parameter provided, unknown service")
+				setTooltips(elementMap[bucket].get(key), `Could not get ${bucket.slice(0, -1)} info:\n${bucket.charAt(0).toUpperCase() + bucket.slice(1, -1)} not found`);
+			else
+				setTooltips(elementMap[bucket].get(key), `Could not get ${bucket.slice(0, -1)} info:\n${data.error}`);
 		}
 	} else if (options.apiService === "invidious") {
 		if (!Object.entries(data).length) {
@@ -545,6 +548,29 @@ async function loadTooltipsHover(bucket, key) {
 			tooltip = tooltip.filter(Boolean).join("\n");
 			setTooltips(elementMap[bucket].get(key), tooltip);
 		}
+	} else if (options.apiService === "piped") {
+		let tooltip;
+		switch (bucket) {
+			case "videos":
+				tooltip = [
+					data.title,
+					options.videosDurationEnable ? formatDuration(data.duration, options.videosDurationFormat) : "",
+					options.videosPublishedEnableInvidious ? formatPublishedDate(data.uploadDate, options.videosPublishedFormatInvidious) : "",
+					options.videosViewcountEnable ? formatNumber(data.views, options.videosViewcountFormat, "views") : "",
+					options.videosLikesEnable ? formatNumber(data.likes, options.videosLikesFormat, "likes") : "",
+					options.videosChannelEnable ? data.uploader : ""
+				];
+				break;
+			case "playlists":
+				tooltip = [
+					data.name,
+					options.playlistsVideoCountEnable ? formatNumber(data.videos, options.playlistsVideoCountFormat, "videos") : "",
+					options.playlistsChannelEnable ? data.uploader : ""
+				];
+				break;
+		}
+		tooltip = tooltip.filter(Boolean).join("\n");
+		setTooltips(elementMap[bucket].get(key), tooltip);
 	} else if (data.items !== undefined) {
 		let eleData = data.items.find(({id}) => id === key);
 		if (eleData !== undefined) {
@@ -632,7 +658,7 @@ async function getYTInfo(ids, bucket) {
 		"&part=" + part + 
 		"&fields=items(" + fields + ")" +
 		(bucket === "playlists" ? "&maxResults=50" : "");
-	} else {
+	} else if (options.apiService === "invidious") {
 		if (options.invidiousCustomInstance === "" && !options.invidiousDefaultInstances.length)
 			return {error: "No Invidious instance selected."};
 		switch (bucket) {
@@ -664,6 +690,12 @@ async function getYTInfo(ids, bucket) {
 		"/api/v1/" + bucket +
 		"/" + ids + 
 		"?fields=" + fields;
+	} else if (options.apiService === "piped") {
+		if (options.pipedCustomInstance === "" && !options.pipedDefaultInstances.length)
+			return {error: "No Piped instance selected."};
+		address = (options.pipedCustomInstance === "" ? options.pipedDefaultInstances[options.pipedDefaultInstance].domain : options.pipedCustomInstance) + 
+		"/" + (bucket === "videos" ? "streams" : bucket) +
+		"/" + ids;
 	}
 	
 	incrementStat("requests");
