@@ -880,7 +880,7 @@ const customTooltip = {
 		tooltip = document.createElement("div");
 		tooltip.id = "youTooltip";
 		tooltip.setAttribute("role", "tooltip");
-		tooltip.setAttribute("style", "display: none; position: fixed; padding: 3px; max-width: 560px; width: max-content; border-radius: 4px; font-size: 12px; font-family: 'Segoe UI', system-ui, sans-serif; white-space: pre-wrap; pointer-events: none; background-color: #f9f9f9; border: 1px solid #676767; color: #000;" + (window.matchMedia("(prefers-color-scheme: dark)").matches ? "background-color: #000; border-color: #878787; color: #fff;" : "") + options.customTooltipCSS);
+		tooltip.setAttribute("style", "all: initial; display: none; position: fixed; z-index: 2147483647; padding: 3px; max-width: 560px; width: max-content; border-radius: 4px; font-size: 12px; font-family: 'Segoe UI', system-ui, sans-serif; white-space: pre-wrap; pointer-events: none; background-color: #f9f9f9; border: 1px solid #676767; color: #000;" + (window.matchMedia("(prefers-color-scheme: dark)").matches ? "background-color: #000; border-color: #878787; color: #fff;" : "") + options.customTooltipCSS);
 		tooltip.textContent = text;
 		document.body.appendChild(tooltip);
 		document.body.addEventListener("keydown", customTooltip.onEscapeKey);

@@ -421,8 +421,8 @@ textarea {
 	font-weight: normal;
 }
 #customTooltipCSSPreview {
+	all: initial;
 	margin: 0;
-	
 	display: block;
 	padding: 3px;
 	max-width: 560px;
