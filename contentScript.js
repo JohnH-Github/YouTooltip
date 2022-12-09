@@ -705,7 +705,7 @@ async function getYTInfo(ids, bucket) {
 	}, 30000);
 	let response;
 	try {
-		response = await fetch(address, {signal: abortController.signal});
+		response = await fetch(address, {signal: abortController.signal, credentials: "omit", cache: "no-cache"});
 		clearTimeout(requestTimeout);
 		if (!response.ok)
 			throw `Response not ok: ${response.status} ${response.statusText}`;
