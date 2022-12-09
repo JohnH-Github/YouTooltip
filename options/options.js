@@ -138,7 +138,7 @@ async function getInvidiousInstances() {
 	let response;
 	let responseBody;
 	try {
-		response = await fetch("https://api.invidious.io/instances.json?sort_by=type,health", {signal: abortController.signal, credentials: "omit", cache: "no-cache"}});
+		response = await fetch("https://api.invidious.io/instances.json?sort_by=type,health", {signal: abortController.signal, credentials: "omit", cache: "no-cache"});
 		if (!response.ok)
 			throw `Response not ok: ${response.status} ${response.statusText}`;
 		responseBody = await response.json();
@@ -198,7 +198,7 @@ async function getPipedInstances() {
 	let response;
 	let responseBody;
 	try {
-		response = await fetch("https://raw.githubusercontent.com/wiki/TeamPiped/Piped-Frontend/Instances.md", {signal: abortController.signal, credentials: "omit", cache: "no-cache"}});
+		response = await fetch("https://raw.githubusercontent.com/wiki/TeamPiped/Piped-Frontend/Instances.md", {signal: abortController.signal, credentials: "omit", cache: "no-cache"});
 		if (!response.ok)
 			throw `Response not ok: ${response.status} ${response.statusText}`;
 		responseBody = await response.text();
