@@ -281,5 +281,19 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
 				tabId: sender.tab.id
 			});
 			break;
+		case "fetch":
+			let response;
+			try {
+				response = await fetch(message.address, {credentials: "omit", cache: "no-cache"});
+				return {// We cannot return response directly because it gives us errors.
+					body: await response.json(),
+					ok: response.ok,
+					status: response.status,
+					statusText: response.statusText
+				};
+			} catch(error) {
+				return error;
+			}
+			break;
 	}
 });

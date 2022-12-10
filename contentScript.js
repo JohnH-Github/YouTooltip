@@ -699,30 +699,34 @@ async function getYTInfo(ids, bucket) {
 	}
 	
 	incrementStat("requests");
-	let abortController = new AbortController();
-	const requestTimeout = setTimeout(() => {
-		abortController.abort();// Abort request after 30 seconds if not complete.
-	}, 30000);
+	let requestTimeout = false// Connection timeout detector. Used to distinguish NetworkError errors.
+	const timeoutID = setTimeout(() => {
+		requestTimeout = true;
+	}, 1000);
 	let response;
 	try {
-		response = await fetch(address, {signal: abortController.signal, credentials: "omit", cache: "no-cache"});
-		clearTimeout(requestTimeout);
+		response = await browser.runtime.sendMessage({
+			command: "fetch",
+			address: address
+		});
+		if (response instanceof Error)
+			throw response;
 		if (!response.ok)
 			throw `Response not ok: ${response.status} ${response.statusText}`;
-		return await response.json();
+		return response.body;
 	} catch(error) {
-		clearTimeout(requestTimeout);
 		let addressUrl = new URL(address);
 		if (addressUrl.searchParams.get("key") !== null)
 			addressUrl.searchParams.set("key", "APIKEY");// Don't show my (or the user's) api key in the error message.
-		console.error(error, `Bucket: ${bucket}.`, `API: ${options.apiService}.`, `URL: ${decodeURIComponent(addressUrl.href)}`);
-		if (error.message === "NetworkError when attempting to fetch resource.")
+		console.error(`${error} | Bucket: ${bucket} | API: ${options.apiService} | URL: ${decodeURIComponent(addressUrl.href)}`);
+		if ((requestTimeout && error.message === "NetworkError when attempting to fetch resource.") || error.message?.includes("Could not establish connection"))
+			return {error: "Connection timed out."};
+		else if (error.message === "NetworkError when attempting to fetch resource.")
 			return {error: "Could not send request. Check your internet connection."};
 		else if (response.status > 499 && response.status < 600)
 			return {error: `Server error: ${response.status} ${response.statusText}`};
-		else if (response.status > 399 && response.status < 500) {
-			return await response.json();
-		}
+		else if (response.status > 399 && response.status < 500)
+			return response.body;
 	}
 }
 
