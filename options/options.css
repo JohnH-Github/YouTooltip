@@ -41,6 +41,10 @@ a:hover::after {
 	width: 100%;
 }
 
+p, ul {
+	margin: 0.75rem 0;
+}
+
 .content {
 	min-height: 100vh;
 	visibility: hidden;
@@ -48,35 +52,6 @@ a:hover::after {
 }
 .content.show {
 	visibility: visible;
-}
-.overlay {
-	display: none;
-	position: fixed;
-	top: 0px;
-	height: 100%;
-	width: 100%;
-	background: rgba(0, 0, 0, 0.3);
-	align-items: center;
-	justify-content: center;
-}
-.overlay.show {
-	display: flex;
-}
-.overlay .permissions {
-	display: none;
-	max-width: 500px;
-	margin: 0 10px;
-	padding: 10px;
-	text-align: center;
-	background: #fff;
-	box-shadow: 0px 0px 10px #666;
-	border-radius: 5px;
-	flex-direction: column;
-	align-items: center;
-	gap: 0.5rem;
-}
-.overlay .permissions.show {
-	display: flex;
 }
 
 .sidebar {
@@ -117,24 +92,6 @@ a:hover::after {
 	text-align: center;
 	font-weight: normal;
 	font-size: 1.4rem;
-}
-.sidebar .meta .version {
-	display: block;
-	text-align: center;
-}
-#manifestV3 {
-	display: none;
-	position: absolute;
-	margin-left: 0.5em;
-	font-size: 0.8em;
-	color: #f55;
-	border: 1px solid currentColor;
-	border-radius: 4px;
-	padding: 1px;
-	cursor: help;
-}
-#manifestV3.show {
-	display: inline;
 }
 
 
@@ -224,6 +181,14 @@ main {
 }
 .mainPanelContent {
 	padding-left: 10px;
+}
+
+
+body:not(.MV3) .MV3Permissions .section {
+	opacity: 0.5;
+}
+body.MV3 .MV3Permissions .MV3PermissionsNotice {
+	display: none;
 }
 
 
@@ -319,7 +284,7 @@ textarea {
 	display: inline;
 }
 
-.section:not(:first-child) {
+.section ~ .section {
 	margin-top: 1rem;
 }
 .section.disabled :is(:disabled, label) {
@@ -366,10 +331,13 @@ textarea {
 	margin-top: .5rem;
 }
 
-.caption {
+.caption, .captionInline {
 	font-size: 0.9em;
 	color: #5b5b5b;
 	display: block;
+}
+.captionInline {
+	display: inline;
 }
 
 .notice {
@@ -403,12 +371,13 @@ textarea {
 	align-items: center;
 	border-radius: 5px;
 	padding: 4px;
+	font-size: 0.835rem;
 	color: #060;
 	background-color: rgb(225, 225, 225);
 }
 .permissionRequest .grantedNotice svg {
-	height: 1rem;
-	width: 1rem;
+	height: 1em;
+	width: 1em;
 	margin-right: 3px;
 }
 .permissionRequest.granted .grantedNotice {
@@ -571,11 +540,6 @@ details > div {
 		background: #1c1c1c;
 	}
 	
-	.overlay .permissions {
-		background: #222;
-		box-shadow: 0px 0px 10px #0c0c0c;
-	}
-	
 	input[type="text"], input[type="color"], select, textarea {
 		background: #292929;
 		border: 1px solid #8f8f8f;
@@ -631,7 +595,7 @@ details > div {
 		border-left-color: var(--border-color-darkTheme);
 	}
 	
-	.caption {
+	.caption, .captionInline {
 		color: #aaa;
 	}
 	.notice {

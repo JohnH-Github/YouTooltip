@@ -16,6 +16,10 @@
 						<h1 class="title">YouTooltip</h1>
 					</div>
 					<nav class="tabsList" role="tablist" aria-orientation="vertical" aria-label="Tabs list">
+						<button id="tabWelcome" class="tab" data-tab="welcome" aria-labelledby="tabTextWelcome" role="tab" aria-controls="tabPanelWelcome">
+							<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="tabTextWelcome"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+							<span id="tabTextWelcome">Welcome</span>
+						</button>
 						<button id="tabSettings" class="tab selected" data-tab="settings" aria-labelledby="tabTextSettings" role="tab" aria-selected="true" aria-controls="tabPanelSettings">
 							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="tabTextSettings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
 							<span id="tabTextSettings">Settings</span>
@@ -39,6 +43,43 @@
 					</button>
 					<h2>Settings</h2>
 				</div>
+				<div id="tabPanelWelcome" class="mainPanel" data-panel="welcome" role="tabpanel" aria-labelledby="tabWelcome">
+					<div class="mainPanelContent">
+						<div class="mainGroup">
+							<h3>Thanks for installing YouTooltip.</h3>
+							<div class="mainGroupContent">
+								<span>YouTooltip can reveal what a YouTube video or playlist link exactly is at a glance. YouTooltip also helps you save bandwidth usage, which is especially important on a metered network. In addition, you can also avoid clicking on common Rickroll videos. <span class="captionInline">(Or you can click on them anyway. I don't care.)</span></span>
+							</div>
+						</div>
+						<div class="mainGroup MV3Permissions">
+							<h3>Permissions</h3>
+							<div class="mainGroupContent">
+								<div class="notice MV3PermissionsNotice">
+									<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="noticeTextMV3Permissions"><use href="#featherAlertCircle"/></svg>
+									<span id="noticeTextMV3Permissions">This section is only relevent when YouTooltip is using Manifest V3. In Manifest V2, these permissions are granted on install, and you do not need to do anything.</span>
+								</div>
+								<div class="section">
+									<p>To get the most out of YouTooltip, it is recommended to grant access to all websites. You can do so by clicking the button below.</p>
+									<div class="permissionRequest" data-permission="<all_urls>">
+										<button class="button" id="permissionAllUrls" aria-labelledby="buttonTextGrantAllUrls">
+											<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-labelledby="buttonTextGrantAllUrls"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
+											<span id="buttonTextGrantAllUrls">Grant access to all websites</span>
+										</button>
+										<span class="grantedNotice">
+											<svg width="24" height="24" viewBox="0 0 24 24" aria-label="checkmark"><use href="#featherCheckCircle"/></svg>
+											Granted
+										</span>
+									</div>
+									<p>To activate YouTooltip without access to all websites, you can:</p>
+									<ul>
+										<li>Click the toolbar button, which will run YouTooltip only for that page.</li>
+										<li>Allow access only to that site, which will run YouTooltip on every visit.</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div id="tabPanelSettings" class="mainPanel show" data-panel="settings" role="tabpanel" aria-labelledby="tabSettings">
 					<div class="mainPanelContent">
 						<div class="mainGroup">
@@ -50,7 +91,7 @@
 								</div>
 								<div class="section">
 									<input type="radio" id="operationModeHover" name="operationMode" value="hover" class="setting" aria-describedby="operationModeHoverCaption"/><label for="operationModeHover" class="sectionHeader" aria-describedby="operationModeHoverCaption">Hover</label>
-									<span id="operationModeHoverCaption" class="caption">Gets info only for links that are hovered over. Supports both Google and Invidious.</span>
+									<span id="operationModeHoverCaption" class="caption">Gets info only for links that are hovered over. Supports Google, Invidious, and Piped.</span>
 								</div>
 							</div>
 						</div>
@@ -153,16 +194,13 @@ Rick Astley</figure>
 											<input id="displayModeNotification" class="setting" type="radio" name="displayMode" value="notification"/><label for="displayModeNotification">Notification</label>
 											<span class="caption">Use the browser notification feature. Requires the notification permission.</span>
 											<div class="formatPart">
-												<div class="permissionRequest">
+												<div class="permissionRequest"  data-permission="notifications">
 													<button class="button" id="notificationPermission" aria-labelledby="buttonTextGrantNotification">
 														<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextGrantNotification"><use href="#featherBell"/></svg>
-														<span id="buttonTextGrantNotification">Grant permission</span>
+														<span id="buttonTextGrantNotification">Grant notification permission</span>
 													</button>
 													<span class="grantedNotice">
-														<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="checkmark">
-															<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-															<polyline points="22 4 12 14.01 9 11.01"></polyline>
-														</svg>
+														<svg width="24" height="24" viewBox="0 0 24 24" aria-label="checkmark"><use href="#featherCheckCircle"/></svg>
 														Granted
 													</span>
 												</div>
@@ -374,7 +412,7 @@ example2.net"></textarea><!-- This must be unindented. -->
 									<input type="checkbox" id="statsEnable" name="statsEnable" class="setting" aria-describedby="statsCaption"/><label for="statsEnable"  aria-describedby="statsCaption">Enable statistics storage</label>
 									<span id="statsCaption" class="caption">Statistics are not sent anywhere; they stay only on your device.</span>
 									<div class="notice">
-										<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-labelledby="noticeTextStats"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+										<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="noticeTextStats"><use href="#featherAlertCircle"/></svg>
 										<span id="noticeTextStats">Statistics are not recorded for Private Browsing/Incognito tabs, and session statistics are not reset when "Always use private browsing mode" is enabled.</span>
 									</div>
 								</div>
@@ -428,7 +466,6 @@ example2.net"></textarea><!-- This must be unindented. -->
 								<div class="section">
 									<span class="version">
 										Version <span id="versionNumber">0.0.0</span>
-										<span id="manifestV3" title="Manifest version 3">MV3</span>
 									</span>
 								</div>
 								<div class="section">
@@ -536,12 +573,6 @@ example2.net"></textarea><!-- This must be unindented. -->
 				</div>
 			</main>
 		</div>
-		<div class="overlay">
-			<div class="permissions">
-				<span>You must grant the permission 'Access your data for all websites' for YouTooltip to work.</span>
-				<button class="button" id="mV3RequestPermissions">Request permission</button>
-			</div>
-		</div>
 		
 		<dialog id="errorDialog" aria-labelledby="errorDialogTitle" aria-describedby="errorDialogText">
 			<div class="titleContainer">
@@ -570,6 +601,8 @@ example2.net"></textarea><!-- This must be unindented. -->
 			<symbol id="featherBell" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></symbol>
 			<symbol id="featherTrash" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></symbol>
 			<symbol id="featherRefresh" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></symbol>
+			<symbol id="featherCheckCircle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></symbol>
+			<symbol id="featherAlertCircle" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></symbol>
 		</svg>
 		
 		<script src="options.js"></script>

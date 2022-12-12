@@ -172,7 +172,9 @@ browser.runtime.onInstalled.addListener(async (details) => {
 	if (details.reason === "install") {
 		await setDefaultOptions();
 		await setDefaultStats();
-		await browser.runtime.openOptionsPage();
+		browser.tabs.create({
+			url: "options/options.html#install"
+		});
 	} else if (details.reason === "update") {
 		let options = await checkOptions(details.previousVersion);
 		let stats = await checkStats(details.previousVersion);

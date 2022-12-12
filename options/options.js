@@ -9,23 +9,31 @@ document.getElementById("sidebarToggle").addEventListener('click', () => {
 		sidebar.classList.add("show");
 });
 
-async function updateNotificationPermission() {
-	let notificationPermission = document.getElementById("notificationPermission");
-	if (await browser.permissions.contains({permissions: ["notifications"]})) {
-		notificationPermission.parentElement.classList.add("granted");
-		notificationPermission.disabled = true;
-		notificationPermission.classList.add("stayDisabled");
+async function updatePermission(permission) {
+	let permissionRequest = document.querySelector(`.permissionRequest[data-permission='${(permission.origins || permission.permissions)[0]}']`);
+	let requestButton = permissionRequest.querySelector("button");
+	if (await browser.permissions.contains(permission)) {
+		permissionRequest.classList.add("granted");
+		requestButton.disabled = true;
+		requestButton.classList.add("stayDisabled");
 	} else {
-		notificationPermission.parentElement.classList.remove("granted");
-		notificationPermission.disabled = false;
+		permissionRequest.classList.remove("granted");
+		requestButton.disabled = false;
 	}
 }
+document.getElementById("permissionAllUrls").addEventListener('click', async () => {
+	let permissionRequest = await browser.permissions.request({
+		origins: ["<all_urls>"]
+	});
+	if (permissionRequest)
+		updatePermission({origins: ["<all_urls>"]});
+});
 document.getElementById("notificationPermission").addEventListener('click', async () => {
 	let permissionRequest = await browser.permissions.request({
 		permissions: ["notifications"]
 	});
 	if (permissionRequest)
-		updateNotificationPermission();
+		updatePermission({permissions: ["notifications"]});
 });
 
 document.getElementById("resetOptionsButton").addEventListener('click', async () => {
@@ -535,7 +543,8 @@ async function saveAndRestoreOptions(opt, configObject) {
 			});
 			changeOperationMode();
 			changeApiService();
-			await updateNotificationPermission();
+			await updatePermission({origins: ["<all_urls>"]});
+			await updatePermission({permissions: ["notifications"]});
 			await updateStats();
 			allCheckboxes.forEach(checkbox => {
 				toggleChildOptions(checkbox);
@@ -572,31 +581,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 		document.getElementById("versionNumber").textContent = browser.runtime.getManifest().version;
 		await saveAndRestoreOptions("restore");
 		if (browser.runtime.getManifest().manifest_version === 3) {
-			// Helpful reminder while testing and can be removed when Google and Mozilla fully work out the details of Manifest V3.
-			// The initial specs for MV3 called for treating host permissions as always optional.
-			// However, according to the latest discussions (https://bugzilla.mozilla.org/show_bug.cgi?id=1766026#c1), this may no longer be the case.
-			let manifestV3 = document.getElementById("manifestV3");
-			manifestV3.classList.add("show");
-			if (!await browser.permissions.contains({origins: ["<all_urls>"]})) {
-				let overlay = document.querySelector(".overlay");
-				let overlayPermissions = overlay.querySelector(".permissions");
-				let mV3RequestPermissions = document.getElementById("mV3RequestPermissions");
-				overlay.classList.add("show");
-				overlayPermissions.classList.add("show");
-				mV3RequestPermissions.onclick = async () => {
-					let permissionRequest = await browser.permissions.request({
-						origins: ["<all_urls>"]
-					});
-					if (permissionRequest) {
-						overlay.classList.remove("show");
-						overlayPermissions.classList.remove("show");
-					}
-				};
-				mV3RequestPermissions.focus();
-			}
+			document.body.classList.add("MV3");
 		}
-		
-		if (window.location.hash === "#releaseNotes") {
+		if (window.location.hash === "#install") {
+			document.querySelector(`[data-tab=welcome]`).click();
+		} else if (window.location.hash === "#releaseNotes") {
 			document.querySelector(`[data-tab=about]`).click();
 			setTimeout(() => {
 				document.getElementById("releaseNotes").scrollIntoView({behavior: "smooth"});
