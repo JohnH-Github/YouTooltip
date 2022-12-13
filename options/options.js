@@ -134,19 +134,14 @@ async function populateInvidiousDefaultInstancesSelect(index) {
 }
 
 async function getInvidiousInstances() {
-	let invidiousDefaultInstances = []
 	let invidiousDefaultInstancesSelect = document.getElementById("invidiousDefaultInstances");
 	let refreshInvidiousDefaultInstances = document.getElementById("refreshInvidiousDefaultInstances");
 	invidiousDefaultInstancesSelect.disabled = true;
 	refreshInvidiousDefaultInstances.disabled = true;
-	let abortController = new AbortController();
-	const requestTimeout = setTimeout(() => {
-		abortController.abort();// Abort request after 30 seconds if not complete.
-	}, 5000);
 	let response;
 	let responseBody;
 	try {
-		response = await fetch("https://api.invidious.io/instances.json?sort_by=type,health", {signal: abortController.signal, credentials: "omit", cache: "no-cache"});
+		response = await fetch("https://api.invidious.io/instances.json?sort_by=type,health", {credentials: "omit", cache: "no-cache"});
 		if (!response.ok)
 			throw `Response not ok: ${response.status} ${response.statusText}`;
 		responseBody = await response.json();
@@ -199,14 +194,10 @@ async function getPipedInstances() {
 	let refreshPipedDefaultInstances = document.getElementById("refreshPipedDefaultInstances");
 	pipedDefaultInstancesSelect.disabled = true;
 	refreshPipedDefaultInstances.disabled = true;
-	let abortController = new AbortController();
-	const requestTimeout = setTimeout(() => {
-		abortController.abort();// Abort request after 30 seconds if not complete.
-	}, 5000);
 	let response;
 	let responseBody;
 	try {
-		response = await fetch("https://raw.githubusercontent.com/wiki/TeamPiped/Piped-Frontend/Instances.md", {signal: abortController.signal, credentials: "omit", cache: "no-cache"});
+		response = await fetch("https://raw.githubusercontent.com/wiki/TeamPiped/Piped-Frontend/Instances.md", {credentials: "omit", cache: "no-cache"});
 		if (!response.ok)
 			throw `Response not ok: ${response.status} ${response.statusText}`;
 		responseBody = await response.text();
@@ -437,7 +428,7 @@ function parseBlacklist(blacklist) {
 			return error;
 		}
 		blacklistArray[index] = testURL.host;
-	})
+	});
 	return blacklistArray;
 }
 

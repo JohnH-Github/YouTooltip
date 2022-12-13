@@ -4,7 +4,7 @@
 const regexs = {
 	videos: /(?:\.|\/)(?:youtube\.com\/watch\?.*v=|youtu\.be\/)([^\&\?]{5,})/,
 	playlists: /(?:\.|\/)youtube\.com\/playlist\?list=([^\&\?]{5,})/
-}
+};
 
 const rickRollIds = [// Small collection of common rickrolls for statistics.
 	"dQw4w9WgXcQ",
@@ -33,7 +33,7 @@ var onStorageChangeCounter = 0;
 const disabledOnSite = {
 	state: false,
 	reason: ""
-}
+};
 
 /*
  * Checks if the site is an alternative front-end that contains direct links to youtube.
@@ -699,8 +699,8 @@ async function getYTInfo(ids, bucket) {
 	}
 	
 	incrementStat("requests");
-	let requestTimeout = false// Connection timeout detector. Used to distinguish NetworkError errors.
-	const timeoutID = setTimeout(() => {
+	let requestTimeout = false;// Connection timeout detector. Used to distinguish NetworkError errors.
+	setTimeout(() => {
 		requestTimeout = true;
 	}, 1000);
 	let response;
@@ -920,7 +920,7 @@ const customTooltip = {
 			tooltip.style.left = "0px";
 		} else if (((xPos + 5) + boundingClientRect.width) > document.documentElement.clientWidth) {
 			// Too far right.
-			translate[0] = "-100%"
+			translate[0] = "-100%";
 			tooltip.style.left = xPos + "px";
 		} else {
 			// Default position: 5px to the right of cursor.
@@ -930,7 +930,7 @@ const customTooltip = {
 			tooltip.style.top = "0px";
 		} else if ((yPos + boundingClientRect.height) > document.documentElement.clientHeight) {
 			// Too far down.
-			translate[1] = "-100%"
+			translate[1] = "-100%";
 			tooltip.style.top = yPos + "px";
 		} else {
 			// Default position: 15px below cursor.
@@ -938,4 +938,4 @@ const customTooltip = {
 		}
 		tooltip.style.transform = `translate(${translate.toString()})`;
 	}
-}
+};
