@@ -213,12 +213,14 @@ async function incrementStat(stat, num = 1) {
 /*
  * Check for changes in the DOM structure and updates the tooltip on any added link.
  */
+// This must be set here and reset at the end of the MutationObserver, otherwise it resets on multiple changes.
+// For some reason, the top of the callback above the changes.forEach() loop is executed for every change. I have no idea why.
+var newValidLinksBucket = {videos: [], playlists: []};
 var observer = new MutationObserver((changes) => {
-	let newValidLinksBucket = {videos: [], playlists: []};
 	changes.forEach(change => {
 		change.addedNodes.forEach(node => {
 			let aElements = [];
-			aElements = node.tagName === "A" ? [node] : node.getElementsByTagName("a");
+			aElements = node.getAttribute("href")?.includes("youtu") ? [node] : node.querySelectorAll("a[href*=youtu]");
 			let validLinksBucket = getElementsWithValidLinks(aElements);
 			for (let bucket in validLinksBucket) {
 				for (let link of validLinksBucket[bucket]) {
@@ -230,7 +232,7 @@ var observer = new MutationObserver((changes) => {
 		});
 		change.removedNodes.forEach(node => {
 			let aElements = [];
-			aElements = node.tagName === "A" ? [node] : node.getElementsByTagName("a");
+			aElements = node.getAttribute("href")?.includes("youtu") ? [node] : node.querySelectorAll("a[href*=youtu]");
 			let validLinksBucket = getElementsWithValidLinks(aElements);
 			for (let bucket in validLinksBucket) {
 				for (let link of validLinksBucket[bucket]) {
@@ -255,6 +257,7 @@ var observer = new MutationObserver((changes) => {
 		let linkMapBuckets = getLinkMap(newValidLinksBucket);
 		setNewLinks(linkMapBuckets);
 	}
+	newValidLinksBucket = {videos: [], playlists: []};
 });
 
 /*
