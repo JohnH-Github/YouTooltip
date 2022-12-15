@@ -347,10 +347,16 @@ textarea {
 	width: fit-content;
 	margin: 4px 0;
 	padding: 4px;
-	background: #fffbd6;
-	color: #715100;
 	font-size: 0.9em;
 	border-radius: 4px;
+}
+.notice.info {
+	background: #d6fbff;
+	color: #005171;
+}
+.notice.warning {
+	background: #fffbd6;
+	color: #715100;
 }
 .notice svg {
 	height: 1.25em;
@@ -598,7 +604,11 @@ details > div {
 	.caption, .captionInline {
 		color: #aaa;
 	}
-	.notice {
+	.notice.info {
+		background: #183234;
+		color: #6db4d0;
+	}
+	.notice.warning {
 		background: #343218;
 		color: #d0b46d;
 	}
