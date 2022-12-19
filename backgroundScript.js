@@ -288,7 +288,7 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
 			try {
 				response = await fetch(message.address, {credentials: "omit", cache: "no-cache"});
 				return {// We cannot return response directly because it gives us errors.
-					body: await response.json(),
+					body: response.headers.get("content-type").includes("application/json") ? await response.json() : undefined,
 					ok: response.ok,
 					status: response.status,
 					statusText: response.statusText
