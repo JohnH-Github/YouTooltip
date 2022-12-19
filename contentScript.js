@@ -26,6 +26,10 @@ const elementMap = {
 	videos: new Map(),
 	playlists: new Map()
 };
+const dataMap = {
+	videos: new Map(),
+	playlists: new Map()
+};
 
 var options;
 var keyDefault;
@@ -151,7 +155,7 @@ browser.runtime.onMessage.addListener(async (message) => {
 				bucketsArrays[bucket] = [...elementMap[bucket]];
 				bucketsData[bucket] = [];
 				bucketsArrays[bucket].forEach(kvPair => {
-					let title = getTitle(kvPair[1][0]);
+					let title = dataMap[bucket].get(kvPair[0]).title;
 					bucketsData[bucket].push({
 						id: kvPair[0],
 						title: title.substr(0, title.indexOf("\n")),// Get just the video/playlist title, hopefully.
@@ -174,14 +178,10 @@ browser.runtime.onMessage.addListener(async (message) => {
 	}
 });
 
-function getTitle(ele) {
-	return options.displayMode === "tooltip" ? ele.title : ele.dataset.youtooltipTitle;
-}
-function setTitle(ele, text) {
+function setTitle(bucket, id, ele, text) {
+	dataMap[bucket].get(id).title = text;
 	if (options.displayMode === "tooltip")
 		ele.title = text;
-	else
-		ele.dataset.youtooltipTitle = text;
 }
 
 function checkIdStats(id) {
@@ -299,44 +299,37 @@ const currentHoverNotification = {
 	key: ""
 };
 var notificationTimeout;
-function hoverLink(event) {
-	let bucket = event.target.dataset.youtooltipBucket;
-	let id = event.target.dataset.youtooltipId;
-	let listOfElements = elementMap[bucket].get(id);
-	if (event.target.dataset.youtooltipState !== "2") {
-		// Current element is not loaded. Check the first element associated with the same id.
-		switch (listOfElements[0].dataset.youtooltipState) {
-			case "0":
-				// Not loaded. Make request for this id.
-				listOfElements[0].dataset.youtooltipState = 1;
-				setTitle(listOfElements[0], `Loading ${bucket.slice(0, -1)} info...`);
-				event.target.dataset.youtooltipState = 1;
-				setTitle(event.target, getTitle(listOfElements[0]));
-				loadTooltipsHover(bucket, id);
-				break;
-			case "1":
-				// Still loading. Copy tooltip.
-				event.target.dataset.youtooltipState = 1;
-				setTitle(event.target, getTitle(listOfElements[0]));
-				break;
-			case "2":
-				// Loaded. Copy tooltip.
-				event.target.dataset.youtooltipState = 2;
-				setTitle(event.target, getTitle(listOfElements[0]));
-				incrementStat("tooltips");
-				break;
-		}
+function hoverLink(bucket, id, event) {
+	let idData = dataMap[bucket].get(id);
+	// Current element is not loaded. Check the first element associated with the same id.
+	switch (idData.state) {
+		case 0:
+			// Not loaded. Make request for this id.
+			idData.state = 1;
+			idData.title = `Loading ${bucket.slice(0, -1)} info...`;
+			setTitle(bucket, id, event.target, idData.title);
+			loadTooltipsHover(bucket, id);
+			break;
+		case 1:
+			// Still loading. Copy tooltip.
+			setTitle(bucket, id, event.target, idData.title);
+			break;
+		case 2:
+			// Loaded. Copy tooltip.
+			setTitle(bucket, id, event.target, idData.title);
+			incrementStat("tooltips");
+			break;
 	}
 }
 
-async function showNotification(ele) {
-	currentHoverNotification.bucket = ele.dataset.youtooltipBucket;
-	currentHoverNotification.id = ele.dataset.youtooltipId;
+async function showNotification(bucket, id) {
+	currentHoverNotification.bucket = bucket;
+	currentHoverNotification.id = id;
 	clearTimeout(notificationTimeout);
 	notificationTimeout = setTimeout(async () => {
 		try {
 			await browser.runtime.sendMessage({
-				command: "showNotification", info: ele.dataset.youtooltipTitle
+				command: "showNotification", info: dataMap[bucket].get(id).title
 			});
 		} catch(error) {
 			console.error(error.message === "browser.notifications is undefined" ? "YouTooltip does not have notification permission." : error);
@@ -370,7 +363,7 @@ function setNewLinks(linkMapBuckets) {
 					if (!(element in listOfElements)) {
 						listOfElements.push(element);
 						if (options.operationMode === "auto") {// Only on auto mode, copy tooltip.
-							setTitle(element, getTitle(listOfElements[0]));
+							setTitle(bucket, key, element, dataMap[bucket].get(key).title);
 							incrementStat("tooltips");
 						}
 					}
@@ -378,30 +371,31 @@ function setNewLinks(linkMapBuckets) {
 				linkMapBuckets[bucket].delete(key);
 			} else {
 				elementMap[bucket].set(key, value);
+				dataMap[bucket].set(key, {
+					title: "",
+					state: 0
+				});
 			}
 			for (let element of value) {
 				checkIdStats(key);
 				if (options.operationMode === "hover") {
-					// Only on hover mode, add dataset attributes and mouseenter listener to the new link elements.
-					element.dataset.youtooltipBucket = bucket;
-					element.dataset.youtooltipId = key;
-					element.dataset.youtooltipState = 0;
-					element.addEventListener("mouseenter", hoverLink, {
+					// Only on hover mode, add mouseenter listener to the new link elements.
+					element.addEventListener("mouseenter", (event) => {
+						hoverLink(bucket, key, event);
+					}, {
 						once: true// Auto remove listener after firing.
 					});
 				}
 				if (options.displayMode === "notification") {
-					setTitle(element, "");
-					element.addEventListener("mouseenter", (e) => {
-						showNotification(e.target);
+					element.addEventListener("mouseenter", () => {
+						showNotification(bucket, key);
 					});
 					element.addEventListener("mouseleave", clearNotification);
 				} else if (options.displayMode === "customTooltip") {
-					setTitle(element, "");
 					element.addEventListener("mouseenter", (e) => {
-						currentHoverNotification.bucket = e.target.dataset.youtooltipBucket;
-						currentHoverNotification.id = e.target.dataset.youtooltipId;
-						customTooltip.createTooltip(e.clientX, e.clientY, e.target.dataset.youtooltipTitle);
+						currentHoverNotification.bucket = bucket;
+						currentHoverNotification.id = key;
+						customTooltip.createTooltip(e.clientX, e.clientY, dataMap[bucket].get(key).title);
 					});
 					element.addEventListener("mouseleave", () => {
 						currentHoverNotification.bucket = undefined;
@@ -428,13 +422,20 @@ function setNewLinks(linkMapBuckets) {
  * Sets the tooltips of each Youtube link in each map of elements in each bucket.
  */
 async function loadTooltips(linkMapBuckets) {
-	function setTooltips(mapValues, text) {
+	function setTooltips(bucket, key, mapValues, text, state, increStat) {
+		let idData = dataMap[bucket].get(key);
+		idData.state = state;
+		idData.title = text;
 		for (let ele of mapValues) {
-			setTitle(ele, text);
+			setTitle(bucket, key, ele, text);
 		}
-		incrementStat("tooltips", mapValues.length);
+		if (increStat)
+			incrementStat("tooltips", mapValues.length);
 	}
 	for (let bucket in linkMapBuckets) {
+		for (let [key, value] of linkMapBuckets[bucket]) {
+			setTooltips(bucket, key, value, `Loading ${bucket.slice(0, -1)} info...`, 1, false);
+		}
 		// The youtube api can only take a maximum 50 ids at a time, so they are split.
 		let splitBucketArray = [];
 		let bucketArray = Array.from(linkMapBuckets[bucket].entries());
@@ -446,7 +447,7 @@ async function loadTooltips(linkMapBuckets) {
 			
 			for (let [key, value] of linkMap) {
 				if (data === undefined) {
-					setTooltips(value, `Could not get ${bucket.slice(0, -1)} info:\nResponse data is undefined.`);
+					setTooltips(bucket, key, value, `Could not get ${bucket.slice(0, -1)} info:\nResponse data is undefined.`, 2, true);
 				} else if (data.items !== undefined) {
 					let eleData = data.items.find(({id}) => id === key);
 					if (eleData !== undefined) {
@@ -474,16 +475,16 @@ async function loadTooltips(linkMapBuckets) {
 								break;
 						}
 						tooltip = tooltip.filter(Boolean).join("\n");
-						setTooltips(value, tooltip);
+						setTooltips(bucket, key, value, tooltip, 2, true);
 					} else {
-						setTooltips(value, `Could not get ${bucket.slice(0, -1)} info:\n${bucket.charAt(0).toUpperCase() + bucket.slice(1, -1)} not found`);
+						setTooltips(bucket, key, value, `Could not get ${bucket.slice(0, -1)} info:\n${bucket.charAt(0).toUpperCase() + bucket.slice(1, -1)} not found`, 2, true);
 					}
 				} else if (data.error !== undefined) {
 					if (data.error.message !== undefined) {
 						// Regex filters out wierd link tags that really shouldn't be in an error message.
-						setTooltips(elementMap[bucket].get(key), `Could not get ${bucket.slice(0, -1)} info:\n${data.error.message.replace(/<\/?[^>]+(>|$)/g, "")}`);
+						setTooltips(bucket, key, value, `Could not get ${bucket.slice(0, -1)} info:\n${data.error.message.replace(/<\/?[^>]+(>|$)/g, "")}`, 2, true);
 					} else {
-						setTooltips(elementMap[bucket].get(key), `Could not get ${bucket.slice(0, -1)} info:\n${data.error}`);
+						setTooltips(bucket, key, value, `Could not get ${bucket.slice(0, -1)} info:\n${data.error}`, 2, true);
 					}
 				}
 			}
@@ -496,35 +497,37 @@ async function loadTooltips(linkMapBuckets) {
  * Note: This function is the hover mode variant.
  */
 async function loadTooltipsHover(bucket, key) {
-	function setTooltips(mapValues, text) {
+	function setTooltips(text) {
+		let mapValues = elementMap[bucket].get(key);
+		let idData = dataMap[bucket].get(key);
+		idData.state = 2;
 		for (let ele of mapValues) {
-			setTitle(ele, text);
-			ele.dataset.youtooltipState = 2;
+			setTitle(bucket, key, ele, text);
 		}
 		if (options.operationMode === "hover" && currentHoverNotification.id === key) {
 			if (options.displayMode === "notification")
-				showNotification(mapValues[0]);
+				showNotification(bucket, key);
 			else if (options.displayMode === "customTooltip")
-				customTooltip.updateText(mapValues[0].dataset.youtooltipTitle);
+				customTooltip.updateText(idData.title);
 		}
 		incrementStat("tooltips", mapValues.length);
 	}
 	let data = await getYTInfo(key, bucket);
 	if (data === undefined) {
-		setTooltips(elementMap[bucket].get(key), `Could not get ${bucket.slice(0, -1)} info:\nResponse data is undefined.`);
+		setTooltips(`Could not get ${bucket.slice(0, -1)} info:\nResponse data is undefined.`);
 	} else if (data.error !== undefined) {
 		if (data.error.message !== undefined) {
 			// Regex filters out wierd link tags that really shouldn't be in an error message.
-			setTooltips(elementMap[bucket].get(key), `Could not get ${bucket.slice(0, -1)} info:\n${data.error.message.replace(/<\/?[^>]+(>|$)/g, "")}`);
+			setTooltips(`Could not get ${bucket.slice(0, -1)} info:\n${data.error.message.replace(/<\/?[^>]+(>|$)/g, "")}`);
 		} else {
 			if (data.error === "Invalid parameter provided, unknown service")
-				setTooltips(elementMap[bucket].get(key), `Could not get ${bucket.slice(0, -1)} info:\n${bucket.charAt(0).toUpperCase() + bucket.slice(1, -1)} not found`);
+				setTooltips(`Could not get ${bucket.slice(0, -1)} info:\n${bucket.charAt(0).toUpperCase() + bucket.slice(1, -1)} not found`);
 			else
-				setTooltips(elementMap[bucket].get(key), `Could not get ${bucket.slice(0, -1)} info:\n${data.error}`);
+				setTooltips(`Could not get ${bucket.slice(0, -1)} info:\n${data.error}`);
 		}
 	} else if (options.apiService === "invidious") {
 		if (!Object.entries(data).length) {
-			setTooltips(elementMap[bucket].get(key), `Could not get ${bucket.slice(0, -1)} info:\n${bucket.charAt(0).toUpperCase() + bucket.slice(1, -1)} not found`);
+			setTooltips(`Could not get ${bucket.slice(0, -1)} info:\n${bucket.charAt(0).toUpperCase() + bucket.slice(1, -1)} not found`);
 		} else {
 			let tooltip;
 			switch (bucket) {
@@ -549,7 +552,7 @@ async function loadTooltipsHover(bucket, key) {
 					break;
 			}
 			tooltip = tooltip.filter(Boolean).join("\n");
-			setTooltips(elementMap[bucket].get(key), tooltip);
+			setTooltips(tooltip);
 		}
 	} else if (options.apiService === "piped") {
 		let tooltip;
@@ -573,7 +576,7 @@ async function loadTooltipsHover(bucket, key) {
 				break;
 		}
 		tooltip = tooltip.filter(Boolean).join("\n");
-		setTooltips(elementMap[bucket].get(key), tooltip);
+		setTooltips(tooltip);
 	} else if (data.items !== undefined) {
 		let eleData = data.items.find(({id}) => id === key);
 		if (eleData !== undefined) {
@@ -601,12 +604,12 @@ async function loadTooltipsHover(bucket, key) {
 					break;
 			}
 			tooltip = tooltip.filter(Boolean).join("\n");
-			setTooltips(elementMap[bucket].get(key), tooltip);
+			setTooltips(tooltip);
 		} else {
-			setTooltips(elementMap[bucket].get(key), `Could not get ${bucket.slice(0, -1)} info:\n${bucket.charAt(0).toUpperCase() + bucket.slice(1, -1)} not found`);
+			setTooltips(`Could not get ${bucket.slice(0, -1)} info:\n${bucket.charAt(0).toUpperCase() + bucket.slice(1, -1)} not found`);
 		}
 	} else if (!Object.entries(data).length) {
-		setTooltips(elementMap[bucket].get(key), `Could not get ${bucket.slice(0, -1)} info:\nResponse data is empty.`);
+		setTooltips(`Could not get ${bucket.slice(0, -1)} info:\nResponse data is empty.`);
 	}
 }
 
