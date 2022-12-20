@@ -2,7 +2,7 @@
 
 
 const regexs = {
-	videos: /(?:\.|\/)(?:youtube\.com\/watch\?.*v=|youtu\.be\/)([^\&\?]{5,})/,
+	videos: /(?:\.|\/)(?:youtube\.com\/(?:watch\?.*v=|shorts\/)|youtu\.be\/)([^\&\?]{5,})/,
 	playlists: /(?:\.|\/)youtube\.com\/playlist\?list=([^\&\?]{5,})/
 };
 
