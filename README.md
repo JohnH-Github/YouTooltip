@@ -5,31 +5,37 @@ Adds a tooltip containing information about videos and playlists when hovering o
 
 **Currently supports Firefox only.**
 
+**Notice: In Manifest V3 (coming soon), you will have to manually grant YouTooltip permission to run on webpages. You may either grant access to all sites, only individual sites, or only when clicking on the toolbar button.**
+
 | Tooltip display | Notification display |
 | --- | --- |
 | ![YouTooltip screenshot tooltip](https://user-images.githubusercontent.com/34670767/187048059-01668031-cdc8-4d81-80e6-b8c316510ae8.jpg) | ![YouTooltip screenshot notification](https://user-images.githubusercontent.com/34670767/187048070-cab54590-d3e2-487b-b24d-9a1db1cbbb41.jpg) |
 
 | Options page. Has both light and dark themes | Popup. Has both light and dark themes |
 | --- | --- |
-| ![YouTooltip screenshot options](https://user-images.githubusercontent.com/34670767/205423083-28bf08cd-b2ba-4ea6-9824-b2f6932e1630.jpg) | ![YouTooltip screenshot popup](https://user-images.githubusercontent.com/34670767/192407849-19811c80-dc28-455c-bbca-86610b4a49dd.png) |
-
+| ![YouTooltip screenshot options](https://user-images.githubusercontent.com/34670767/208768465-bdb375e3-e8c8-44a6-817b-46c9b2071fc5.jpg) | ![YouTooltip screenshot popup](https://user-images.githubusercontent.com/34670767/192407849-19811c80-dc28-455c-bbca-86610b4a49dd.png) |
 
 
 ## Features
-- Operation mode
-	- Auto: Send requests on page load and whenever more links are added.
-		- Supports Google API only.
-	- Hover: Send requests only for links that are hovered over.
-		- Supports both Google API and Invidious API.
 - Supported API's
 	- Google.
 	- Invidious.
-- Tooltip options
+	- Piped.
+- Options
+	- Operation mode
+		- Auto: Send requests on page load and whenever more links are added.
+			- Supports Google API only.
+		- Hover: Send requests only for links that are hovered over.
+			- Supports both Google API, Invidious API, and Piped API.
 	- Display mode
 		- Tooltip.
+		- Custom tooltip
 		- Notification.
 	- Enable/disable information about videos and playlists.
 	- Change the display format for certain information.
+	- Toolbar button badge.
+	- Blacklist.
+	- Import/Export.
 - Popup
 	- Shows statistics for the page.
 	- Lists all videos and playlists found on the page.
