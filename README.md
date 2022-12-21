@@ -56,28 +56,28 @@ Adds a tooltip containing information about videos and playlists when hovering o
 4. Select ```manifest.json``` and click "Open".
 
 ## Permissions
-### Required
-- #### Access your data for all websites
-	- This is needed to scan each page for links to YouTube videos and playlists. Except on youtube.com, of course.
-### Optional
-- #### Download files and read and modify the browser’s download history
-	- For exporting settings. Asks for permission when you click on the 'Export' button.
-- #### Display notifications to you
-	- For notification display mode, instead of displaying youtube info as tooltips.
+- Required
+	- **Access your data for all websites**
+		- This is needed to scan each page for links to YouTube videos and playlists. Except on youtube.com, of course.
+- Optional
+	- **Download files and read and modify the browser’s download history**
+		- For exporting settings. Asks for permission when you click on the 'Export' button.
+	- **Display notifications to you**
+		- For notification display mode, instead of displaying youtube info as tooltips.
 
 ## Privacy policy
 YouTooltip does *not* send user data to me nor use any analytics. I don't care for your browsing habits.
 
 YouTooltip *does* store statistics on your computer; however, you may delete and/or turn them off at any time.
 
-YouTooltip *does* make requests to either Google's API or Invidious' API for video and playlist information; however, no identifying information is shared. Requests always use HTTPS. The data that is sent to the API of your choice is the video and/or playlist ID's, field options, and an API key (where necessary).
+YouTooltip *does* make requests to either Google's API, Invidious' API, or Piped's API for video and playlist information; however, no identifying information is shared. Requests always use HTTPS. The data that is sent to the API of your choice is the video and/or playlist ID's, field options, and an API key (where necessary).
 
 ## Other notes
 The default API key(s) that YouTooltip uses are my own, and I have the right to disable them at any time for any reason. In addition, Google may also disable them at any time for any reason. You may choose to provide your own API key, but you are responsible for its use.
 
 ## Credits
 ### Fork
-Forked from [YoutubeTooltip](https://addons.mozilla.org/en-US/firefox/addon/youtube_tooltip/) (since removed from AMO) written by [Firefox user 14151097](https://addons.mozilla.org/en-US/firefox/user/14151097/). Released under the [MIT license](https://opensource.org/licenses/mit-license.php).
+Forked from ~~[YoutubeTooltip](https://addons.mozilla.org/en-US/firefox/addon/youtube_tooltip/)~~ (since removed from AMO) written by [Firefox user 14151097](https://addons.mozilla.org/en-US/firefox/user/14151097/). Released under the [MIT license](https://opensource.org/licenses/mit-license.php).
 ### Icons
 All icons (including logo) from [Feather](https://feathericons.com/). Released under the [MIT license](https://github.com/colebemis/feather/blob/master/LICENSE).
 
