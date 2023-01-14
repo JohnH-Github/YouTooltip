@@ -44,9 +44,13 @@ const disabledOnSite = {
  * Definitely not a good solution, but it works for now.
  */
 function isAlternateFrontend(url) {
-	let urlObj = new URL(url);
-	return (urlObj.hostname === "tube.cadence.moe" ||// Cloudtube
-		document.head.querySelector("meta[name=description]")?.content === "An alternative front-end to YouTube");// Invidious
+	if (document.head) {
+		let urlObj = new URL(url);
+		return (urlObj.hostname === "tube.cadence.moe" ||// Cloudtube
+			document.head.querySelector("meta[name=description]")?.content === "An alternative front-end to YouTube");// Invidious
+	} else {
+		return false;
+	}
 }
 
 /*
