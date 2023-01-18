@@ -159,11 +159,12 @@ browser.runtime.onMessage.addListener(async (message) => {
 				bucketsArrays[bucket] = [...elementMap[bucket]];
 				bucketsData[bucket] = [];
 				bucketsArrays[bucket].forEach(kvPair => {
-					let title = dataMap[bucket].get(kvPair[0]).title;
+					let idData = dataMap[bucket].get(kvPair[0]);
 					bucketsData[bucket].push({
 						id: kvPair[0],
-						title: title.substr(0, title.indexOf("\n")),// Get just the video/playlist title, hopefully.
-						count: kvPair[1].length
+						title: idData.title.substr(0, idData.title.indexOf("\n")),// Get just the video/playlist title, hopefully.
+						count: kvPair[1].length,
+						isRickRoll: idData.isRickRoll
 					});
 				});
 			}
@@ -188,10 +189,12 @@ function setTitle(bucket, id, ele, text) {
 		ele.title = text;
 }
 
-function checkIdStats(id) {
+function checkIdStats(bucket, id) {
 	for (let rickRoll of rickRollIds) {
-		if (id === rickRoll)
+		if (id === rickRoll) {
 			incrementStat("rickRoll");
+			dataMap[bucket].get(id).isRickRoll = true;
+		}
 	}
 }
 async function incrementStat(stat, num = 1) {
@@ -377,11 +380,12 @@ function setNewLinks(linkMapBuckets) {
 				elementMap[bucket].set(key, value);
 				dataMap[bucket].set(key, {
 					title: "",
-					state: 0
+					state: 0,
+					isRickRoll: false
 				});
 			}
 			for (let element of value) {
-				checkIdStats(key);
+				checkIdStats(bucket, key);
 				if (options.operationMode === "hover") {
 					// Only on hover mode, add mouseenter listener to the new link elements.
 					element.addEventListener("mouseenter", (event) => {

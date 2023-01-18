@@ -75,6 +75,8 @@ function addListEle(bucket, item, append = true) {
 		gotoId(bucket, item.id, item.count);
 	});
 	listEle.querySelector(".link").href = "https://www.youtube.com/" + (bucket === "videos" ? "watch?v=" : "playlist?list=") + item.id;
+	if (item.isRickRoll)
+		listEle.classList.add("rickRoll");
 	if (append)
 		document.querySelector(`.youtubeLinks .${bucket} .list`).appendChild(listEle);
 	else

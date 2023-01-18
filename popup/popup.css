@@ -192,6 +192,9 @@ body.privileged.blacklisted .blacklistedNotice {
 .youtubeLinks .item:nth-child(odd) {
 	background: #f0f0f0;
 }
+.youtubeLinks .item.rickRoll {
+	background: #fffbd6;
+}
 .youtubeLinks .countCell, .youtubeLinks .linkCell {
 	width: 0.5em;
 	vertical-align: top;
@@ -263,6 +266,9 @@ body.privileged.blacklisted .blacklistedNotice {
 	}
 	.youtubeLinks .item:nth-child(odd) {
 		background: #232323;
+	}
+	.youtubeLinks .item.rickRoll {
+		background: #343218;
 	}
 	.youtubeLinks td {
 		border: 1px solid var(--border-color-darkTheme);
