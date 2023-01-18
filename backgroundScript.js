@@ -274,11 +274,11 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
 			return await browser.permissions.contains(message.permissions);
 			break;
 		case "updateBadge":
-			browser.browserAction.setBadgeText({
+			browser.action.setBadgeText({
 				text: (message.num > 99999 ? "∞" : message.num > 999 ? Math.floor(message.num / 1000) + "k" : message.num).toString(),
 				tabId: sender.tab.id
 			});
-			browser.browserAction.setBadgeBackgroundColor({
+			browser.action.setBadgeBackgroundColor({
 				color: message.badgeColor,
 				tabId: sender.tab.id
 			});
