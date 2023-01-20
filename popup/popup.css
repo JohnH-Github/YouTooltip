@@ -194,6 +194,7 @@ body.privileged.blacklisted .blacklistedNotice {
 }
 .youtubeLinks .item.rickRoll {
 	background: #fffbd6;
+	color: #715100;
 }
 .youtubeLinks .countCell, .youtubeLinks .linkCell {
 	width: 0.5em;
@@ -269,6 +270,7 @@ body.privileged.blacklisted .blacklistedNotice {
 	}
 	.youtubeLinks .item.rickRoll {
 		background: #343218;
+		color: #d0b46d;
 	}
 	.youtubeLinks td {
 		border: 1px solid var(--border-color-darkTheme);
