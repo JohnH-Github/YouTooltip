@@ -5,7 +5,7 @@ Adds a tooltip containing information about videos and playlists when hovering o
 
 **Currently supports Firefox only.**
 
-**Notice: In Manifest V3 (coming soon), you will have to manually grant YouTooltip permission to run on webpages. You may either grant access to all sites, only individual sites, or only when clicking on the toolbar button.**
+**Notice: In Manifest V3 (now the current version), you will have to manually grant YouTooltip permission to run on webpages. You may either grant access to all sites, only individual sites, or only when clicking on the toolbar button.**
 
 | Tooltip display | Notification display |
 | --- | --- |
@@ -13,7 +13,8 @@ Adds a tooltip containing information about videos and playlists when hovering o
 
 | Options page. Has both light and dark themes | Popup. Has both light and dark themes |
 | --- | --- |
-| ![YouTooltip screenshot options](https://user-images.githubusercontent.com/34670767/208768465-bdb375e3-e8c8-44a6-817b-46c9b2071fc5.jpg) | ![YouTooltip screenshot popup](https://user-images.githubusercontent.com/34670767/192407849-19811c80-dc28-455c-bbca-86610b4a49dd.png) |
+| ![YouTooltip screenshot options](https://user-images.githubusercontent.com/34670767/208768465-bdb375e3-e8c8-44a6-817b-46c9b2071fc5.jpg) | ![YouTooltip screenshot popup](https://user-images.githubusercontent.com/34670767/214700724-715e09d2-72fb-4711-94c1-45c0b59d4a64.png) |
+
 
 
 ## Features
@@ -56,10 +57,9 @@ Adds a tooltip containing information about videos and playlists when hovering o
 4. Select ```manifest.json``` and click "Open".
 
 ## Permissions
-- Required
-	- **Access your data for all websites**
-		- This is needed to scan each page for links to YouTube videos and playlists. Except on youtube.com, of course.
 - Optional
+	- **Access your data for all websites**
+		- For automatically scanning each page for links to YouTube videos and playlists without user interaction. Except on youtube.com, of course.
 	- **Download files and read and modify the browser’s download history**
 		- For exporting settings. Asks for permission when you click on the 'Export' button.
 	- **Display notifications to you**
