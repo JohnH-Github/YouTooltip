@@ -324,7 +324,7 @@ document.getElementById("import").addEventListener('click', async () => {
 });
 
 document.getElementById("badgeColor").addEventListener("change", async () => {
-	await browser.browserAction.setBadgeBackgroundColor({color: options.badgeColor});
+	await browser.action.setBadgeBackgroundColor({color: options.badgeColor});
 });
 document.getElementById("customTooltipCSS").addEventListener("change", (e) => {
 	document.getElementById("customTooltipCSSPreview").style = e.target.value;
