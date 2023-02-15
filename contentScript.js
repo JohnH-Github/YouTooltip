@@ -226,6 +226,9 @@ var newValidLinksBucket = {videos: [], playlists: []};
 var observer = new MutationObserver((changes) => {
 	changes.forEach(change => {
 		change.addedNodes.forEach(node => {
+			if (!(node instanceof Element)) {
+				return;
+			}
 			let aElements = [];
 			aElements = node.getAttribute("href")?.includes("youtu") ? [node] : node.querySelectorAll("a[href*=youtu]");
 			let validLinksBucket = getElementsWithValidLinks(aElements);
@@ -238,6 +241,9 @@ var observer = new MutationObserver((changes) => {
 			}
 		});
 		change.removedNodes.forEach(node => {
+			if (!(node instanceof Element)) {
+				return;
+			}
 			let aElements = [];
 			aElements = node.getAttribute("href")?.includes("youtu") ? [node] : node.querySelectorAll("a[href*=youtu]");
 			let validLinksBucket = getElementsWithValidLinks(aElements);
