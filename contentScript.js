@@ -932,7 +932,7 @@ const customTooltip = {
 		}
 	},
 	removeTooltip: function() {
-		document.getElementById("youTooltip").remove();
+		document.getElementById("youTooltip")?.remove();
 		document.body.removeEventListener("keydown", customTooltip.onEscapeKey);
 		clearTimeout(customTooltip.displayTimeout);
 	},
