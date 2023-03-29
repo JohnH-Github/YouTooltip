@@ -34,6 +34,7 @@ const dataMap = {
 var options;
 var keyDefault;
 var onStorageChangeCounter = 0;
+var customTooltipCSSImportant = "";
 const disabledOnSite = {
 	state: false,
 	reason: ""
@@ -90,7 +91,14 @@ async function init() {
 			} else {
 				await browser.runtime.sendMessage({});// Send empty message in case the popup is listening.
 			}
-			if (options.displayMode === "notification") {
+			if (options.displayMode === "customTooltip") {
+				const cssList = options.customTooltipCSS.split(";");
+				cssList.forEach((declaration, index) => {
+					if (declaration !== "" && !declaration.includes("!"))
+						cssList[index] = `${declaration} !important`;
+				});
+				customTooltipCSSImportant = cssList.join(";");
+			} else if (options.displayMode === "notification") {
 				let gotPermission = await browser.runtime.sendMessage({
 					command: "hasPermission",
 					permissions: {permissions: ["notifications"]}
@@ -904,7 +912,7 @@ const customTooltip = {
 		tooltip = document.createElement("div");
 		tooltip.id = "youTooltip";
 		tooltip.setAttribute("role", "tooltip");
-		tooltip.setAttribute("style", "all: initial; display: none; position: fixed; z-index: 2147483647; padding: 3px; max-width: 560px; width: max-content; border-radius: 4px; font-size: 12px; font-family: 'Segoe UI', system-ui, sans-serif; white-space: pre-wrap; pointer-events: none; background-color: #f9f9f9; border: 1px solid #676767; color: #000;" + (window.matchMedia("(prefers-color-scheme: dark)").matches ? "background-color: #000; border-color: #878787; color: #fff;" : "") + options.customTooltipCSS);
+		tooltip.style.cssText = "all: initial !important; display: none !important; position: fixed !important; z-index: 2147483647 !important; padding: 3px !important; max-width: 560px !important; width: max-content !important; border-radius: 4px !important; font-size: 12px !important; font-family: 'Segoe UI', system-ui, sans-serif !important; white-space: pre-wrap !important; pointer-events: none !important; background-color: #f9f9f9 !important; border: 1px solid #676767 !important; color: #000 !important;" + (window.matchMedia("(prefers-color-scheme: dark)").matches ? "background-color: #000 !important; border-color: #878787 !important; color: #fff !important;" : "") + customTooltipCSSImportant;
 		tooltip.textContent = text;
 		document.body.appendChild(tooltip);
 		document.body.addEventListener("keydown", customTooltip.onEscapeKey);
@@ -933,29 +941,34 @@ const customTooltip = {
 		
 		// Here be black magic.
 		let boundingClientRect = tooltip.getBoundingClientRect();
-		let translate = ["0%", "0%"];
+		let styles = {
+			top: "auto",
+			left: "auto",
+			width: "max-content",
+			translate: ["0%", "0%"]
+		};
 		if ((((xPos + 5) - boundingClientRect.width) < 0) && (((xPos + 5) + boundingClientRect.width) > document.documentElement.clientWidth)) {
 			// Too far left AND right.
-			tooltip.style.width = "auto";
-			tooltip.style.left = "0px";
+			styles.width = "auto";
+			styles.left = "0px";
 		} else if (((xPos + 5) + boundingClientRect.width) > document.documentElement.clientWidth) {
 			// Too far right.
-			translate[0] = "-100%";
-			tooltip.style.left = xPos + "px";
+			styles.translate[0] = "-100%";
+			styles.left = xPos + "px";
 		} else {
 			// Default position: 5px to the right of cursor.
-			tooltip.style.left = (xPos + 5) + "px";
+			styles.left = (xPos + 5) + "px";
 		}
 		if (((yPos - boundingClientRect.height) < 0) && ((yPos + boundingClientRect.height) > document.documentElement.clientHeight)) {
-			tooltip.style.top = "0px";
+			styles.top = "0px";
 		} else if ((yPos + boundingClientRect.height) > document.documentElement.clientHeight) {
 			// Too far down.
-			translate[1] = "-100%";
-			tooltip.style.top = yPos + "px";
+			styles.translate[1] = "-100%";
+			styles.top = yPos + "px";
 		} else {
 			// Default position: 15px below cursor.
-			tooltip.style.top = (yPos + 15) + "px";
+			styles.top = (yPos + 15) + "px";
 		}
-		tooltip.style.transform = `translate(${translate.toString()})`;
+		tooltip.style.cssText = tooltip.style.cssText + `top: ${styles.top} !important; left: ${styles.left} !important; width: ${styles.width} !important; transform: translate(${styles.translate.toString()}) !important;`;
 	}
 };
