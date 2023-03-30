@@ -448,6 +448,7 @@ async function saveAndRestoreOptions(opt, configObject) {
 		
 		{name: "displayMode", type: 3},
 		{name: "customTooltipCSS", type: 0},
+		{name: "notificationAutoDismiss", type: 1},
 		{name: "videosEnable", type: 1},
 		{name: "videosDurationEnable", type: 1},
 		{name: "videosDurationFormat", type: 2},

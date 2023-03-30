@@ -24,6 +24,7 @@ const defaultOptions = {
 	
 	displayMode: "tooltip",
 	customTooltipCSS: "",
+	notificationAutoDismiss: true,
 	videosEnable: true,
 	videosDurationEnable: true,
 	videosDurationFormat: 0,

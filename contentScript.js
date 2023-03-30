@@ -412,7 +412,8 @@ function setNewLinks(linkMapBuckets) {
 					element.addEventListener("mouseenter", () => {
 						showNotification(bucket, key);
 					});
-					element.addEventListener("mouseleave", clearNotification);
+					if (options.notificationAutoDismiss)
+						element.addEventListener("mouseleave", clearNotification);
 				} else if (options.displayMode === "customTooltip") {
 					element.addEventListener("mouseenter", (e) => {
 						currentHoverNotification.bucket = bucket;
