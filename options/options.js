@@ -9,31 +9,42 @@ document.getElementById("sidebarToggle").addEventListener('click', () => {
 		sidebar.classList.add("show");
 });
 
-async function updatePermission(permission) {
+async function updatePermission(permission, isGranted) {
 	let permissionRequest = document.querySelector(`.permissionRequest[data-permission='${(permission.origins || permission.permissions)[0]}']`);
-	let requestButton = permissionRequest.querySelector("button");
-	if (await browser.permissions.contains(permission)) {
-		permissionRequest.classList.add("granted");
-		requestButton.disabled = true;
-		requestButton.classList.add("stayDisabled");
-	} else {
-		permissionRequest.classList.remove("granted");
-		requestButton.disabled = false;
+	if (permissionRequest !== null) {
+		let requestButton = permissionRequest.querySelector("button");
+		if (isGranted === undefined)
+			isGranted = await browser.permissions.contains(permission);
+		permissionRequest.classList.toggle("granted", isGranted);
+		requestButton.classList.toggle("stayDisabled", isGranted);
+		requestButton.disabled = isGranted;
 	}
 }
+browser.permissions.onAdded.addListener((permissions) => {
+	Object.keys(permissions).some((key) => {
+		if (permissions[key].length) {
+			updatePermission({[key]: [permissions[key][0]]}, true);
+			return true;
+		}
+	});
+});
+browser.permissions.onRemoved.addListener((permissions) => {
+	Object.keys(permissions).some((key) => {
+		if (permissions[key].length) {
+			updatePermission({[key]: [permissions[key][0]]}, false);
+			return true;
+		}
+	});
+});
 document.getElementById("permissionAllUrls").addEventListener('click', async () => {
-	let permissionRequest = await browser.permissions.request({
+	await browser.permissions.request({
 		origins: ["<all_urls>"]
 	});
-	if (permissionRequest)
-		updatePermission({origins: ["<all_urls>"]});
 });
 document.getElementById("notificationPermission").addEventListener('click', async () => {
-	let permissionRequest = await browser.permissions.request({
+	await browser.permissions.request({
 		permissions: ["notifications"]
 	});
-	if (permissionRequest)
-		updatePermission({permissions: ["notifications"]});
 });
 
 document.getElementById("resetOptionsButton").addEventListener('click', async () => {
