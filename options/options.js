@@ -1,20 +1,19 @@
 "use strict";
 
+let options;
 
-document.getElementById("sidebarToggle").addEventListener('click', () => {
+document.getElementById("sidebarToggle").addEventListener("click", () => {
 	let sidebar = document.querySelector(".sidebar");
-	if (sidebar.classList.contains("show"))
-		sidebar.classList.remove("show");
-	else
-		sidebar.classList.add("show");
+	sidebar.classList.toggle("show");
 });
 
 async function updatePermission(permission, isGranted) {
 	let permissionRequest = document.querySelector(`.permissionRequest[data-permission='${(permission.origins || permission.permissions)[0]}']`);
 	if (permissionRequest !== null) {
 		let requestButton = permissionRequest.querySelector("button");
-		if (isGranted === undefined)
+		if (isGranted === undefined) {
 			isGranted = await browser.permissions.contains(permission);
+		}
 		permissionRequest.classList.toggle("granted", isGranted);
 		requestButton.classList.toggle("stayDisabled", isGranted);
 		requestButton.disabled = isGranted;
@@ -41,21 +40,21 @@ document.querySelectorAll(".permissionRequest").forEach((permissionRequest) => {
 		[permissionRequest.dataset.permissionType]: [permissionRequest.dataset.permission]
 	};
 	updatePermission(permissionObject);
-	permissionRequest.querySelector(".permissionGrantButton").addEventListener('click', async () => {
+	permissionRequest.querySelector(".permissionGrantButton").addEventListener("click", async () => {
 		await browser.permissions.request(permissionObject);
 	});
-	permissionRequest.querySelector(".permissionRevokeButton").addEventListener('click', async () => {
+	permissionRequest.querySelector(".permissionRevokeButton").addEventListener("click", async () => {
 		await browser.permissions.remove(permissionObject);
 	});
 });
 
-document.getElementById("resetOptionsButton").addEventListener('click', async () => {
+document.getElementById("resetOptionsButton").addEventListener("click", async () => {
 	if (await showConfirmDialog("Reset options", "All options will be reset, but statistics will remain.\nReset options?")) {
 		await browser.runtime.sendMessage({command: "reset", reset:"options"});
 		await saveAndRestoreOptions("restore");
 	}
 });
-document.getElementById("resetEverythingButton").addEventListener('click', async () => {
+document.getElementById("resetEverythingButton").addEventListener("click", async () => {
 	if (await showConfirmDialog("Reset everything", "ALL options and statistics will be reset.\nReset everything?")) {
 		await browser.runtime.sendMessage({command: "reset", reset:"everything"});
 		await saveAndRestoreOptions("restore");
@@ -83,67 +82,59 @@ function changeOperationMode() {
 		pipedSection.classList.remove("disabled");
 	}
 }
-document.getElementsByName("operationMode").forEach(service => {
-	service.addEventListener('input', changeOperationMode);
+document.getElementsByName("operationMode").forEach((service) => {
+	service.addEventListener("input", changeOperationMode);
 });
 function changeApiService() {
 	let checkedApiService = document.querySelector("[name=apiService]:checked");
 	let allApiSwitch = document.querySelectorAll(".apiSwitch");
 	for (let apiSwitch of allApiSwitch) {
-		if (apiSwitch.classList.contains(checkedApiService.value))
-			apiSwitch.classList.remove("hide");
-		else
-			apiSwitch.classList.add("hide");
+		apiSwitch.classList.toggle("hide", !apiSwitch.classList.contains(checkedApiService.value));
 	}
 }
-document.getElementsByName("apiService").forEach(service => {
-	service.addEventListener('input', changeApiService);
+document.getElementsByName("apiService").forEach((service) => {
+	service.addEventListener("input", changeApiService);
 });
 
 
 function toggleChildOptions(ele) {
-	function disableChildControls(topParent) {
-		childOptions.querySelectorAll(":is(.setting, button, details):not(.stayDisabled)").forEach(setting => {
+	function disableChildControls(topParent, childOptions) {
+		childOptions.querySelectorAll(":is(.setting, button, details):not(.stayDisabled)").forEach((setting) => {
 			setting.disabled = !topParent.checked;
 		});
 	}
 	let childOptions;
 	if (ele.type === "radio") {
 		let radioGroup = document.getElementsByName(ele.name);
-		radioGroup.forEach(radio => {
+		radioGroup.forEach((radio) => {
 			childOptions = radio.parentElement.querySelector(".sectionList") || radio.parentElement.querySelector(".formatPart");
 			if (childOptions !== null) {
-				if (radio.checked)
-					childOptions.classList.remove("disabled");
-				else
-					childOptions.classList.add("disabled");
-				disableChildControls(radio);
+				childOptions.classList.toggle("disabled", !radio.checked);
+				disableChildControls(radio, childOptions);
 			}
 		});
 	} else {
 		childOptions = ele.parentElement.querySelector(".sectionList") || ele.parentElement.querySelector(".formatPart");
 		if (childOptions !== null) {
-			if (ele.checked)
-				childOptions.classList.remove("disabled");
-			else
-				childOptions.classList.add("disabled");
-			disableChildControls(ele);
+			childOptions.classList.toggle("disabled", !ele.checked);
+			disableChildControls(ele, childOptions);
 		}
 	}
 }
 
-async function populateInvidiousDefaultInstancesSelect(index) {
+function populateInvidiousDefaultInstancesSelect(index) {
 	let invidiousDefaultInstancesSelect = document.getElementById("invidiousDefaultInstances");
 	let selectedInstance = options.invidiousDefaultInstances[index]?.domain || invidiousDefaultInstancesSelect.selectedOptions[0]?.value;
 	invidiousDefaultInstancesSelect.replaceChildren();
-	options.invidiousDefaultInstances.forEach(instance => {
+	options.invidiousDefaultInstances.forEach((instance) => {
 		let optionElem = document.createElement("option");
 		optionElem.textContent = `${instance.domain} (${instance.flag} ${instance.region}, ${instance.uptime}% uptime)`;
 		optionElem.value = instance.domain;
 		invidiousDefaultInstancesSelect.appendChild(optionElem);
 	});
-	if (selectedInstance)
-		invidiousDefaultInstancesSelect.selectedIndex = Math.max(0, options.invidiousDefaultInstances.findIndex(instance => instance.domain === selectedInstance));
+	if (selectedInstance) {
+		invidiousDefaultInstancesSelect.selectedIndex = Math.max(0, options.invidiousDefaultInstances.findIndex((instance) => instance.domain === selectedInstance));
+	}
 }
 
 async function getInvidiousInstances() {
@@ -154,32 +145,34 @@ async function getInvidiousInstances() {
 	let response;
 	let responseBody;
 	try {
-		response = await fetch("https://api.invidious.io/instances.json?sort_by=type,health", {credentials: "omit", cache: "no-cache"});
-		if (!response.ok)
+		response = await fetch("https://api.invidious.io/instances.json?sort_by=type,health", {cache: "no-cache", credentials: "omit"});
+		if (!response.ok) {
 			throw `Response not ok: ${response.status} ${response.statusText}`;
+		}
 		responseBody = await response.json();
 		options.invidiousDefaultInstances = [];
-		responseBody.forEach(instance => {
-			if (instance[1].api !== true || instance[1].type !== "https" || instance[1].monitor?.dailyRatios[0].label !== "success")
+		responseBody.forEach((instance) => {
+			if (instance[1].api !== true || instance[1].type !== "https" || instance[1].monitor?.dailyRatios[0].label !== "success") {
 				return;
+			}
 			options.invidiousDefaultInstances.push({
 				domain: instance[0],
 				flag: instance[1].flag,
 				region: instance[1].region,
-				uptime: instance[1].monitor['30dRatio'].ratio
+				uptime: instance[1].monitor["30dRatio"].ratio
 			});
 		});
 		await populateInvidiousDefaultInstancesSelect();
 		await saveAndRestoreOptions("save");
 	} catch(error) {
 		console.error(error);
-		if (error.message.includes("NetworkError"))
+		if (error.message.includes("NetworkError")) {
 			showErrorDialog("Invidious error", "Could not send request. Check your internet connection.");
-		else if (error.name === "AbortError")
+		} else if (error.name === "AbortError") {
 			showErrorDialog("Invidious error", "Connection timed out.");
-		else if (response.status > 499 && response.status < 600)
+		} else if (response.status > 499 && response.status < 600) {
 			showErrorDialog("Invidious error", `Server error: ${response.status} ${response.statusText}`);
-		else if (response.status > 399 && response.status < 500) {
+		} else if (response.status > 399 && response.status < 500) {
 			showErrorDialog("Invidious error", error);
 		}
 	} finally {
@@ -189,18 +182,19 @@ async function getInvidiousInstances() {
 }
 document.getElementById("refreshInvidiousDefaultInstances").addEventListener("click", getInvidiousInstances);
 
-async function populatePipedDefaultInstancesSelect(index) {
+function populatePipedDefaultInstancesSelect(index) {
 	let pipedDefaultInstancesSelect = document.getElementById("pipedDefaultInstances");
 	let selectedInstance = options.pipedDefaultInstances[index]?.domain || pipedDefaultInstancesSelect.selectedOptions[0]?.value;
 	pipedDefaultInstancesSelect.replaceChildren();
-	options.pipedDefaultInstances.forEach(instance => {
+	options.pipedDefaultInstances.forEach((instance) => {
 		let optionElem = document.createElement("option");
-		optionElem.textContent = `${instance.name} (${instance.flag}${instance.cdn ? ', CDN' : ''})`;
+		optionElem.textContent = `${instance.name} (${instance.flag}${instance.cdn ? ", CDN" : ""})`;
 		optionElem.value = instance.domain;
 		pipedDefaultInstancesSelect.appendChild(optionElem);
 	});
-	if (selectedInstance)
-		pipedDefaultInstancesSelect.selectedIndex = Math.max(0, options.pipedDefaultInstances.findIndex(instance => instance.domain === selectedInstance));
+	if (selectedInstance) {
+		pipedDefaultInstancesSelect.selectedIndex = Math.max(0, options.pipedDefaultInstances.findIndex((instance) => instance.domain === selectedInstance));
+	}
 }
 async function getPipedInstances() {
 	let pipedDefaultInstancesSelect = document.getElementById("pipedDefaultInstances");
@@ -210,14 +204,15 @@ async function getPipedInstances() {
 	let response;
 	let responseBody;
 	try {
-		response = await fetch("https://raw.githubusercontent.com/wiki/TeamPiped/Piped-Frontend/Instances.md", {credentials: "omit", cache: "no-cache"});
-		if (!response.ok)
+		response = await fetch("https://raw.githubusercontent.com/wiki/TeamPiped/Piped-Frontend/Instances.md", {cache: "no-cache", credentials: "omit"});
+		if (!response.ok) {
 			throw `Response not ok: ${response.status} ${response.statusText}`;
+		}
 		responseBody = await response.text();
 		options.pipedDefaultInstances = [];
 		let skipped = 0;
 		const lines = responseBody.split("\n");
-		lines.map(line => {
+		lines.map((line) => {
 			const split = line.split("|");
 			if (split.length > 4) {
 				if (skipped < 2) {
@@ -225,10 +220,10 @@ async function getPipedInstances() {
 					return;
 				}
 				options.pipedDefaultInstances.push({
-					name: split[0].trim(),
+					cdn: split[3].trim() === "Yes",
 					domain: split[1].trim(),
 					flag: split[2].trim(),
-					cdn: split[3].trim() === "Yes"
+					name: split[0].trim()
 				});
 			}
 		});
@@ -236,13 +231,13 @@ async function getPipedInstances() {
 		await saveAndRestoreOptions("save");
 	} catch(error) {
 		console.error(error);
-		if (error.message.includes("NetworkError"))
+		if (error.message.includes("NetworkError")) {
 			showErrorDialog("Piped error", "Could not send request. Check your internet connection.");
-		else if (error.name === "AbortError")
+		} else if (error.name === "AbortError") {
 			showErrorDialog("Piped error", "Connection timed out.");
-		else if (response.status > 499 && response.status < 600)
+		} else if (response.status > 499 && response.status < 600) {
 			showErrorDialog("Piped error", `Server error: ${response.status} ${response.statusText}`);
-		else if (response.status > 399 && response.status < 500) {
+		} else if (response.status > 399 && response.status < 500) {
 			showErrorDialog("Piped error", error);
 		}
 	} finally {
@@ -252,18 +247,19 @@ async function getPipedInstances() {
 }
 document.getElementById("refreshPipedDefaultInstances").addEventListener("click", getPipedInstances);
 
-document.getElementById("export").addEventListener('click', async () => {
+document.getElementById("export").addEventListener("click", async () => {
 	let permissionRequest = await browser.permissions.request({
 		permissions: ["downloads"]
 	});
-	if (!permissionRequest)
+	if (!permissionRequest) {
 		return;
+	}
 	let storageStats = await browser.storage.local.get("stats");
 	const exportObject = {
 		name: "YouTooltip",
-		version: browser.runtime.getManifest().version,
-		options: options,
-		stats:  storageStats.stats
+		options,
+		stats:  storageStats.stats,
+		version: browser.runtime.getManifest().version
 	};
 	let downloadItem;
 	const blob = new Blob([JSON.stringify(exportObject)], {type: "application/json"});
@@ -277,10 +273,10 @@ document.getElementById("export").addEventListener('click', async () => {
 	try {
 		browser.downloads.onChanged.addListener(downloadsChanged);
 		downloadItem = await browser.downloads.download({
-			url: objectURL,
+			conflictAction: "overwrite",
 			filename: "YouTooltip.json",
 			saveAs: true,
-			conflictAction: "overwrite"
+			url: objectURL
 		});
 	} catch(error) {
 		browser.downloads.onChanged.removeListener(downloadsChanged);
@@ -291,9 +287,9 @@ document.getElementById("export").addEventListener('click', async () => {
 		}
 	}
 });
-document.getElementById("import").addEventListener('click', async () => {
+document.getElementById("import").addEventListener("click", () => {
 	// Create a hidden file input, fill it with the necessary data, then trigger it.
-	const inputEle = document.createElement('input');
+	const inputEle = document.createElement("input");
 	async function readFile() {
 		if (inputEle.files.length) {
 			let file = inputEle.files[0];
@@ -308,12 +304,12 @@ document.getElementById("import").addEventListener('click', async () => {
 						if (await showConfirmDialog("Import", "Import and overwrite settings and statistics?")) {
 							let checkedImport = await browser.runtime.sendMessage({
 								command: "checkImport",
-								version: data.version,
 								optionsObj: data.options,
-								statsObj: data.stats
+								statsObj: data.stats,
+								version: data.version
 							});
 							await saveAndRestoreOptions("import", {
-								checkedImport: checkedImport,
+								checkedImport
 							});
 						}
 					} else {
@@ -346,17 +342,17 @@ document.getElementById("customTooltipCSS").addEventListener("change", (e) => {
 const allSettings = document.querySelectorAll(".setting");
 const allCheckboxes = document.querySelectorAll("[type='checkbox']");
 const allRadios = document.querySelectorAll("[type='radio']");
-allSettings.forEach(setting => {
+allSettings.forEach((setting) => {
 	setting.addEventListener("change", async () => {
 		await saveAndRestoreOptions("save");
 	});
 });
-allCheckboxes.forEach(checkbox => {
+allCheckboxes.forEach((checkbox) => {
 	checkbox.addEventListener("change", () => {
 		toggleChildOptions(checkbox);
 	});
 });
-allRadios.forEach(radio => {
+allRadios.forEach((radio) => {
 	radio.addEventListener("change", () => {
 		toggleChildOptions(radio);
 	});
@@ -364,11 +360,12 @@ allRadios.forEach(radio => {
 
 
 async function onStorageChange(changes) {
-	if ("stats" in changes)
+	if (Object.hasOwn(changes, "stats")) {
 		await updateStats(changes.stats.newValue);
+	}
 }
 const allTabs = document.querySelectorAll(".tab");
-allTabs.forEach(tab => {
+allTabs.forEach((tab) => {
 	tab.addEventListener("click", async () => {
 		if (tab.dataset.tab === "statistics") {
 			await updateStats();
@@ -384,14 +381,15 @@ allTabs.forEach(tab => {
 		tab.setAttribute("aria-selected", true);
 		document.querySelector(".mainHeader h2").textContent = tab.querySelector("span").textContent;
 		document.querySelector(`[data-panel=${tab.dataset.tab}]`).classList.add("show");
-		scroll({top: 0});
+		window.scroll({top: 0});
 	});
 });
 
 const toLongNumber = new Intl.NumberFormat("default");
 async function updateStats() {
-	if (window.browser === undefined)// For testing as a local html file.
+	if (window.browser === undefined) {// For testing as a local html file.
 		return;
+	}
 	let storageStats = await browser.storage.local.get("stats");
 	if (storageStats.stats === undefined) {
 		await browser.runtime.sendMessage({command: "resetStats"});
@@ -399,11 +397,11 @@ async function updateStats() {
 		return;
 	}
 	let allStats = document.querySelectorAll(".statContainer .stat");
-	allStats.forEach(statEle => {
-		statEle.querySelector(".value").textContent = toLongNumber.format((storageStats.stats[statEle.dataset.stat]));
+	allStats.forEach((statEle) => {
+		statEle.querySelector(".value").textContent = toLongNumber.format(storageStats.stats[statEle.dataset.stat]);
 	});
 }
-document.getElementById("resetStats").addEventListener('click', async () => {
+document.getElementById("resetStats").addEventListener("click", async () => {
 	if (await showConfirmDialog("Reset statistics", "Reset statistics?")) {
 		await browser.runtime.sendMessage({command: "resetStats"});
 		await updateStats();
@@ -421,7 +419,7 @@ function showConfirmDialog(title, text) {
 	let confirmDialog = document.getElementById("confirmDialog");
 	confirmDialog.querySelector(".title").textContent = title;
 	confirmDialog.querySelector(".text").textContent = text;
-	let closeDialogPromise = new Promise((resolve, reject) => {
+	let closeDialogPromise = new Promise((resolve) => {
 		confirmDialog.addEventListener("close", () => {
 			resolve(confirmDialog.returnValue === "ok");
 		}, {once: true});
@@ -445,7 +443,6 @@ function parseBlacklist(blacklist) {
 	return blacklistArray;
 }
 
-var options;
 async function saveAndRestoreOptions(opt, configObject) {
 	let properties = ["value", "checked", "selectedIndex", "radio"];
 	let optionsList = [
@@ -499,7 +496,7 @@ async function saveAndRestoreOptions(opt, configObject) {
 			let blacklistArray = parseBlacklist(document.getElementById("blacklist").value);
 			document.getElementById("blacklist").value = blacklistArray.join("\n");
 			
-			optionsList.forEach(option => {
+			optionsList.forEach((option) => {
 				if (option.name === "blacklist") {
 					options[option.name] = blacklistArray;
 				} else if (option.name === "invidiousDefaultInstances") {
@@ -517,10 +514,7 @@ async function saveAndRestoreOptions(opt, configObject) {
 			return true;
 		} catch(error) {
 			console.error(error);
-			if (error.message.startsWith("Invalid url pattern"))
-				showErrorDialog("Options error", "Could not save options:\nInvalid url pattern: " + error.message.replace("Invalid url pattern: ", ""));
-			else
-				showErrorDialog("Options error", "Could not save options:\n" + error);
+			showErrorDialog("Options error", error.message.startsWith("Invalid url pattern") ? "Could not save options:\nInvalid url pattern: " + error.message.replace("Invalid url pattern: ", "") : "Could not save options:\n" + error);
 			return false;
 		}
 	} else if (opt === "restore") {
@@ -533,7 +527,7 @@ async function saveAndRestoreOptions(opt, configObject) {
 				return;
 			}
 			
-			optionsList.forEach(option => {
+			optionsList.forEach((option) => {
 				if (option.name === "blacklist") {
 					document.getElementById("blacklist").value = options[option.name].join("\n");
 				} else if (option.name === "invidiousDefaultInstances") {
@@ -549,10 +543,10 @@ async function saveAndRestoreOptions(opt, configObject) {
 			changeOperationMode();
 			changeApiService();
 			await updateStats();
-			allCheckboxes.forEach(checkbox => {
+			allCheckboxes.forEach((checkbox) => {
 				toggleChildOptions(checkbox);
 			});
-			allRadios.forEach(radio => {
+			allRadios.forEach((radio) => {
 				toggleChildOptions(radio);
 			});
 			document.getElementById("customTooltipCSSPreview").style = options.customTooltipCSS;
@@ -587,9 +581,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 			document.body.classList.add("MV3");
 		}
 		if (window.location.hash === "#install") {
-			document.querySelector(`[data-tab=welcome]`).click();
+			document.querySelector("[data-tab=welcome]").click();
 		} else if (window.location.hash === "#releaseNotes") {
-			document.querySelector(`[data-tab=about]`).click();
+			document.querySelector("[data-tab=about]").click();
 			setTimeout(() => {
 				document.getElementById("releaseNotes").scrollIntoView({behavior: "smooth"});
 			}, 10);

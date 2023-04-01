@@ -157,8 +157,7 @@ browser.runtime.onMessage.addListener(async (message) => {
 	switch (message.command) {
 		case "isDisabled":
 			return disabledOnSite;
-			break;
-		case "getData":
+		case "getData": {
 			if (disabledOnSite.state)
 				return null;
 			let bucketsArrays = {};
@@ -170,7 +169,7 @@ browser.runtime.onMessage.addListener(async (message) => {
 					let idData = dataMap[bucket].get(kvPair[0]);
 					bucketsData[bucket].push({
 						id: kvPair[0],
-						title: idData.title.substr(0, idData.title.indexOf("\n")),// Get just the video/playlist title, hopefully.
+						title: idData.title.substr(0, idData.title.indexOf("\n")), // Get just the video/playlist title, hopefully.
 						count: kvPair[1].length,
 						isRickRoll: idData.isRickRoll
 					});
@@ -180,14 +179,15 @@ browser.runtime.onMessage.addListener(async (message) => {
 				pageStats: pageStats,
 				bucketsData: bucketsData
 			};
-			break;
-		case "gotoId":
+		}
+		case "gotoId": {
 			if (disabledOnSite.state)
 				return null;
 			let ele = elementMap[message.bucket].get(message.id)[message.index];
 			if (document.body.contains(ele))
 				ele.scrollIntoView();
 			break;
+		}
 	}
 });
 
@@ -776,7 +776,6 @@ function formatDuration(duration, opt) {
 					matches[index] = (match === undefined) ? "00" : match.padStart(2, "0");
 				});
 				return matches.join(":");
-				break;
 			case 1:
 				matches = duration.match(/\d+[HMS]/g);
 				return matches.join(" ").toLowerCase();
@@ -785,7 +784,6 @@ function formatDuration(duration, opt) {
 		switch (opt) {
 			case 0:
 				return new Date(duration * 1000).toISOString().substr(11, 8);
-				break;
 			case 1:
 				matches = new Date(duration * 1000).toISOString().substr(11, 8);
 				matches = matches.split(":");
@@ -856,25 +854,19 @@ function formatPublishedDate(dateString, opt) {
 		switch (opt) {
 			case 0:
 				return to12HourDateTime.format(dateObject) + " Local time";
-				break;
 			case 1:
 				return to24HourDateTime.format(dateObject) + " Local time";
-				break;
 			case 2:
 				return dateObject.toGMTString();
-				break;
 			case 3:
 				return timeAgo.format(dateObject);
-				break;
 		}
 	} else {
 		switch (opt) {
 			case 0:
 				return toGMTDate.format(dateObject) + " GMT";
-				break;
 			case 1:
 				return timeAgo.format(dateObject);
-				break;
 		}
 	}
 }
@@ -891,7 +883,6 @@ function formatNumber(num, opt, str) {
 	switch (opt) {
 		case 0:
 			return toCompactShortNumber.format(num) + (str === undefined ? "" : " " + str);
-			break;
 		case 1:
 			return toLongNumber.format(num) + (str === undefined ? "" : " " + str);
 	}

@@ -131,16 +131,14 @@ async function checkOptions(previousVersion, options) {
 	return options;
 }
 async function checkStats(previousVersion, stats) {
-	switch (previousVersion) {
-		case "1.0.2":
-			// Convert individual stats to properties in an object in storage.
-			let oldStats = ["tooltipsSession", "tooltipsTotal", "requestsSession", "requestsTotal", "rickRollSession", "rickRollTotal"];
-			let oldStorageStats = await browser.storage.local.get(oldStats);
-			if (Object.keys(oldStorageStats).length > 0) {
-				await browser.storage.local.set({stats: oldStorageStats});
-				await browser.storage.local.remove(oldStats);
-			}
-			break;
+	if (previousVersion === "1.0.2") {
+		// Convert individual stats to properties in an object in storage.
+		let oldStats = ["tooltipsSession", "tooltipsTotal", "requestsSession", "requestsTotal", "rickRollSession", "rickRollTotal"];
+		let oldStorageStats = await browser.storage.local.get(oldStats);
+		if (Object.keys(oldStorageStats).length > 0) {
+			await browser.storage.local.set({stats: oldStorageStats});
+			await browser.storage.local.remove(oldStats);
+		}
 	}
 	
 	let storageStats = await browser.storage.local.get("stats");
@@ -234,14 +232,14 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
 				await setDefaultOptions();
 			}
 			break;
-		case "checkImport":
+		case "checkImport": {
 			let checkedOptions = await checkOptions(message.version, message.optionsObj);
 			let checkedStats = await checkStats(message.version, message.statsObj);
 			return {
 				checkedOptions,
 				checkedStats
 			};
-			break;
+		}
 		case "resetStats":
 			await browser.storage.local.remove("stats");
 			await setDefaultStats();
@@ -259,7 +257,6 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
 			} else {
 				return keyDefaultArray[message.index];
 			}
-			break;
 		case "showNotification":
 			return await browser.notifications.create("youtooltip", {
 				type: "basic",
@@ -267,13 +264,10 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
 				title: "YouTooltip",
 				message: message.info,
 			});
-			break;
 		case "clearNotification":
 			return await browser.notifications.clear("youtooltip");
-			break;
 		case "hasPermission":
 			return await browser.permissions.contains(message.permissions);
-			break;
 		case "updateBadge":
 			browser.action.setBadgeText({
 				text: (message.num > 99999 ? "∞" : message.num > 999 ? Math.floor(message.num / 1000) + "k" : message.num).toString(),
@@ -284,7 +278,7 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
 				tabId: sender.tab.id
 			});
 			break;
-		case "fetch":
+		case "fetch": {
 			let response;
 			try {
 				response = await fetch(message.address, {credentials: "omit", cache: "no-cache"});
@@ -297,6 +291,6 @@ browser.runtime.onMessage.addListener(async (message, sender) => {
 			} catch(error) {
 				return error;
 			}
-			break;
+		}
 	}
 });
