@@ -37,15 +37,15 @@ browser.permissions.onRemoved.addListener((permissions) => {
 	});
 });
 document.querySelectorAll(".permissionRequest").forEach((permissionRequest) => {
+	const permissionObject = {
+		[permissionRequest.dataset.permissionType]: [permissionRequest.dataset.permission]
+	};
+	updatePermission(permissionObject);
 	permissionRequest.querySelector(".permissionGrantButton").addEventListener('click', async () => {
-		await browser.permissions.request({
-			[permissionRequest.dataset.permissionType]: [permissionRequest.dataset.permission]
-		});
+		await browser.permissions.request(permissionObject);
 	});
 	permissionRequest.querySelector(".permissionRevokeButton").addEventListener('click', async () => {
-		await browser.permissions.remove({
-			[permissionRequest.dataset.permissionType]: [permissionRequest.dataset.permission]
-		});
+		await browser.permissions.remove(permissionObject);
 	});
 });
 
@@ -548,8 +548,6 @@ async function saveAndRestoreOptions(opt, configObject) {
 			});
 			changeOperationMode();
 			changeApiService();
-			await updatePermission({origins: ["<all_urls>"]});
-			await updatePermission({permissions: ["notifications"]});
 			await updateStats();
 			allCheckboxes.forEach(checkbox => {
 				toggleChildOptions(checkbox);
