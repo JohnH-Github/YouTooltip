@@ -107,14 +107,14 @@ function toggleChildOptions(ele) {
 	if (ele.type === "radio") {
 		let radioGroup = document.getElementsByName(ele.name);
 		radioGroup.forEach((radio) => {
-			childOptions = radio.parentElement.querySelector(".sectionList") || radio.parentElement.querySelector(".formatPart");
+			childOptions = radio.closest(":not(label, .setting)").querySelector(":is(.sectionList, .formatPart)");
 			if (childOptions !== null) {
 				childOptions.classList.toggle("disabled", !radio.checked);
 				disableChildControls(radio, childOptions);
 			}
 		});
 	} else {
-		childOptions = ele.parentElement.querySelector(".sectionList") || ele.parentElement.querySelector(".formatPart");
+		childOptions = ele.closest(":not(label, .setting)").querySelector(":is(.sectionList, .formatPart)");
 		if (childOptions !== null) {
 			childOptions.classList.toggle("disabled", !ele.checked);
 			disableChildControls(ele, childOptions);

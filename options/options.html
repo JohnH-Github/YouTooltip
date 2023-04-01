@@ -90,11 +90,17 @@
 							<h3>Operation mode</h3>
 							<div class="mainGroupContent">
 								<div class="section">
-									<input type="radio" id="operationModeAuto" name="operationMode" value="auto" class="setting" aria-describedby="operationModeAutoCaption"/><label for="operationModeAuto" class="sectionHeader" aria-describedby="operationModeAutoCaption">Auto</label>
+									<label class="sectionHeader" aria-describedby="operationModeAutoCaption">
+										<input type="radio" id="operationModeAuto" name="operationMode" value="auto" class="setting" aria-describedby="operationModeAutoCaption"/>
+										<span>Auto</span>
+									</label>
 									<span id="operationModeAutoCaption" class="caption">Gets all info on page load and whenever more links are added. Supports Google only.</span>
 								</div>
 								<div class="section">
-									<input type="radio" id="operationModeHover" name="operationMode" value="hover" class="setting" aria-describedby="operationModeHoverCaption"/><label for="operationModeHover" class="sectionHeader" aria-describedby="operationModeHoverCaption">Hover</label>
+									<label class="sectionHeader" aria-describedby="operationModeHoverCaption">
+										<input type="radio" id="operationModeHover" name="operationMode" value="hover" class="setting" aria-describedby="operationModeHoverCaption"/>
+										<span>Hover</span>
+									</label>
 									<span id="operationModeHoverCaption" class="caption">Gets info only for links that are hovered over. Supports Google, Invidious, and Piped.</span>
 								</div>
 							</div>
@@ -103,32 +109,44 @@
 							<h3>API service</h3>
 							<div class="mainGroupContent">
 								<div class="section">
-									<input type="radio" id="apiServiceGoogle" name="apiService" value="google" class="setting"/><label for="apiServiceGoogle" class="sectionHeader">Google</label>
+									<label class="sectionHeader">
+										<input type="radio" id="apiServiceGoogle" name="apiService" value="google" class="setting"/>
+										<span>Google</span>
+									</label>
 									<span class="caption">Use the Google API.</span>
 									<div class="sectionList">
 										<div class="sectionOption">
-											<label for="keyDefaultIndex">Default key:</label>
-											<select class="setting" id="keyDefaultIndex" name="keyDefaultIndex">
-												<option>Default 1</option>
-												<option>Default 2</option>
-												<option>Default 3</option>
-											</select>
+											<label>
+												<span>Default key:</span>
+												<select class="setting" id="keyDefaultIndex" name="keyDefaultIndex">
+													<option>Default 1</option>
+													<option>Default 2</option>
+													<option>Default 3</option>
+												</select>
+											</label>
 											<span class="caption">Select the default key. If a problem occurs, try selecting a different key.</span>
 										</div>
 										<div class="sectionOption">
-											<label for="keyCustom" aria-describedby="keyCustomCaption">Custom key:</label>
-											<input type="text" id="keyCustom" name="keyCustom" class="setting" aria-describedby="keyCustomCaption"/>
+											<label aria-describedby="keyCustomCaption">
+												<span>Custom key:</span>
+												<input type="text" id="keyCustom" name="keyCustom" class="setting" aria-describedby="keyCustomCaption"/>
+											</label>
 											<span id="keyCustomCaption" class="caption">Leave blank to use default key. <a href="https://developers.google.com/youtube/registering_an_application" target="_blank">How to get your own key</a>.</span>
 										</div>
 									</div>
 								</div>
 								<div class="section invidious">
-									<input type="radio" id="apiServiceInvidious" name="apiService" value="invidious" class="setting"/><label for="apiServiceInvidious" class="sectionHeader">Invidious</label>
+									<label class="sectionHeader">
+										<input type="radio" id="apiServiceInvidious" name="apiService" value="invidious" class="setting"/>
+										<span>Invidious</span>
+									</label>
 									<span class="caption">Use the <a href="https://invidious.io/">Invidious</a> API. Operation mode must be set to 'Hover' to use this API.</span>
 									<div class="sectionList">
 										<div class="sectionOption">
-											<label for="invidiousDefaultInstances">Default instance:</label>
-											<select class="setting" id="invidiousDefaultInstances" name="invidiousDefaultInstances" style="min-width: 23rem;"></select>
+											<label class="inlineFlex">
+												<span>Default instance:</span>
+												<select class="setting" id="invidiousDefaultInstances" name="invidiousDefaultInstances" style="min-width: 23rem;"></select>
+											</label>
 											<button class="button" id="refreshInvidiousDefaultInstances" aria-labelledby="buttonTextRefreshInvidiousDefaultInstances">
 												<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextRefreshInvidiousDefaultInstances"><use href="#featherRefresh"/></svg>
 												<span id="buttonTextRefreshInvidiousDefaultInstances">Refresh list</span>
@@ -136,19 +154,26 @@
 											<span class="caption">Select the default instance. Press 'Refresh list' to retrieve a list of valid and working instances.</span>
 										</div>
 										<div class="sectionOption">
-											<label for="invidiousCustomInstance" aria-describedby="invidiousCustomInstanceCaption">Custom instance:</label>
-											<input type="text" id="invidiousCustomInstance" name="invidiousCustomInstance" class="setting" aria-describedby="invidiousCustomInstanceCaption"/>
+											<label aria-describedby="invidiousCustomInstanceCaption">
+												<span>Custom instance:</span>
+												<input type="text" id="invidiousCustomInstance" name="invidiousCustomInstance" class="setting" aria-describedby="invidiousCustomInstanceCaption"/>
+											</label>
 											<span id="invidiousCustomInstanceCaption" class="caption">Leave blank to use default instance. <a href="https://api.invidious.io/" target="_blank">Public instances</a>.</span>
 										</div>
 									</div>
 								</div>
 								<div class="section piped">
-									<input type="radio" id="apiServicePiped" name="apiService" value="piped" class="setting"/><label for="apiServicePiped" class="sectionHeader">Piped</label>
+									<label class="sectionHeader">
+										<input type="radio" id="apiServicePiped" name="apiService" value="piped" class="setting"/>
+										<span>Piped</span>
+									</label>
 									<span class="caption">Use the <a href="https://github.com/TeamPiped/Piped">Piped</a> API. Operation mode must be set to 'Hover' to use this API.</span>
 									<div class="sectionList">
 										<div class="sectionOption">
-											<label for="pipedDefaultInstances">Default instance:</label>
-											<select class="setting" id="pipedDefaultInstances" name="pipedDefaultInstances" style="min-width: 23rem;"></select>
+											<label class="inlineFlex">
+												<span>Default instance:</span>
+												<select class="setting" id="pipedDefaultInstances" name="pipedDefaultInstances" style="min-width: 23rem;"></select>
+											</label>
 											<button class="button" id="refreshPipedDefaultInstances" aria-labelledby="buttonTextRefreshPipedDefaultInstances">
 												<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextRefreshPipedDefaultInstances"><use href="#featherRefresh"/></svg>
 												<span id="buttonTextRefreshPipedDefaultInstances">Refresh list</span>
@@ -156,8 +181,10 @@
 											<span class="caption">Select the default instance. Press 'Refresh list' to retrieve a list of instances.</span>
 										</div>
 										<div class="sectionOption">
-											<label for="pipedCustomInstance" aria-describedby="pipedCustomInstance">Custom instance:</label>
-											<input type="text" id="pipedCustomInstance" name="pipedCustomInstance" class="setting" aria-describedby="pipedCustomInstanceCaption"/>
+											<label aria-describedby="pipedCustomInstance">
+												<span>Custom instance:</span>
+												<input type="text" id="pipedCustomInstance" name="pipedCustomInstance" class="setting" aria-describedby="pipedCustomInstanceCaption"/>
+											</label>
 											<span id="pipedCustomInstanceCaption" class="caption">Leave blank to use default instance. <a href="https://github.com/TeamPiped/Piped/wiki/Instances" target="_blank">Public instances</a>.</span>
 										</div>
 									</div>
@@ -171,11 +198,17 @@
 									<h4 class="sectionHeader">Display as:</h4>
 									<div class="sectionList">
 										<div class="sectionOption">
-											<input id="displayModeTooltip" class="setting" type="radio" name="displayMode" value="tooltip"/><label for="displayModeTooltip">Tooltip</label>
+											<label>
+												<input id="displayModeTooltip" class="setting" type="radio" name="displayMode" value="tooltip"/>
+												<span>Tooltip</span>
+											</label>
 											<span class="caption">Use the browser tooltip.</span>
 										</div>
 										<div class="sectionOption">
-											<input id="displayModeCustomTooltip" class="setting" type="radio" name="displayMode" value="customTooltip"/><label for="displayModeCustomTooltip">Custom tooltip</label>
+											<label>
+												<input id="displayModeCustomTooltip" class="setting" type="radio" name="displayMode" value="customTooltip"/>
+												<span>Custom tooltip</span>
+											</label>
 											<span class="caption">Use a custom tooltip.</span>
 											<div class="formatPart">
 												<details>
@@ -195,7 +228,10 @@ Rick Astley</figure>
 											</div>
 										</div>
 										<div class="sectionOption">
-											<input id="displayModeNotification" class="setting" type="radio" name="displayMode" value="notification"/><label for="displayModeNotification">Notification</label>
+											<label>
+												<input id="displayModeNotification" class="setting" type="radio" name="displayMode" value="notification"/>
+												<span>Notification</span>
+											</label>
 											<span class="caption">Use the browser notification feature. Requires the notification permission.</span>
 											<div class="formatPart">
 												<div class="permissionRequest" data-permission="notifications" data-permission-type="permissions">
@@ -212,130 +248,196 @@ Rick Astley</figure>
 														</button>
 													</span>
 												</div>
-												<input type="checkbox" id="notificationAutoDismiss" name="notificationAutoDismiss" class="setting"/><label for="notificationAutoDismiss">Auto dismiss</label>
+												<label>
+													<input type="checkbox" id="notificationAutoDismiss" name="notificationAutoDismiss" class="setting"/>
+													<span>Auto dismiss</span>
+												</label>
 											</div>
 										</div>
 									</div>
 								</div>
 								<div class="section">
-									<input type="checkbox" id="videosEnable" name="videosEnable" class="setting"/><label for="videosEnable" class="sectionHeader">Videos</label>
+									<label class="sectionHeader">
+										<input type="checkbox" id="videosEnable" name="videosEnable" class="setting"/>
+										<span>Videos</span>
+									</label>
+									<span class="caption">Toggle video detection.</span>
 									<div class="sectionList">
 										<div class="sectionOption">
-											<input type="checkbox" id="videosTitleEnable" name="videosTitleEnable" disabled checked/><label for="videosTitleEnable">Title</label>
+											<label>
+												<input type="checkbox" id="videosTitleEnable" name="videosTitleEnable" disabled checked/>
+												<span>Title</span>
+											</label>
 											<span class="caption">Always enabled.</span>
 										</div>
 										<div class="sectionOption">
-											<input type="checkbox" id="videosDurationEnable" name="videosDurationEnable" class="setting"/><label for="videosDurationEnable">Duration</label>
+											<label>
+												<input type="checkbox" id="videosDurationEnable" name="videosDurationEnable" class="setting"/>
+												<span>Duration</span>
+											</label>
 											<div class="formatPart">
-												<label for="videosDurationFormat">Format:</label>
-												<select class="setting" id="videosDurationFormat" name="videosDurationFormat">
-													<option>hh:mm:ss</option>
-													<option>[##h] [##m] ##s</option>
-												</select>
+												<label>
+													<span>Format:</span>
+													<select class="setting" id="videosDurationFormat" name="videosDurationFormat">
+														<option>hh:mm:ss</option>
+														<option>[##h] [##m] ##s</option>
+													</select>
+												</label>
 											</div>
 										</div>
 										<div class="apiSwitch google">
 											<div class="sectionOption">
-												<input type="checkbox" id="videosPublishedEnable" name="videosPublishedEnable" class="setting"/><label for="videosPublishedEnable">Published date and time</label>
+												<label>
+													<input type="checkbox" id="videosPublishedEnable" name="videosPublishedEnable" class="setting"/>
+													<span>Published date and time</span>
+												</label>
 												<div class="formatPart">
-													<label for="videosPublishedFormat">Format:</label>
-													<select class="setting" id="videosPublishedFormat" name="videosPublishedFormat">
-														<option>12-hour (local)</option>
-														<option>24-hour (local)</option>
-														<option>GMT</option>
-														<option>Time ago</option>
-													</select>
+													<label>
+														<span>Format:</span>
+														<select class="setting" id="videosPublishedFormat" name="videosPublishedFormat">
+															<option>12-hour (local)</option>
+															<option>24-hour (local)</option>
+															<option>GMT</option>
+															<option>Time ago</option>
+														</select>
+													</label>
 												</div>
 											</div>
 										</div>
 										<div class="apiSwitch invidious piped hide">
 											<div class="sectionOption">
-												<input type="checkbox" id="videosPublishedEnableInvidious" name="videosPublishedEnableInvidious" class="setting"/><label for="videosPublishedEnableInvidious">Published date</label>
+												<label>
+													<input type="checkbox" id="videosPublishedEnableInvidious" name="videosPublishedEnableInvidious" class="setting"/>
+													<span>Published date</span>
+												</label>
 												<div class="formatPart">
-													<label for="videosPublishedFormatInvidious">Format:</label>
-													<select class="setting" id="videosPublishedFormatInvidious" name="videosPublishedFormatInvidious">
-														<option>GMT</option>
-														<option>Time ago</option>
-													</select>
+													<label>
+														<span>Format:</span>
+														<select class="setting" id="videosPublishedFormatInvidious" name="videosPublishedFormatInvidious">
+															<option>GMT</option>
+															<option>Time ago</option>
+														</select>
+													</label>
 												</div>
 											</div>
 										</div>
 										<div class="sectionOption">
-											<input type="checkbox" id="videosViewcountEnable" name="videosViewcountEnable" class="setting"/><label for="videosViewcountEnable">Viewcount</label>
+											<label>
+												<input type="checkbox" id="videosViewcountEnable" name="videosViewcountEnable" class="setting"/>
+												<span>Viewcount</span>
+											</label>
 											<div class="formatPart">
-												<label for="videosViewcountFormat">Format:</label>
-												<select class="setting" id="videosViewcountFormat" name="videosViewcountFormat">
-													<option>Short</option>
-													<option>Long</option>
-												</select>
+												<label>
+													<span>Format:</span>
+													<select class="setting" id="videosViewcountFormat" name="videosViewcountFormat">
+														<option>Short</option>
+														<option>Long</option>
+													</select>
+												</label>
 											</div>
 										</div>
 										<div class="sectionOption">
-											<input type="checkbox" id="videosLikesEnable" name="videosLikesEnable" class="setting"/><label for="videosLikesEnable">Likes</label>
+											<label>
+												<input type="checkbox" id="videosLikesEnable" name="videosLikesEnable" class="setting"/>
+												<span>Likes</span>
+											</label>
 											<div class="formatPart">
-												<label for="videosLikesFormat">Format:</label>
-												<select class="setting" id="videosLikesFormat" name="videosLikesFormat">
-													<option>Short</option>
-													<option>Long</option>
-												</select>
+												<label>
+													<span>Format:</span>
+													<select class="setting" id="videosLikesFormat" name="videosLikesFormat">
+														<option>Short</option>
+														<option>Long</option>
+													</select>
+												</label>
 											</div>
 										</div>
 										<div class="sectionOption">
-											<input type="checkbox" id="videosChannelEnable" name="videosChannelEnable" class="setting"/><label for="videosChannelEnable">Channel name</label>
+											<label>
+												<input type="checkbox" id="videosChannelEnable" name="videosChannelEnable" class="setting"/>
+												<span>Channel name</span>
+											</label>
 										</div>
 									</div>
 								</div>
 								<div class="section">
-									<input type="checkbox" id="playlistsEnable" name="playlistsEnable" class="setting"/><label for="playlistsEnable" class="sectionHeader">Playlists</label>
+									<label class="sectionHeader">
+										<input type="checkbox" id="playlistsEnable" name="playlistsEnable" class="setting"/>
+										<span>Playlists</span>
+									</label>
+									<span class="caption">Toggle playlist detection.</span>
 									<div class="sectionList">
 										<div class="sectionOption">
-											<input type="checkbox" id="playlistsTitleEnable" name="playlistsTitleEnable" disabled checked/><label for="playlistsTitleEnable">Title</label>
+											<label>
+												<input type="checkbox" id="playlistsTitleEnable" name="playlistsTitleEnable" disabled checked/>
+												<span>Title</span>
+											</label>
 											<span class="caption">Always enabled.</span>
 										</div>
 										<div class="apiSwitch google">
 											<div class="sectionOption">
-												<input type="checkbox" id="playlistsPublishedEnable" name="playlistsPublishedEnable" class="setting"/><label for="playlistsPublishedEnable">Published date and time</label>
+												<label>
+													<input type="checkbox" id="playlistsPublishedEnable" name="playlistsPublishedEnable" class="setting"/>
+													<span>Published date and time</span>
+												</label>
 												<div class="formatPart">
-													<label for="playlistsPublishedFormat">Format:</label>
-													<select class="setting" id="playlistsPublishedFormat" name="playlistsPublishedFormat">
-														<option>12-hour (local)</option>
-														<option>24-hour (local)</option>
-														<option>GMT</option>
-														<option>Time ago</option>
-													</select>
+													<label>
+														<span>Format:</span>
+														<select class="setting" id="playlistsPublishedFormat" name="playlistsPublishedFormat">
+															<option>12-hour (local)</option>
+															<option>24-hour (local)</option>
+															<option>GMT</option>
+															<option>Time ago</option>
+														</select>
+													</label>
 												</div>
 											</div>
 										</div>
 										<div class="apiSwitch invidious hide">
 											<div class="sectionOption">
-												<input type="checkbox" id="playlistsUpdatedEnableInvidious" name="playlistsUpdatedEnableInvidious" class="setting"/><label for="playlistsUpdatedEnableInvidious">Updated date</label>
+												<label>
+													<input type="checkbox" id="playlistsUpdatedEnableInvidious" name="playlistsUpdatedEnableInvidious" class="setting"/>
+													<span>Updated date</span>
+												</label>
 												<div class="formatPart">
-													<label for="playlistsUpdatedFormatInvidious">Format:</label>
-													<select class="setting" id="playlistsUpdatedFormatInvidious" name="playlistsUpdatedFormatInvidious">
-														<option>GMT</option>
-														<option>Time ago</option>
-													</select>
+													<label>
+														<span>Format:</span>
+														<select class="setting" id="playlistsUpdatedFormatInvidious" name="playlistsUpdatedFormatInvidious">
+															<option>GMT</option>
+															<option>Time ago</option>
+														</select>
+													</label>
 												</div>
 											</div>
 										</div>
 										<div class="apiSwitch google invidious">
 											<div class="sectionOption">
-												<input type="checkbox" id="playlistsPrivacyEnable" name="playlistsPrivacyEnable" class="setting" aria-describedby="playlistsPrivacyEnableCaption"/><label for="playlistsPrivacyEnable" aria-describedby="playlistsPrivacyEnableCaption">Privacy</label>
+												<label aria-describedby="playlistsPrivacyEnableCaption">
+													<input type="checkbox" id="playlistsPrivacyEnable" name="playlistsPrivacyEnable" class="setting" aria-describedby="playlistsPrivacyEnableCaption"/>
+													<span>Privacy</span>
+												</label>
 												<span id="playlistsPrivacyEnableCaption" class="caption">For Google, shows 'public', 'unlisted', and 'private'. For Invidious, shows public and unlisted as 'listed', and private as 'unlisted'.</span>
 											</div>
 										</div>
 										<div class="sectionOption">
-											<input type="checkbox" id="playlistsVideoCountEnable" name="playlistsVideoCountEnable" class="setting"/><label for="playlistsVideoCountEnable">Video count</label>
+											<label>
+												<input type="checkbox" id="playlistsVideoCountEnable" name="playlistsVideoCountEnable" class="setting"/>
+												<span>Video count</span>
+											</label>
 											<div class="formatPart">
-												<label for="playlistsVideoCountFormat">Format:</label>
-												<select class="setting" id="playlistsVideoCountFormat" name="playlistsVideoCountFormat">
-													<option>Short</option>
-													<option>Long</option>
-												</select>
+												<label>
+													<span>Format:</span>
+													<select class="setting" id="playlistsVideoCountFormat" name="playlistsVideoCountFormat">
+														<option>Short</option>
+														<option>Long</option>
+													</select>
+												</label>
 											</div>
 										</div>
 										<div class="sectionOption">
-											<input type="checkbox" id="playlistsChannelEnable" name="playlistsChannelEnable" class="setting"/><label for="playlistsChannelEnable">Channel name</label>
+											<label>
+												<input type="checkbox" id="playlistsChannelEnable" name="playlistsChannelEnable" class="setting"/>
+												<span>Channel name</span>
+											</label>
 										</div>
 									</div>
 								</div>
@@ -345,19 +447,26 @@ Rick Astley</figure>
 							<h3>Toolbar button/Popup</h3>
 							<div class="mainGroupContent">
 								<div class="section">
-									<input type="checkbox" id="badgeEnable" name="badgeEnable" class="setting"/><label for="badgeEnable">Badge</label>
+									<label>
+										<input type="checkbox" id="badgeEnable" name="badgeEnable" class="setting"/>
+										<span>Badge</span>
+									</label>
 									<div class="sectionList">
 										<div class="formatOption">
-											<label for="badgeCount">Count:</label>
-											<select class="setting" id="badgeCount" name="badgeCount">
-												<option>Rickrolls</option>
-												<option>Tooltips</option>
-												<option>Requests</option>
-											</select>
+											<label>
+												<span>Count:</span>
+												<select class="setting" id="badgeCount" name="badgeCount">
+													<option>Rickrolls</option>
+													<option>Tooltips</option>
+													<option>Requests</option>
+												</select>
+											</label>
 										</div>
 										<div class="formatOption">
-											<label for="badgeColor">Color:</label>
-											<input type="color" class="setting" id="badgeColor" name="badgeColor"/>
+											<label>
+												<span>Color:</span>
+												<input type="color" class="setting" id="badgeColor" name="badgeColor"/>
+											</label>
 										</div>
 									</div>
 								</div>
@@ -367,9 +476,12 @@ Rick Astley</figure>
 							<h3>Blacklist</h3>
 							<div class="mainGroupContent">
 								<div class="section">
-									<span class="caption">List domains, one per line, where YouTooltip should not run.</span>
-									<textarea id="blacklist" class="setting" rows="5" spellcheck="false" placeholder="example1.com
+									<label class="column">
+										<span>List domains, one per line, where YouTooltip should not run.</span>
+										<textarea id="blacklist" class="setting" rows="5" spellcheck="false" placeholder="example1.com
 example2.net"></textarea><!-- This must be unindented. -->
+									</label>
+									<span class="caption">You can specify a subdomain to limit blacklisting only to that subdomain.</span>
 								</div>
 							</div>
 						</div>
@@ -434,7 +546,10 @@ example2.net"></textarea><!-- This must be unindented. -->
 						<div class="mainGroup">
 							<div class="mainGroupContent">
 								<div class="section">
-									<input type="checkbox" id="statsEnable" name="statsEnable" class="setting" aria-describedby="statsCaption"/><label for="statsEnable"  aria-describedby="statsCaption">Enable statistics storage</label>
+									<label aria-describedby="statsCaption">
+										<input type="checkbox" id="statsEnable" name="statsEnable" class="setting" aria-describedby="statsCaption"/>
+										<span>Enable statistics storage</span>
+									</label>
 									<span id="statsCaption" class="caption">Statistics are not sent anywhere; they stay only on your device.</span>
 									<div class="notice warning">
 										<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="noticeTextStats"><use href="#featherAlertCircle"/></svg>
