@@ -36,14 +36,16 @@ browser.permissions.onRemoved.addListener((permissions) => {
 		}
 	});
 });
-document.getElementById("permissionAllUrls").addEventListener('click', async () => {
-	await browser.permissions.request({
-		origins: ["<all_urls>"]
+document.querySelectorAll(".permissionRequest").forEach((permissionRequest) => {
+	permissionRequest.querySelector(".permissionGrantButton").addEventListener('click', async () => {
+		await browser.permissions.request({
+			[permissionRequest.dataset.permissionType]: [permissionRequest.dataset.permission]
+		});
 	});
-});
-document.getElementById("notificationPermission").addEventListener('click', async () => {
-	await browser.permissions.request({
-		permissions: ["notifications"]
+	permissionRequest.querySelector(".permissionRevokeButton").addEventListener('click', async () => {
+		await browser.permissions.remove({
+			[permissionRequest.dataset.permissionType]: [permissionRequest.dataset.permission]
+		});
 	});
 });
 

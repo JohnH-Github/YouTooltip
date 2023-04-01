@@ -371,12 +371,15 @@ textarea {
 .permissionRequest {
 	display: flex;
 	gap: 5px;
+	align-items: center;
+	min-height: 2rem;
 }
 .permissionRequest .grantedNotice {
 	display: none;
 	align-items: center;
+	gap: 3px;
 	border-radius: 5px;
-	padding: 4px;
+	padding: 2px;
 	font-size: 0.835rem;
 	color: #060;
 	background-color: rgb(225, 225, 225);
@@ -384,7 +387,9 @@ textarea {
 .permissionRequest .grantedNotice svg {
 	height: 1em;
 	width: 1em;
-	margin-right: 3px;
+}
+.permissionRequest .grantedNotice .button {
+	margin-left: 3px;
 }
 .permissionRequest.granted .grantedNotice {
 	display: inline-flex;

@@ -60,14 +60,18 @@
 								</div>
 								<div class="section">
 									<p>To get the most out of YouTooltip, it is recommended to grant access to all websites. You can do so by clicking the button below.</p>
-									<div class="permissionRequest" data-permission="<all_urls>">
-										<button class="button" id="permissionAllUrls" aria-labelledby="buttonTextGrantAllUrls">
+									<div class="permissionRequest" data-permission="<all_urls>" data-permission-type="origins">
+										<button class="button permissionGrantButton" aria-labelledby="buttonTextGrantAllUrls">
 											<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-labelledby="buttonTextGrantAllUrls"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
 											<span id="buttonTextGrantAllUrls">Grant access to all websites</span>
 										</button>
 										<span class="grantedNotice">
 											<svg width="24" height="24" viewBox="0 0 24 24" aria-label="checkmark"><use href="#featherCheckCircle"/></svg>
 											Granted
+											<button class="button permissionRevokeButton" aria-labelledby="buttonTextRevokeAllUrls">
+												<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextRevokeAllUrls"><use href="#featherLock"/></svg>
+												<span id="buttonTextRevokeAllUrls">Revoke</span>
+											</button>
 										</span>
 									</div>
 									<p>To activate YouTooltip without access to all websites, you can:</p>
@@ -194,14 +198,18 @@ Rick Astley</figure>
 											<input id="displayModeNotification" class="setting" type="radio" name="displayMode" value="notification"/><label for="displayModeNotification">Notification</label>
 											<span class="caption">Use the browser notification feature. Requires the notification permission.</span>
 											<div class="formatPart">
-												<div class="permissionRequest"  data-permission="notifications">
-													<button class="button" id="notificationPermission" aria-labelledby="buttonTextGrantNotification">
+												<div class="permissionRequest" data-permission="notifications" data-permission-type="permissions">
+													<button class="button permissionGrantButton" aria-labelledby="buttonTextGrantNotification">
 														<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextGrantNotification"><use href="#featherBell"/></svg>
 														<span id="buttonTextGrantNotification">Grant notification permission</span>
 													</button>
 													<span class="grantedNotice">
 														<svg width="24" height="24" viewBox="0 0 24 24" aria-label="checkmark"><use href="#featherCheckCircle"/></svg>
 														Granted
+														<button class="button permissionRevokeButton" aria-labelledby="buttonTextRevokeNotification">
+															<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextRevokeNotification"><use href="#featherLock"/></svg>
+															<span id="buttonTextRevokeNotification">Revoke</span>
+														</button>
 													</span>
 												</div>
 												<input type="checkbox" id="notificationAutoDismiss" name="notificationAutoDismiss" class="setting"/><label for="notificationAutoDismiss">Auto dismiss</label>
@@ -633,6 +641,7 @@ example2.net"></textarea><!-- This must be unindented. -->
 			<symbol id="featherRefresh" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></symbol>
 			<symbol id="featherCheckCircle" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></symbol>
 			<symbol id="featherAlertCircle" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></symbol>
+			<symbol id="featherLock" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></symbol>
 		</svg>
 		
 		<script src="options.js"></script>
