@@ -353,7 +353,7 @@ async function showNotification(bucket, id) {
 				command: "showNotification", info: dataMap[bucket].get(id).title
 			});
 		} catch(error) {
-			console.error(error.message === "browser.notifications is undefined" ? "YouTooltip does not have notification permission." : error);
+			console.error(error.message.includes("browser.notifications is undefined") ? "YouTooltip does not have notification permission." : error);
 		}
 	}, 500);
 }
@@ -367,7 +367,7 @@ async function clearNotification() {
 		});
 	} catch(error) {
 		// We already log this error in showNotification().
-		if (error.message !== "browser.notifications is undefined")
+		if (!error.message.includes("browser.notifications is undefined"))
 			console.error(error);
 	}
 }
