@@ -59,7 +59,7 @@ Adds a tooltip containing information about videos and playlists when hovering o
 ## Permissions
 - Optional
 	- **Access your data for all websites**
-		- For automatically scanning each page for links to YouTube videos and playlists without user interaction. Except on youtube.com, of course.
+		- For automatically scanning each page for links to YouTube videos and playlists without user interaction.
 	- **Download files and read and modify the browser’s download history**
 		- For exporting settings. Asks for permission when you click on the 'Export' button.
 	- **Display notifications to you**
