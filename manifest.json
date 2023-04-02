@@ -41,10 +41,7 @@
 	"content_scripts": [
 		{
 			"js": ["contentScript.js"],
-			"matches": ["<all_urls>"],
-			"exclude_matches": [
-				"https://*.youtube.com/*"
-			]
+			"matches": ["<all_urls>"]
 		}
 	]
 }

@@ -154,8 +154,6 @@ function isValidUrl(url) {
 		return {valid: false, reason: "restrictedDomain"};
 	else if (validProtocols.find(entry => entry === URLobj.protocol) === undefined)
 		return {valid: false, reason: "badProtocol"};
-	else if (/(^|\.)youtube\.com$/.test(URLobj.hostname))
-		return {valid: false, reason: "youtube"};
 	else
 		return {valid: true, reason: ""};
 }

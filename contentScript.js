@@ -238,7 +238,15 @@ var observer = new MutationObserver((changes) => {
 				return;
 			}
 			let aElements = [];
-			aElements = node.getAttribute("href")?.includes("youtu") ? [node] : node.querySelectorAll("a[href*=youtu]");
+			if (node.href?.includes("youtu")) {
+				aElements.push(node);
+			} else {
+				node.querySelectorAll("a[href]").forEach((aElement) => {
+					if (aElement.href.includes("youtu")) {
+						aElements.push(aElement);
+					}
+				});
+			}
 			let validLinksBucket = getElementsWithValidLinks(aElements);
 			for (let bucket in validLinksBucket) {
 				for (let link of validLinksBucket[bucket]) {
@@ -253,16 +261,27 @@ var observer = new MutationObserver((changes) => {
 				return;
 			}
 			let aElements = [];
-			aElements = node.getAttribute("href")?.includes("youtu") ? [node] : node.querySelectorAll("a[href*=youtu]");
+			if (node.href?.includes("youtu")) {
+				aElements.push(node);
+			} else {
+				node.querySelectorAll("a[href]").forEach((aElement) => {
+					if (aElement.href.includes("youtu")) {
+						aElements.push(aElement);
+					}
+				});
+			}
 			let validLinksBucket = getElementsWithValidLinks(aElements);
 			for (let bucket in validLinksBucket) {
 				for (let link of validLinksBucket[bucket]) {
 					let id = regexs[bucket].exec(decodeURIComponent(link.href))[1];
-					let filteredEleArray = elementMap[bucket].get(id).filter(ele => ele !== link);
-					if (filteredEleArray.length > 0) {
-						elementMap[bucket].set(id, filteredEleArray);
-					} else {
-						elementMap[bucket].delete(id);
+					let elementArray = elementMap[bucket].get(id);
+					if (elementArray !== undefined) {
+						let filteredEleArray = elementArray.filter(ele => ele !== link);
+						if (filteredEleArray.length > 0) {
+							elementMap[bucket].set(id, filteredEleArray);
+						} else {
+							elementMap[bucket].delete(id);
+						}
 					}
 				}
 			}
