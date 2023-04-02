@@ -2,6 +2,10 @@
 
 let options;
 
+window.addEventListener("error", (ErrorEvent) => {
+	showErrorDialog("Uncaught error", `${ErrorEvent.message}\nLine: ${ErrorEvent.lineno}, column: ${ErrorEvent.colno}`);
+});
+
 document.getElementById("sidebarToggle").addEventListener("click", () => {
 	let sidebar = document.querySelector(".sidebar");
 	sidebar.classList.toggle("show");

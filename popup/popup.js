@@ -7,8 +7,11 @@ const gotoIdCurrent = {
 	id: "",
 	index: -1
 };
-
 const toLongNumber = new Intl.NumberFormat("default");
+
+window.addEventListener("error", (ErrorEvent) => {
+	showError(ErrorEvent.error);
+});
 
 document.getElementById("openOptions").addEventListener("click", async () => {
 	try {
