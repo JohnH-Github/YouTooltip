@@ -14,17 +14,8 @@ window.addEventListener("error", (ErrorEvent) => {
 });
 
 document.getElementById("openOptions").addEventListener("click", async () => {
-	try {
-		await browser.runtime.openOptionsPage();
-		window.close();
-	} catch(error) {
-		// Firefox bug (not my fault): When a permission is granted or revoked, then runtime.openOptionsPage() fails. Reloading the extension fixes the problem. Last Firefox version checked: 106.0.5.
-		if (error.message === "An unexpected error occurred") {
-			browser.runtime.reload();
-		} else {
-			console.error(error);
-		}
-	}
+	await browser.runtime.openOptionsPage();
+	window.close();
 });
 document.getElementById("refresh").addEventListener("click", getStats);
 
@@ -68,13 +59,8 @@ function addListEle(bucket, item, append = true) {
 	listEle.dataset.id = item.id;
 	listEle.querySelector(".count").textContent = item.count;
 	let titleEle = listEle.querySelector(".title");
-	if (item.title === "") {
-		titleEle.textContent = "<Unknown>";
-		titleEle.classList.add("unknown");
-	} else {
-		titleEle.textContent = item.title;
-		titleEle.classList.remove("unknown");
-	}
+	titleEle.textContent = item.title === "" ? "<Unknown>" : item.title;
+	titleEle.classList.toggle("unknown", item.title === "");
 	titleEle.addEventListener("click", () => {
 		gotoId(bucket, item.id, item.count);
 	});
