@@ -590,5 +590,5 @@ document.addEventListener("DOMContentLoaded", async () => {
 			}, 10);
 		}
 	}
-	document.querySelector(".content").classList.add("show");
+	document.body.classList.add("loaded");
 });

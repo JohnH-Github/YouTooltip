@@ -50,8 +50,32 @@ p, ul {
 	visibility: hidden;
 	display: flex;
 }
-.content.show {
+body.loaded .content {
 	visibility: visible;
+}
+#loading {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+	position: fixed;
+	top: 0;
+	height: 100%;
+	width: 100%;
+}
+body.loaded #loading {
+	display: none;
+}
+#loading svg {
+	animation: spin 3s linear infinite;
+	flex-shrink: 0;
+	height: 1.25em;
+	width: 1.25em;
+}
+@keyframes spin { 
+	100% { 
+		transform: rotate(360deg); 
+	} 
 }
 
 .sidebar {
