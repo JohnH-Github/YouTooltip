@@ -25,12 +25,9 @@
 	],
 	"options_ui": {
 		"page": "options/options.html",
-		"open_in_tab": true,
-		"browser_style": true,
-		"chrome_style": true
+		"open_in_tab": true
 	},
 	"action": {
-		"browser_style": true,
 		"default_icon": "icons/icon.svg",
 		"default_title": "YouTooltip",
 		"default_popup": "popup/popup.html"

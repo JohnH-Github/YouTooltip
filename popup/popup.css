@@ -11,6 +11,7 @@
 
 html {
 	font-family: "Segoe UI", sans-serif;
+	font-size: 12px;
 	background: #fff;
 	max-width: var(--popup-max-width);
 	min-width: 300px;
