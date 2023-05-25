@@ -184,14 +184,6 @@ main {
 }
 
 
-body:not(.MV3) .MV3Permissions .section {
-	opacity: 0.5;
-}
-body.MV3 .MV3Permissions .MV3PermissionsNotice {
-	display: none;
-}
-
-
 label {
 	display: flex;
 	gap: 0.1875rem;

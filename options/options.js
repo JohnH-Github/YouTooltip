@@ -581,9 +581,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 	if (window.browser !== undefined) {
 		document.getElementById("versionNumber").textContent = browser.runtime.getManifest().version;
 		await saveAndRestoreOptions("restore");
-		if (browser.runtime.getManifest().manifest_version === 3) {
-			document.body.classList.add("MV3");
-		}
 		if (window.location.hash === "#install") {
 			document.querySelector("[data-tab=welcome]").click();
 		} else if (window.location.hash === "#releaseNotes") {
