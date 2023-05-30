@@ -147,7 +147,14 @@ body.loaded #loading {
 	background: #cfcfcf;
 }
 .tab.selected {
-	color: #0080ff;
+	color: #0061e0;
+}
+.tab.selected:hover {
+	background: color-mix(in srgb, currentColor 14%, transparent);
+}
+.tab.selected:hover:active {
+	color: #0250bb;
+	background: color-mix(in srgb, currentColor 21%, transparent);
 }
 .tab svg {
 	height: 1em;
@@ -558,7 +565,7 @@ details > div {
 	}
 	
 	a {
-		color: #8c8cff;
+		color: #8cb4ff;
 	}
 	
 	.sidebar {
@@ -572,6 +579,12 @@ details > div {
 	}
 	.tab:hover:active {
 		background: #3b3b3b;
+	}
+	.tab.selected {
+		color: #148aff;
+	}
+	.tab.selected:hover:active {
+		color: #47a3ff;
 	}
 	.sidebar .saveCaption {
 		border-top-color: var(--border-color-darkTheme);
