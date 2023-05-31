@@ -9,11 +9,11 @@ Adds a tooltip containing information about videos and playlists when hovering o
 
 | Tooltip display | Notification display |
 | --- | --- |
-| ![YouTooltip screenshot tooltip](https://github.com/JohnH-Github/YouTooltip/assets/34670767/0997dcb6-db35-4068-bfdc-935630024b64) | ![YouTooltip screenshot notification](https://user-images.githubusercontent.com/34670767/187048070-cab54590-d3e2-487b-b24d-9a1db1cbbb41.jpg) |
+| ![YouTooltip screenshot tooltip](https://user-images.githubusercontent.com/34670767/187048059-01668031-cdc8-4d81-80e6-b8c316510ae8.jpg) | ![YouTooltip screenshot notification](https://user-images.githubusercontent.com/34670767/187048070-cab54590-d3e2-487b-b24d-9a1db1cbbb41.jpg) |
 
 | Options page. Has both light and dark themes | Popup. Has both light and dark themes |
 | --- | --- |
-| ![YouTooltip screenshot options](https://user-images.githubusercontent.com/34670767/208768465-bdb375e3-e8c8-44a6-817b-46c9b2071fc5.jpg) | ![YouTooltip screenshot popup](https://user-images.githubusercontent.com/34670767/214700724-715e09d2-72fb-4711-94c1-45c0b59d4a64.png) |
+| ![YouTooltip screenshot options](https://github.com/JohnH-Github/YouTooltip/assets/34670767/0997dcb6-db35-4068-bfdc-935630024b64) | ![YouTooltip screenshot popup](https://user-images.githubusercontent.com/34670767/214700724-715e09d2-72fb-4711-94c1-45c0b59d4a64.png) |
 
 
 ## Features
