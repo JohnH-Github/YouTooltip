@@ -48,7 +48,7 @@ function isAlternateFrontend(url) {
 	if (document.head) {
 		let urlObj = new URL(url);
 		return (urlObj.hostname === "tube.cadence.moe" ||// Cloudtube
-			document.head.querySelector("meta[name=description]")?.content === "An alternative front-end to YouTube");// Invidious
+			document.head.querySelector("meta[name=description]")?.content === "An alternative front-end to YouTube" || document.head.querySelector("meta[property='og:site_name']")?.content.includes(" | Invidious"));// Invidious
 	} else {
 		return false;
 	}
