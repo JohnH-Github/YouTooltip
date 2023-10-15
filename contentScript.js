@@ -339,28 +339,6 @@ const currentHoverNotification = {
 	key: ""
 };
 var notificationTimeout;
-function hoverLink(bucket, id, event) {
-	let idData = dataMap[bucket].get(id);
-	// Current element is not loaded. Check the first element associated with the same id.
-	switch (idData.state) {
-		case 0:
-			// Not loaded. Make request for this id.
-			idData.state = 1;
-			idData.title = `Loading ${bucket.slice(0, -1)} info...`;
-			setTitle(bucket, id, event.target, idData.title);
-			loadTooltipsHover(bucket, id);
-			break;
-		case 1:
-			// Still loading. Copy tooltip.
-			setTitle(bucket, id, event.target, idData.title);
-			break;
-		case 2:
-			// Loaded. Copy tooltip.
-			setTitle(bucket, id, event.target, idData.title);
-			incrementStat("tooltips");
-			break;
-	}
-}
 
 async function showNotification(bucket, id) {
 	currentHoverNotification.bucket = bucket;
@@ -414,18 +392,40 @@ function setNewLinks(linkMapBuckets) {
 				dataMap[bucket].set(key, {
 					title: "",
 					state: 0,
-					isRickRoll: false
+					isRickRoll: false,
+					hoverLink: undefined
 				});
 			}
 			for (let element of value) {
 				checkIdStats(bucket, key);
 				if (options.operationMode === "hover") {
+					let idData = dataMap[bucket].get(key);
 					// Only on hover mode, add mouseenter listener to the new link elements.
-					element.addEventListener("mouseenter", (event) => {
-						hoverLink(bucket, key, event);
-					}, {
-						once: true// Auto remove listener after firing.
-					});
+					if (typeof idData.hoverLink !== "function") {
+						dataMap[bucket].get(key).hoverLink = function(event) {
+							let idData = dataMap[bucket].get(key);
+							switch (idData.state) {
+								case 0:
+									// Not loaded. Make request for this id.
+									idData.state = 1;
+									idData.title = `Loading ${bucket.slice(0, -1)} info...`;
+									setTitle(bucket, key, event.target, idData.title);
+									loadTooltipsHover(bucket, key);
+									break;
+								case 1:
+									// Still loading. Copy tooltip.
+									setTitle(bucket, key, event.target, idData.title);
+									break;
+								case 2:
+									// Loaded. Copy tooltip.
+									setTitle(bucket, key, event.target, idData.title);
+									incrementStat("tooltips");
+									event.target.removeEventListener("mouseenter", idData.hoverLink);
+									break;
+							}
+						};
+					}
+					element.addEventListener("mouseenter", idData.hoverLink);
 				}
 				if (options.displayMode === "notification") {
 					element.addEventListener("mouseenter", () => {
@@ -545,6 +545,7 @@ async function loadTooltipsHover(bucket, key) {
 		idData.state = 2;
 		for (let ele of mapValues) {
 			setTitle(bucket, key, ele, text);
+			ele.removeEventListener("mouseenter", idData.hoverLink);
 		}
 		if (options.operationMode === "hover" && currentHoverNotification.id === key) {
 			if (options.displayMode === "notification")
