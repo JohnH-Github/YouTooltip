@@ -38,10 +38,30 @@
 			</header>
 			<main>
 				<div class="mainHeader">
-					<button id="sidebarToggle"  title="Toggle sidebar" aria-label="Toggle sidebar">
-						<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-label="Toggle sidebar"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-					</button>
-					<h2>Settings</h2>
+					<div class="headerContent">
+						<button id="sidebarToggle" class="button" title="Toggle sidebar" aria-label="Toggle sidebar">
+							<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-label="Toggle sidebar"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+						</button>
+						<h2>Settings</h2>
+					</div>
+					<div id="permissionNotice" class="notice info">
+						<svg class="noticeIcon" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="noticeTextPermission"><use href="#featherInfo"></use></svg>
+						<div>
+							<header class="noticeHeader">
+								<h5 class="noticeTitle">FYI</h5>
+								<button id="closePermissionNoticeButton" class="button closeNoticeButton setting" data-setting-event="click" aria-label="Close permission notice">
+									<svg width="24" height="24" viewBox="0 0 24 24" aria-label="Close permission notice"><use href="#featherX"/></svg>
+								</button>
+							</header>
+							<div class="noticeBody">
+								<span id="noticeTextPermission">You have not granted permission to access all websites. This is recommended to allow YouTooltip to activate automatically everywhere.</span>
+								<button id="gotoPermissionRequestButton" class="button" aria-labelledby="gotoPermissionRequestText">
+									<svg viewBox="0 0 24 24" width="24" height="24" aria-labelledby="gotoPermissionRequestText"><use href="#featherHome"/></svg>
+									<span id="gotoPermissionRequestText">Goto permission</span>
+								</button>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div id="tabPanelWelcome" class="mainPanel" data-panel="welcome" role="tabpanel" aria-labelledby="tabWelcome">
 					<div class="mainPanelContent">
@@ -81,24 +101,6 @@
 					</div>
 				</div>
 				<div id="tabPanelSettings" class="mainPanel show" data-panel="settings" role="tabpanel" aria-labelledby="tabSettings">
-					<div id="permissionNotice" class="notice info">
-						<svg class="noticeIcon" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="noticeTextPermission"><use href="#featherInfo"></use></svg>
-						<div>
-							<header class="noticeHeader">
-								<h5 class="noticeTitle">FYI</h5>
-								<button id="closePermissionNoticeButton" class="button closeNoticeButton setting" data-setting-event="click" aria-label="Close permission notice">
-									<svg width="24" height="24" viewBox="0 0 24 24" aria-label="Close permission notice"><use href="#featherX"/></svg>
-								</button>
-							</header>
-							<div class="noticeBody">
-								<span id="noticeTextPermission">You have not granted permission to access all websites. This is recommended to allow YouTooltip to activate automatically everywhere.</span>
-								<button id="gotoPermissionRequestButton" class="button" aria-labelledby="gotoPermissionRequestText">
-									<svg viewBox="0 0 24 24" width="24" height="24" aria-labelledby="gotoPermissionRequestText"><use href="#featherHome"/></svg>
-									<span id="gotoPermissionRequestText">Goto permission</span>
-								</button>
-							</div>
-						</div>
-					</div>
 					<div class="mainPanelContent">
 						<div class="mainGroup">
 							<h3>Operation mode</h3>
@@ -157,14 +159,16 @@
 									<span class="caption">Use the <a href="https://invidious.io/">Invidious</a> API. Operation mode must be set to 'Hover' to use this API.</span>
 									<div class="sectionList">
 										<div class="sectionOption">
-											<label class="inlineFlex">
-												<span>Default instance:</span>
-												<select class="setting" id="invidiousDefaultInstances" name="invidiousDefaultInstances" style="min-width: 23rem;"></select>
-											</label>
-											<button class="button" id="refreshInvidiousDefaultInstances" aria-labelledby="buttonTextRefreshInvidiousDefaultInstances">
-												<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextRefreshInvidiousDefaultInstances"><use href="#featherRefresh"/></svg>
-												<span id="buttonTextRefreshInvidiousDefaultInstances">Refresh list</span>
-											</button>
+											<div class="inlineFlex">
+												<label>
+													<span>Default instance:</span>
+													<select class="setting" id="invidiousDefaultInstances" name="invidiousDefaultInstances" placeholder="sadassadsad"></select>
+												</label>
+												<button class="button" id="refreshInvidiousDefaultInstances" aria-labelledby="buttonTextRefreshInvidiousDefaultInstances">
+													<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextRefreshInvidiousDefaultInstances"><use href="#featherRefresh"/></svg>
+													<span id="buttonTextRefreshInvidiousDefaultInstances">Refresh list</span>
+												</button>
+											</div>
 											<span class="caption">Select the default instance. Press 'Refresh list' to retrieve a list of valid and working instances.</span>
 										</div>
 										<div class="sectionOption">
@@ -184,14 +188,16 @@
 									<span class="caption">Use the <a href="https://github.com/TeamPiped/Piped">Piped</a> API. Operation mode must be set to 'Hover' to use this API.</span>
 									<div class="sectionList">
 										<div class="sectionOption">
-											<label class="inlineFlex">
-												<span>Default instance:</span>
-												<select class="setting" id="pipedDefaultInstances" name="pipedDefaultInstances" style="min-width: 23rem;"></select>
-											</label>
-											<button class="button" id="refreshPipedDefaultInstances" aria-labelledby="buttonTextRefreshPipedDefaultInstances">
-												<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextRefreshPipedDefaultInstances"><use href="#featherRefresh"/></svg>
-												<span id="buttonTextRefreshPipedDefaultInstances">Refresh list</span>
-											</button>
+											<div class="inlineFlex">
+												<label>
+													<span>Default instance:</span>
+													<select class="setting" id="pipedDefaultInstances" name="pipedDefaultInstances"></select>
+												</label>
+												<button class="button" id="refreshPipedDefaultInstances" aria-labelledby="buttonTextRefreshPipedDefaultInstances">
+													<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="buttonTextRefreshPipedDefaultInstances"><use href="#featherRefresh"/></svg>
+													<span id="buttonTextRefreshPipedDefaultInstances">Refresh list</span>
+												</button>
+											</div>
 											<span class="caption">Select the default instance. Press 'Refresh list' to retrieve a list of instances.</span>
 										</div>
 										<div class="sectionOption">

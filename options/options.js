@@ -6,9 +6,17 @@ window.addEventListener("error", (ErrorEvent) => {
 	showErrorDialog("Uncaught error", `${ErrorEvent.message}\nLine: ${ErrorEvent.lineno}, column: ${ErrorEvent.colno}`);
 });
 
-document.getElementById("sidebarToggle").addEventListener("click", () => {
+document.getElementById("sidebarToggle").addEventListener("click", (e) => {
+	e.stopImmediatePropagation();
+	function hideSidebar(e) {
+		e.preventDefault();
+		sidebar.classList.remove("show");
+		main.removeEventListener("click", hideSidebar);
+	}
 	let sidebar = document.querySelector(".sidebar");
+	let main = document.querySelector("main");
 	sidebar.classList.toggle("show");
+	main.addEventListener("click", hideSidebar);
 });
 
 async function updatePermission(permission, isGranted) {
@@ -388,6 +396,7 @@ allTabs.forEach((tab) => {
 		} else {
 			browser.storage.local.onChanged.removeListener(onStorageChange);
 		}
+		document.getElementById("permissionNotice").classList.toggle("hiddenInTab", tab.dataset.tab === "welcome");
 		let currentSelectedTab = document.querySelector(".tab.selected");
 		currentSelectedTab.classList.remove("selected");
 		currentSelectedTab.setAttribute("aria-selected", false);
