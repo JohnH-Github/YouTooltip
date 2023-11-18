@@ -21,6 +21,9 @@ async function updatePermission(permission, isGranted) {
 		permissionRequest.classList.toggle("granted", isGranted);
 		requestButton.classList.toggle("stayDisabled", isGranted);
 		requestButton.disabled = isGranted;
+		if ((permission.origins || permission.permissions)[0] === "<all_urls>") {
+			document.getElementById("permissionNotice").classList.toggle("hide", isGranted);
+		}
 	}
 }
 browser.permissions.onAdded.addListener((permissions) => {
@@ -51,6 +54,14 @@ document.querySelectorAll(".permissionRequest").forEach((permissionRequest) => {
 		await browser.permissions.remove(permissionObject);
 	});
 });
+
+document.getElementById("gotoPermissionRequestButton").addEventListener("click", () => {
+	document.querySelector("[data-tab=welcome]").click();
+});
+document.getElementById("closePermissionNoticeButton").addEventListener("click", () => {
+	document.getElementById("permissionNotice").classList.add("stayHidden");
+	options.hiddenNotices.add("options<all_urls>");
+})
 
 document.getElementById("resetOptionsButton").addEventListener("click", async () => {
 	if (await showConfirmDialog("Reset options", "All options will be reset, but statistics will remain.\nReset options?")) {
@@ -347,7 +358,7 @@ const allSettings = document.querySelectorAll(".setting");
 const allCheckboxes = document.querySelectorAll("[type='checkbox']");
 const allRadios = document.querySelectorAll("[type='radio']");
 allSettings.forEach((setting) => {
-	setting.addEventListener("change", async () => {
+	setting.addEventListener(setting.dataset.settingEvent || "change", async () => {
 		await saveAndRestoreOptions("save");
 	});
 });
@@ -448,8 +459,10 @@ function parseBlacklist(blacklist) {
 }
 
 async function saveAndRestoreOptions(opt, configObject) {
-	let properties = ["value", "checked", "selectedIndex", "radio"];
+	let properties = ["value", "checked", "selectedIndex", "radio", "options"];
 	let optionsList = [
+		{name: "hiddenNotices", type: 4},
+		
 		{name: "operationMode", type: 3},
 		
 		{name: "apiService", type: 3},
@@ -509,6 +522,8 @@ async function saveAndRestoreOptions(opt, configObject) {
 					options.pipedDefaultInstance = document.getElementById("pipedDefaultInstances").selectedIndex;
 				} else if (option.type === 3) {
 					options[option.name] = document.querySelector(`[name=${option.name}]:checked`).value;
+				} else if (option.type === 4) {
+					
 				} else {
 					options[option.name] = document.getElementById(option.name)[properties[option.type]];
 				}
@@ -540,6 +555,10 @@ async function saveAndRestoreOptions(opt, configObject) {
 					populatePipedDefaultInstancesSelect(options.pipedDefaultInstance);
 				} else if (option.type === 3) {
 					document.querySelector(`[name=${option.name}][value=${options[option.name]}]`).checked = true;
+				} else if (option.type === 4) {
+					if (option.name === "hiddenNotices") {
+						document.getElementById("permissionNotice").classList.toggle("stayHidden", options.hiddenNotices.has("options<all_urls>"));
+					}
 				} else {
 					document.getElementById(option.name)[properties[option.type]] = options[option.name];
 				}

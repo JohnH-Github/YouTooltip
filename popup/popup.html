@@ -11,7 +11,7 @@
 		<div class="content">
 			<header>
 				<button id="openOptions" class="button" aria-labelledby="buttonTextOptions">
-					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-labelledby="buttonTextOptions"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-labelledby="buttonTextOptions"><use href="#featherOptions"></use></svg>
 					<span id="buttonTextOptions">Options</span>
 				</button>
 				<button id="refresh" class="button" aria-labelledby="buttonTextRefresh" disabled>
@@ -24,6 +24,24 @@
 				<span id="loadingText">Waiting for page...</span>
 			</div>
 			<main>
+				<div id="permissionNotice" class="notice info hide">
+						<svg class="noticeIcon" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="noticeTextPermission"><use href="#featherInfo"></use></svg>
+						<div>
+							<header class="noticeHeader">
+								<h5 class="noticeTitle">FYI</h5>
+								<button id="closePermissionNoticeButton" class="button closeNoticeButton setting" data-setting-event="click" aria-label="Close permission notice">
+									<svg width="24" height="24" viewBox="0 0 24 24" aria-label="Close permission notice"><use href="#featherX"/></svg>
+								</button>
+							</header>
+							<div class="noticeBody">
+								<span id="noticeTextPermission">You have not granted permission to access all websites. This is recommended to allow YouTooltip to activate automatically everywhere.</span>
+								<button id="gotoPermissionRequestButton" class="button" aria-labelledby="gotoPermissionRequestText">
+									<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="gotoPermissionRequestText"><use href="#featherOptions"></use></svg>
+									<span id="gotoPermissionRequestText">Goto permission in options</span>
+								</button>
+							</div>
+						</div>
+					</div>
 				<div class="statContainer">
 					<div class="stat" data-stat="tooltips">
 						<span>Tooltips added on this page:</span>
@@ -73,23 +91,23 @@
 					</details>
 				</div>
 			</main>
-			<div class="notice browserPageNotice">
+			<div class="privilegedNotice browserPageNotice">
 				<h2>Privileged page</h2>
 				<span>YouTooltip only works on web pages.</span>
 			</div>
-			<div class="notice restrictedDomainNotice">
+			<div class="privilegedNotice restrictedDomainNotice">
 				<h2>Restricted domain</h2>
 				<span>This domain is restricted by the browser. YouTooltip will not work on this domain.</span>
 			</div>
-			<div class="notice badProtocolNotice">
+			<div class="privilegedNotice badProtocolNotice">
 				<h2>Unsupported protocol</h2>
 				<span>YouTooltip only works on web pages.</span>
 			</div>
-			<div class="notice blacklistedNotice">
+			<div class="privilegedNotice blacklistedNotice">
 				<h2>Blacklisted page</h2>
 				<span>This page is blacklisted. YouTooltip will not work on this page.</span>
 			</div>
-			<div class="notice alternateFrontendNotice">
+			<div class="privilegedNotice alternateFrontendNotice">
 				<h2>Alternate front-end</h2>
 				<span>YouTooltip does not work on alternate front-ends for YouTube.</span>
 			</div>
@@ -113,6 +131,9 @@
 		</template>
 		
 		<svg id="iconSymbols">
+			<symbol id="featherOptions" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></symbol>
+			<symbol id="featherInfo" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></symbol>
+			<symbol id="featherX" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></symbol>
 			<symbol id="externalLink" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></symbol>
 		</svg>
 		

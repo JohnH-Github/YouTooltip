@@ -1,5 +1,6 @@
 "use strict";
 
+let options;
 var thisTab;
 var previouslyLoading = false;
 var bucketsData;
@@ -159,11 +160,34 @@ function isValidUrl(url) {
 }
 
 async function init() {
-	function showMain() {
+	async function showMain() {
+		if (!(await hasAllUrlsPermission)) {
+			try {
+				options = (await options).options;
+				if (!options.hiddenNotices.has("popup<all_urls>")) {
+					document.getElementById("permissionNotice").classList.remove("hide");
+					document.getElementById("gotoPermissionRequestButton").addEventListener("click", () => {
+						browser.tabs.create({
+							url: browser.runtime.getURL("options/options.html#install")
+						});
+						window.close();
+					});
+					document.getElementById("closePermissionNoticeButton").addEventListener("click", async () => {
+						document.getElementById("permissionNotice").classList.add("hide");
+						options.hiddenNotices.add("popup<all_urls>");
+						await browser.storage.local.set({options});
+					});
+				}
+			} catch(error) {
+				showError(error);
+			}
+		}
 		document.querySelector("#loading").classList.remove("show");
 		document.querySelector("main").classList.add("show");
 	}
+	let hasAllUrlsPermission = browser.permissions.contains({origins: ["<all_urls>"]});
 	try {
+		options = browser.storage.local.get("options");
 		thisTab = (await browser.tabs.query({active: true, currentWindow: true}))[0];
 		let validUrlObj = isValidUrl(thisTab.url);
 		if (validUrlObj.valid) {
@@ -181,7 +205,6 @@ async function init() {
 					browser.runtime.onMessage.addListener(messageHandler);
 					browser.tabs.onUpdated.addListener(pageStatusChange, {
 						tabId: thisTab.id,
-						windowId: browser.windows.WINDOW_ID_CURRENT,
 						properties: ["status"]// Listen for this page loading again.
 					});
 				}

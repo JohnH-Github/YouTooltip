@@ -10,6 +10,8 @@ const keyDefaultArray = [
 ];
 
 const defaultOptions = {
+	hiddenNotices: new Set(),
+	
 	operationMode: "auto",
 	
 	apiService: "google",
@@ -110,7 +112,6 @@ async function checkOptions(previousVersion, options) {
 	}
 	
 	// Make sure that properties match.
-	// Minimum browser versions for Object.hasOwn(): Firefox 92, Chromium 93.
 	for (let prop in options) {
 		if (!Object.hasOwn(defaultOptions, prop))
 			delete options[prop];
