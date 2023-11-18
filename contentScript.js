@@ -19,7 +19,32 @@ const rickRollIds = [// Small collection of common rickrolls for statistics.
 	"xfr64zoBTAQ",
 	"QB7ACr7pUuE",
 	"Yb6dZ1IFlKc",
-	"PzqQSOaCcnw"
+	"PzqQSOaCcnw",
+	"DhPjisruLvY",
+	"fcZXfoB2f70",
+	"p7YXXieghto",
+	"DLzxrzFCyOs",
+	"mCdA4bJAGGk",
+	"cvh0nX08nRw",// Straight up evil.
+	"HIcSWuKMwOw",// Straight up evil.
+	"lpiB2wMc49g",
+	"AyOqGRjVtls",
+	"GtL1huin9EE",
+	"V-_O7nl0Ii0",
+	"H8ZH_mkfPUY",// WTF
+	"EE-xtCF3T94",
+	"aYsgsSo1aow",
+	"O91DT1pR1ew",
+	"2xx_2XNxxfA",
+	"FmQbFdsngMA",
+	"QDia3e12czc",
+	"BBJa32lCaaY",
+	"rTgj1HxmUbg",
+	"zL19uMsnpSU",
+	"1_RzoIN4CRU",
+	"1gUCu2e_JiM",
+	"o-YBDTqX_ZU",
+	"VMsS-DpdCuI",
 ];
 
 const elementMap = {
