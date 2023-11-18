@@ -191,9 +191,8 @@ async function init() {
 		thisTab = (await browser.tabs.query({active: true, currentWindow: true}))[0];
 		let validUrlObj = isValidUrl(thisTab.url);
 		if (validUrlObj.valid) {
-			let isDisabled = false;
 			try {
-				isDisabled = await browser.tabs.sendMessage(thisTab.id, {
+				let isDisabled = await browser.tabs.sendMessage(thisTab.id, {
 					command: "isDisabled"
 				});
 				if (isDisabled.state) {
@@ -223,10 +222,7 @@ async function init() {
 			showMain();
 		}
 	} catch (error) {
-		if (error.name === "ReferenceError" && error.message.includes("browser"))
-			showMain();
-		else
-			showError(error);
+		showError(error);
 	}
 }
 init();
