@@ -271,6 +271,7 @@ body.privileged.blacklisted .blacklistedNotice {
 	padding: 3px;
 	width: 100%;
 	text-align: center;
+	white-space: pre-wrap;
 }
 #error.show {
 	display: block;

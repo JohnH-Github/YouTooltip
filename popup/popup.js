@@ -21,10 +21,10 @@ document.getElementById("openOptions").addEventListener("click", async () => {
 document.getElementById("refresh").addEventListener("click", getStats);
 
 function showError(error) {
-	console.error(error, error.message);
+	console.error(error, `Ln: ${error.lineNumber}, col: ${error.columnNumber}`);
 	let errorEle = document.getElementById("error");
 	errorEle.classList.add("show");
-	errorEle.textContent = error.message;
+	errorEle.textContent = `${error}\nLn: ${error.lineNumber}, col: ${error.columnNumber}`;
 }
 
 async function gotoId(bucket, id, count) {
