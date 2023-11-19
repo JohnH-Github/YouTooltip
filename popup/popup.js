@@ -166,7 +166,7 @@ async function init() {
 		if (!(await hasAllUrlsPermission)) {
 			try {
 				options = (await options).options;
-				if (!options.hiddenNotices.has("popup<all_urls>")) {
+				if (!options.hiddenNotices.includes("popupAllUrls")) {
 					document.getElementById("permissionNotice").classList.remove("hide");
 					document.getElementById("gotoPermissionRequestButton").addEventListener("click", () => {
 						browser.tabs.create({
@@ -176,7 +176,7 @@ async function init() {
 					});
 					document.getElementById("closePermissionNoticeButton").addEventListener("click", async () => {
 						document.getElementById("permissionNotice").classList.add("hide");
-						options.hiddenNotices.add("popup<all_urls>");
+						options.hiddenNotices.push("popupAllUrls");
 						await browser.storage.local.set({options});
 					});
 				}

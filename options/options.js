@@ -68,7 +68,9 @@ document.getElementById("gotoPermissionRequestButton").addEventListener("click",
 });
 document.getElementById("closePermissionNoticeButton").addEventListener("click", () => {
 	document.getElementById("permissionNotice").classList.add("stayHidden");
-	options.hiddenNotices.add("options<all_urls>");
+	if (!options.hiddenNotices.includes("optionsAllUrls")) {
+		options.hiddenNotices.push("optionsAllUrls");
+	}
 })
 
 document.getElementById("resetOptionsButton").addEventListener("click", async () => {
@@ -541,7 +543,7 @@ async function saveAndRestoreOptions(opt, configObject) {
 					document.querySelector(`[name=${option.name}][value=${options[option.name]}]`).checked = true;
 				} else if (option.type === 4) {
 					if (option.name === "hiddenNotices") {
-						document.getElementById("permissionNotice").classList.toggle("stayHidden", options.hiddenNotices.has("options<all_urls>"));
+						document.getElementById("permissionNotice").classList.toggle("stayHidden", options.hiddenNotices.includes("optionsAllUrls"));
 					}
 				} else {
 					document.getElementById(option.name)[properties[option.type]] = options[option.name];

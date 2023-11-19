@@ -10,7 +10,7 @@ const keyDefaultArray = [
 ];
 
 const defaultOptions = {
-	hiddenNotices: new Set(),
+	hiddenNotices: [],
 	
 	operationMode: "auto",
 	
