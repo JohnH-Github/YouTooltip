@@ -46,6 +46,8 @@ async function gotoId(bucket, id, count) {
 	}
 }
 function pageStatusChange(tabId, changeInfo) {
+	if (tabId !== thisTab.id)
+		return;
 	if (changeInfo.status === "complete" && previouslyLoading) {
 		previouslyLoading = false;
 		bucketsData = undefined;
@@ -202,10 +204,9 @@ async function init() {
 					await getStats();
 					document.getElementById("refresh").disabled = false;
 					browser.runtime.onMessage.addListener(messageHandler);
-					browser.tabs.onUpdated.addListener(pageStatusChange, {
-						tabId: thisTab.id,
-						properties: ["status"]// Listen for this page loading again.
-					});
+					if (!browser.tabs.onUpdated.hasListener(pageStatusChange)) {
+						browser.tabs.onUpdated.addListener(pageStatusChange);
+					}
 				}
 				showMain();
 			} catch(error) {
