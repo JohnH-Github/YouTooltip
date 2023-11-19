@@ -271,44 +271,19 @@ async function getPipedInstances() {
 document.getElementById("refreshPipedDefaultInstances").addEventListener("click", getPipedInstances);
 
 document.getElementById("export").addEventListener("click", async () => {
-	let permissionRequest = await browser.permissions.request({
-		permissions: ["downloads"]
-	});
-	if (!permissionRequest) {
-		return;
-	}
-	let storageStats = await browser.storage.local.get("stats");
 	const exportObject = {
 		name: "YouTooltip",
 		options,
-		stats:  storageStats.stats,
+		stats: (await browser.storage.local.get("stats")).stats,
 		version: browser.runtime.getManifest().version
 	};
-	let downloadItem;
-	const blob = new Blob([JSON.stringify(exportObject)], {type: "application/json"});
-	const objectURL = URL.createObjectURL(blob);
-	function downloadsChanged(delta) {
-		if (delta.id === downloadItem && delta.state.current === "complete") {
-			browser.downloads.onChanged.removeListener(downloadsChanged);
-			URL.revokeObjectURL(objectURL);
-		}
-	}
-	try {
-		browser.downloads.onChanged.addListener(downloadsChanged);
-		downloadItem = await browser.downloads.download({
-			conflictAction: "overwrite",
-			filename: "YouTooltip.json",
-			saveAs: true,
-			url: objectURL
-		});
-	} catch(error) {
-		browser.downloads.onChanged.removeListener(downloadsChanged);
-		URL.revokeObjectURL(objectURL);
-		if (error.message !== "Download canceled by the user") {
-			console.error(error);
-			showErrorDialog("Export error", "Could not save export file:\n" + error.message);
-		}
-	}
+	let exportLink = document.createElement("a");
+	exportLink.href = URL.createObjectURL(
+		new Blob([JSON.stringify(exportObject)], {type:"application/json"})
+	)
+	exportLink.target = "_blank";
+	exportLink.download = "YouTooltip.json";
+	exportLink.click();
 });
 document.getElementById("import").addEventListener("click", () => {
 	// Create a hidden file input, fill it with the necessary data, then trigger it.

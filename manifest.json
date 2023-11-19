@@ -17,7 +17,6 @@
 		"storage"
 	],
 	"optional_permissions": [
-		"downloads",
 		"notifications"
 	],
 	"host_permissions": [
