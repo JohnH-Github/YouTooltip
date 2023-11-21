@@ -74,13 +74,13 @@ document.getElementById("closePermissionNoticeButton").addEventListener("click",
 })
 
 document.getElementById("resetOptionsButton").addEventListener("click", async () => {
-	if (await showConfirmDialog("Reset options", "All options will be reset, but statistics will remain.\nReset options?")) {
+	if (await showConfirmDialog("Reset options", "All options will be reset, but statistics and permissions will remain.\nReset options?")) {
 		await browser.runtime.sendMessage({command: "reset", reset:"options"});
 		await saveAndRestoreOptions("restore");
 	}
 });
 document.getElementById("resetEverythingButton").addEventListener("click", async () => {
-	if (await showConfirmDialog("Reset everything", "ALL options and statistics will be reset.\nReset everything?")) {
+	if (await showConfirmDialog("Reset everything", "ALL options and statistics will be reset, but permissions will remain.\nReset everything?")) {
 		await browser.runtime.sendMessage({command: "reset", reset:"everything"});
 		await saveAndRestoreOptions("restore");
 	}

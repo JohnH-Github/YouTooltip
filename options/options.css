@@ -87,7 +87,7 @@ body.loaded #loading {
 }
 .sidebar.show {
 	margin-left: 0px;
-	box-shadow: 0px 0px 20px #111;
+	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
 }
 .sidebar.show + main {
 	opacity: 0.5;
@@ -397,6 +397,9 @@ textarea {
 	font-size: 0.9em;
 	border-radius: 4px;
 	border-left: 2px solid currentColor;
+}
+#permissionNotice {
+	margin: 4px 0 0 0;
 }
 .notice.info {
 	background: #d6fbff;
