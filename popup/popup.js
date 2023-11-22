@@ -163,6 +163,13 @@ function isValidUrl(url) {
 
 async function init() {
 	async function showMain() {
+		document.querySelector("#loading").classList.remove("show");
+		document.querySelector("main").classList.add("show");
+	}
+	let hasAllUrlsPermission = browser.permissions.contains({origins: ["<all_urls>"]});
+	try {
+		options = browser.storage.local.get("options");
+		thisTab = (await browser.tabs.query({active: true, currentWindow: true}))[0];
 		if (!(await hasAllUrlsPermission)) {
 			try {
 				options = (await options).options;
@@ -184,13 +191,6 @@ async function init() {
 				showError(error);
 			}
 		}
-		document.querySelector("#loading").classList.remove("show");
-		document.querySelector("main").classList.add("show");
-	}
-	let hasAllUrlsPermission = browser.permissions.contains({origins: ["<all_urls>"]});
-	try {
-		options = browser.storage.local.get("options");
-		thisTab = (await browser.tabs.query({active: true, currentWindow: true}))[0];
 		let validUrlObj = isValidUrl(thisTab.url);
 		if (validUrlObj.valid) {
 			try {

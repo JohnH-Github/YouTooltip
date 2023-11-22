@@ -93,7 +93,7 @@ body.privileged.blacklisted .blacklistedNotice {
 }
 
 #permissionNotice {
-	margin-bottom: 5px;
+	margin: 10px 10px 0 10px;
 }
 .notice {
 	display: flex;

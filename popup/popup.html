@@ -23,25 +23,25 @@
 				<svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-labelledby="loadingText"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg>
 				<span id="loadingText">Waiting for page...</span>
 			</div>
-			<main>
-				<div id="permissionNotice" class="notice info hide">
-						<svg class="noticeIcon" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="noticeTextPermission"><use href="#featherInfo"></use></svg>
-						<div>
-							<header class="noticeHeader">
-								<h5 class="noticeTitle">FYI</h5>
-								<button id="closePermissionNoticeButton" class="button closeNoticeButton setting" data-setting-event="click" aria-label="Close permission notice">
-									<svg width="24" height="24" viewBox="0 0 24 24" aria-label="Close permission notice"><use href="#featherX"/></svg>
-								</button>
-							</header>
-							<div class="noticeBody">
-								<span id="noticeTextPermission">You have not granted permission to access all websites. This is recommended to allow YouTooltip to activate automatically everywhere.</span>
-								<button id="gotoPermissionRequestButton" class="button" aria-labelledby="gotoPermissionRequestText">
-									<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="gotoPermissionRequestText"><use href="#featherOptions"></use></svg>
-									<span id="gotoPermissionRequestText">Goto permission in options</span>
-								</button>
-							</div>
-						</div>
+			<div id="permissionNotice" class="notice info hide">
+				<svg class="noticeIcon" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="noticeTextPermission"><use href="#featherInfo"></use></svg>
+				<div>
+					<header class="noticeHeader">
+						<h5 class="noticeTitle">FYI</h5>
+						<button id="closePermissionNoticeButton" class="button closeNoticeButton setting" data-setting-event="click" aria-label="Close permission notice">
+							<svg width="24" height="24" viewBox="0 0 24 24" aria-label="Close permission notice"><use href="#featherX"/></svg>
+						</button>
+					</header>
+					<div class="noticeBody">
+						<span id="noticeTextPermission">You have not granted permission to access all websites. This is recommended to allow YouTooltip to activate automatically everywhere.</span>
+						<button id="gotoPermissionRequestButton" class="button" aria-labelledby="gotoPermissionRequestText">
+							<svg width="24" height="24" viewBox="0 0 24 24" aria-labelledby="gotoPermissionRequestText"><use href="#featherOptions"></use></svg>
+							<span id="gotoPermissionRequestText">Goto permission in options</span>
+						</button>
 					</div>
+				</div>
+			</div>
+			<main>
 				<div class="statContainer">
 					<div class="stat" data-stat="tooltips">
 						<span>Tooltips added on this page:</span>
