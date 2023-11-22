@@ -26,7 +26,7 @@ Adds a tooltip containing information about videos and playlists when hovering o
 		- Auto: Send requests on page load and whenever more links are added.
 			- Supports Google API only.
 		- Hover: Send requests only for links that are hovered over.
-			- Supports both Google API, Invidious API, and Piped API.
+			- Supports Google API, Invidious API, and Piped API.
 	- Display mode
 		- Tooltip.
 		- Custom tooltip
@@ -42,25 +42,19 @@ Adds a tooltip containing information about videos and playlists when hovering o
 
 ## Installation
 ### Install from Firefox AMO
-[AMO listing page](https://addons.mozilla.org/en-US/firefox/addon/youtooltip/)
+[![Get the Add-on from AMO](https://github.com/JohnH-Github/YouTooltip/assets/34670767/36ef33d9-617e-4772-a485-a40f97641613)](https://addons.mozilla.org/en-US/firefox/addon/youtooltip/)
+
 ### Install manually
 1. Download an .xpi file from [releases](https://github.com/JohnH-Github/YouTooltip/releases).
 2. Go to about:addons in Firefox.
 3. Click on the gear icon near the top of the page.
 4. Click "Install Add-on From File..."
 5. Select the ```.xpi``` file and click "Open".
-### Install manually (temporary)
-1. Download the code.
-2. Go to about:debugging in Firefox, click on "This Firefox" in the sidebar.
-3. Click "Load Temporary Add-on...".
-4. Select ```manifest.json``` and click "Open".
 
 ## Permissions
 - Optional
 	- **Access your data for all websites**
 		- For automatically scanning each page for links to YouTube videos and playlists without user interaction.
-	- **Download files and read and modify the browser’s download history**
-		- For exporting settings. Asks for permission when you click on the 'Export' button.
 	- **Display notifications to you**
 		- For notification display mode, instead of displaying youtube info as tooltips.
 
