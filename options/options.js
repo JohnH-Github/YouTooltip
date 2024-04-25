@@ -177,14 +177,14 @@ async function getInvidiousInstances() {
 		responseBody = await response.json();
 		options.invidiousDefaultInstances = [];
 		responseBody.forEach((instance) => {
-			if (instance[1].api !== true || instance[1].type !== "https" || instance[1].monitor?.dailyRatios[0].label !== "success") {
+			if (instance[1].api !== true || instance[1].type !== "https" || instance[1].monitor?.down) {
 				return;
 			}
 			options.invidiousDefaultInstances.push({
 				domain: instance[0],
 				flag: instance[1].flag,
 				region: instance[1].region,
-				uptime: instance[1].monitor["30dRatio"].ratio
+				uptime: instance[1].monitor.uptime
 			});
 		});
 		await populateInvidiousDefaultInstancesSelect();
@@ -197,7 +197,7 @@ async function getInvidiousInstances() {
 			showErrorDialog("Invidious error", "Connection timed out.");
 		} else if (response.status > 499 && response.status < 600) {
 			showErrorDialog("Invidious error", `Server error: ${response.status} ${response.statusText}`);
-		} else if (response.status > 399 && response.status < 500) {
+		} else {
 			showErrorDialog("Invidious error", error);
 		}
 	} finally {
