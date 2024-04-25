@@ -35,7 +35,6 @@ a {
 .content {
 	display: flex;
 	flex-direction: column;
-	position: relative;
 }
 
 body > .content > header {
@@ -55,8 +54,12 @@ body > .content > header {
 	justify-content: center;
 	gap: 5px;
 	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 1;
 	height: 100%;
 	width: 100%;
+	background: #fff;
 }
 #loading.show {
 	display: flex;
@@ -75,10 +78,7 @@ body > .content > header {
 
 main {
 	padding: 10px;
-	visibility: hidden;
-}
-main.show {
-	visibility: visible;
+	position: relative;
 }
 body.privileged main {
 	display: none;
@@ -285,6 +285,10 @@ body.privileged.blacklisted .blacklistedNotice {
 	html, body {
 		background: #1c1c1c;
 		color: #fbfbfb;
+	}
+	
+	#loading {
+		background: #1c1c1c;
 	}
 	
 	a {

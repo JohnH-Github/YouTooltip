@@ -164,7 +164,6 @@ function isValidUrl(url) {
 async function init() {
 	async function showMain() {
 		document.querySelector("#loading").classList.remove("show");
-		document.querySelector("main").classList.add("show");
 	}
 	let hasAllUrlsPermission = browser.permissions.contains({origins: ["<all_urls>"]});
 	try {
