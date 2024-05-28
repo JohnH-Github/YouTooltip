@@ -5,7 +5,7 @@ Adds a tooltip containing information about videos and playlists when hovering o
 
 **Currently supports Firefox only.**
 
-**Notice: In Manifest V3 (now the current version), you will have to manually grant YouTooltip permission to run on webpages. You may either grant access to all sites, only individual sites, or only when clicking on the toolbar button.**
+**Notice: In Manifest V3 and Firefox versions 109-126, you will have to manually grant YouTooltip permission to run on webpages. You may either grant access to all sites, only individual sites, or only when clicking on the toolbar button.**
 
 | Tooltip display | Notification display |
 | --- | --- |
